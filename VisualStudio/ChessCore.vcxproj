@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{EF3932A9-5FC9-028B-A399-926EEBF172E7}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>YY_NO_UNISTD_H;WIN32;_DEBUG;_WINDOWS;_USRDLL;CHESSCORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\include;$(ProjectDir)\..\3rdparty\sqlite3</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>x86exports.def</ModuleDefinitionFile>
+    </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y $(TargetPath) $(SolutionDir)..\bin</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy binary to bin directory</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>YY_NO_UNISTD_H;WIN32;_DEBUG;_WINDOWS;_USRDLL;CHESSCORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\include;$(ProjectDir)\..\3rdparty\sqlite3</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>x64exports.def</ModuleDefinitionFile>
+    </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
+      <TreatOutputAsContent>
+      </TreatOutputAsContent>
+      <Message>
+      </Message>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y $(TargetPath) $(SolutionDir)..\bin</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy binary to bin directory</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>YY_NO_UNISTD_H;WIN32;NDEBUG;_WINDOWS;_USRDLL;CHESSCORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\include;$(ProjectDir)\..\3rdparty\sqlite3</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>x86exports.def</ModuleDefinitionFile>
+    </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y $(TargetPath) $(SolutionDir)..\bin</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy binary to bin directory</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>YY_NO_UNISTD_H;WIN32;NDEBUG;_WINDOWS;_USRDLL;CHESSCORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\include;$(ProjectDir)\..\3rdparty\sqlite3</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>x64exports.def</ModuleDefinitionFile>
+    </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
+      <TreatOutputAsContent>
+      </TreatOutputAsContent>
+      <Message>
+      </Message>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y $(TargetPath) $(SolutionDir)..\bin</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy binary to bin directory</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\3rdparty\sqlite3\sqlite3.c" />
+    <ClCompile Include="..\src\AnnotMove.cpp" />
+    <ClCompile Include="..\src\Bitstream.cpp" />
+    <ClCompile Include="..\src\Blob.cpp" />
+    <ClCompile Include="..\src\CbhDatabase.cpp" />
+    <ClCompile Include="..\src\CfdbDatabase.cpp" />
+    <ClCompile Include="..\src\ChessCore.cpp" />
+    <ClCompile Include="..\src\Data.cpp" />
+    <ClCompile Include="..\src\Database.cpp" />
+    <ClCompile Include="..\src\DllMain.cpp" />
+    <ClCompile Include="..\src\Engine.cpp" />
+    <ClCompile Include="..\src\EngineMessage.cpp" />
+    <ClCompile Include="..\src\EngineMessageQueue.cpp" />
+    <ClCompile Include="..\src\Epd.cpp" />
+    <ClCompile Include="..\src\Game.cpp" />
+    <ClCompile Include="..\src\GameHeader.cpp" />
+    <ClCompile Include="..\src\IndexManager.cpp" />
+    <ClCompile Include="..\src\IoEvent.cpp" />
+    <ClCompile Include="..\src\IoEventWaiter.cpp" />
+    <ClCompile Include="..\src\Log.cpp" />
+    <ClCompile Include="..\src\Lowlevel.cpp" />
+    <ClCompile Include="..\src\Move.cpp" />
+    <ClCompile Include="..\src\Mutex.cpp" />
+    <ClCompile Include="..\src\OpeningTree.cpp" />
+    <ClCompile Include="..\src\PgnDatabase.cpp" />
+    <ClCompile Include="..\src\PgnScanner.cpp" />
+    <ClCompile Include="..\src\Player.cpp" />
+    <ClCompile Include="..\src\Position.cpp" />
+    <ClCompile Include="..\src\PositionHash.cpp" />
+    <ClCompile Include="..\src\Process.cpp" />
+    <ClCompile Include="..\src\ProgOption.cpp" />
+    <ClCompile Include="..\src\Rand64.cpp" />
+    <ClCompile Include="..\src\SqliteStatement.cpp" />
+    <ClCompile Include="..\src\Thread.cpp" />
+    <ClCompile Include="..\src\UCIEngineOption.cpp" />
+    <ClCompile Include="..\src\Util.cpp" />
+    <ClCompile Include="..\src\Version.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\PgnScanner.l" />
+    <CustomBuild Include="..\src\Version.ver">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">python $(ProjectDir)\..\tools\upver.py $(ProjectDir)\..\src\Version.ver $(ProjectDir)\..\src\Version.cpp $(ProjectDir)\..\include\ChessCore\Version.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating Version source files</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\..\src\Version.cpp;$(ProjectDir)\..\include\ChessCore\Version.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">python $(ProjectDir)\..\tools\upver.py $(ProjectDir)\..\src\Version.ver $(ProjectDir)\..\src\Version.cpp $(ProjectDir)\..\include\ChessCore\Version.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating Version source files</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\..\src\Version.cpp;$(ProjectDir)\..\include\ChessCore\Version.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">python $(ProjectDir)\..\tools\upver.py $(ProjectDir)\..\src\Version.ver $(ProjectDir)\..\src\Version.cpp $(ProjectDir)\..\include\ChessCore\Version.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating Version source files</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\..\src\Version.cpp;$(ProjectDir)\..\include\ChessCore\Version.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">python $(ProjectDir)\..\tools\upver.py $(ProjectDir)\..\src\Version.ver $(ProjectDir)\..\src\Version.cpp $(ProjectDir)\..\include\ChessCore\Version.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating Version source files</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\..\src\Version.cpp;$(ProjectDir)\..\include\ChessCore\Version.h</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="..\src\AsmX64.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="..\src\AsmX86.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\ChessCore\AnnotMove.h" />
+    <ClInclude Include="..\include\ChessCore\AppleUtil.h" />
+    <ClInclude Include="..\include\ChessCore\Bitstream.h" />
+    <ClInclude Include="..\include\ChessCore\Blob.h" />
+    <ClInclude Include="..\include\ChessCore\CbhDatabase.h" />
+    <ClInclude Include="..\include\ChessCore\CfdbDatabase.h" />
+    <ClInclude Include="..\include\ChessCore\ChessCore.h" />
+    <ClInclude Include="..\include\ChessCore\Data.h" />
+    <ClInclude Include="..\include\ChessCore\Database.h" />
+    <ClInclude Include="..\include\ChessCore\Engine.h" />
+    <ClInclude Include="..\include\ChessCore\EngineMessage.h" />
+    <ClInclude Include="..\include\ChessCore\EngineMessageQueue.h" />
+    <ClInclude Include="..\include\ChessCore\Epd.h" />
+    <ClInclude Include="..\include\ChessCore\Game.h" />
+    <ClInclude Include="..\include\ChessCore\GameHeader.h" />
+    <ClInclude Include="..\include\ChessCore\IndexManager.h" />
+    <ClInclude Include="..\include\ChessCore\IoEvent.h" />
+    <ClInclude Include="..\include\ChessCore\IoEventWaiter.h" />
+    <ClInclude Include="..\include\ChessCore\Log.h" />
+    <ClInclude Include="..\include\ChessCore\Lowlevel.h" />
+    <ClInclude Include="..\include\ChessCore\Move.h" />
+    <ClInclude Include="..\include\ChessCore\Mutex.h" />
+    <ClInclude Include="..\include\ChessCore\OpeningTree.h" />
+    <ClInclude Include="..\include\ChessCore\PgnDatabase.h" />
+    <ClInclude Include="..\include\ChessCore\PgnScanner.h" />
+    <ClInclude Include="..\include\ChessCore\Player.h" />
+    <ClInclude Include="..\include\ChessCore\Position.h" />
+    <ClInclude Include="..\include\ChessCore\Process.h" />
+    <ClInclude Include="..\include\ChessCore\ProgOption.h" />
+    <ClInclude Include="..\include\ChessCore\Rand64.h" />
+    <ClInclude Include="..\include\ChessCore\SqliteStatement.h" />
+    <ClInclude Include="..\include\ChessCore\Thread.h" />
+    <ClInclude Include="..\include\ChessCore\Types.h" />
+    <ClInclude Include="..\include\ChessCore\UCIEngineOption.h" />
+    <ClInclude Include="..\include\ChessCore\Util.h" />
+    <ClInclude Include="..\include\ChessCore\Version.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>

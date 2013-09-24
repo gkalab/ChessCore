@@ -1,0 +1,21 @@
+rnbqkb1r/ppp2pp1/4pB1p/3p4/3P4/2N2N2/PPP1PPPP/R2QKB1R b KQkq - bm Qxf6; id "Don't ruin the pawn structure";
+r4rk1/bpp2ppp/p1nq1n2/8/1P1P2b1/PB2PN2/3B1PPP/R2Q1RK1 w KQkq - am h4; id "Don't ruin the pawn structure";
+r1bqk2r/1pp2ppp/pbn2n2/1B1p4/1P1P4/P1N1PN2/5PPP/R1BQK2R w KQkq - am Nxd5; id "Don't lose material";
+r1b1kb1r/p3pp1p/2pp2p1/q5B1/4N3/2PB4/PP3PPP/R2QK2R b KQkq - am Qxg5; id "Don't lose material"
+r6k/5qpp/p2Q4/5p2/5P2/1P2BR2/1PP1N1PP/R5K1 b - - am Qd5; am Qe6; id "Don't lose material";
+r5k1/1pp1n1pp/1p2br2/5p2/5P2/P2q4/5QPP/R6K w - - am Qd4; am Qe3; id "Don't lose material";
+k7/8/4b3/8/5N2/8/8/7K w - - bm Nxe6; id "Take a piece";
+k7/8/4n3/8/5B2/8/8/7K b - - bm Nxf4; id "Take a piece";
+k7/8/8/2q5/5b2/3N4/8/7K w - - bm Nxc5; id "Take the right piece";
+k7/8/4n3/2Q5/5B2/8/8/7K b - - bm Nxc5; id "Take the right piece";
+k7/5Q2/8/4p3/2b2b2/8/8/7K w - - bm Qxc4; id "Take the right piece";
+k7/5q2/8/8/2B2B2/4P3/8/7K b - - bm Qxc4; id "Take the right piece";
+k7/5Q2/8/2N5/8/8/8/7K w - - bm Qb7#; id "Mate in 1";
+k7/5Q2/8/2N5/8/8/8/7K b - - bm Kb8; id "Only move";
+k7/5R1P/8/8/8/8/8/7K w - - bm h8=Q#; bm h8=R#; id "Mate in 1";
+k7/8/8/8/8/8/p1r5/7K b - - bm a1=Q#; bm a1=R#; id "Mate in 1";
+r1bqkb1r/p1p1pp1p/2p2np1/8/2BPp3/2N5/PPP2PPP/R1BQK2R b KQkq - am Qxd4; id "Assume white will capture the queen"
+1k6/5Q2/8/3r4/8/5K2/8/q7 w - - am Qxd5; id "Don't fall for the trap";
+1k6/8/8/3Q4/8/5K2/8/q7 b - - bm Qh1+; id "Spring the trap";
+5Q2/8/2k5/8/4R3/7K/2q5/8 b - - am Qxe4; id "Don't fall for the trap";
+5Q2/8/2k5/8/4q3/7K/8/8 w - - bm Qa8+; id "Spring the trap";

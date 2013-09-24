@@ -1,0 +1,8 @@
+#!/bin/sh
+# Wrapper script for binaries that link against libChessCore.so.
+
+dir="`dirname $0`"
+name="`basename $0`"
+LD_LIBRARY_PATH="`cd "$dir"; pwd`"
+export LD_LIBRARY_PATH
+exec "$dir/$name.bin" $*

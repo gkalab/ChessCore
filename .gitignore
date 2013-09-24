@@ -1,0 +1,33 @@
+# Generated files
+src/Version.cpp
+include/ChessCore/Version.h
+
+# Object files
+*.a
+build/*
+
+# Xcode files
+*.xcuserstate
+*.xccheckout
+
+# Visual Studio files
+VisualStudio/Debug/*
+VisualStudio/Release/*
+VisualStudio/x64/Debug/*
+VisualStudio/x64/Release/*
+VisualStudio/ipch/*
+*.sdf
+*.suo
+*.vcxproj.user
+*.opensdf
+
+# Other files
+make.conf
+Million174.pgn
+*.pgi
+.pydevproject
+*.swp
+*.bak
+*.log
+*~
+*.pyc

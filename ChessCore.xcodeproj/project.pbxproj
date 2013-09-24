@@ -1,0 +1,1170 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A101DA8017B266EE00DA28DE /* AnnotMove.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA5C17B266EE00DA28DE /* AnnotMove.h */; };
+		A101DA8117B266EE00DA28DE /* AnnotMove.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA5C17B266EE00DA28DE /* AnnotMove.h */; };
+		A101DA8217B266EE00DA28DE /* AppleUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA5D17B266EE00DA28DE /* AppleUtil.h */; };
+		A101DA8317B266EE00DA28DE /* AppleUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA5D17B266EE00DA28DE /* AppleUtil.h */; };
+		A101DA8617B266EE00DA28DE /* Bitstream.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA5F17B266EE00DA28DE /* Bitstream.h */; };
+		A101DA8717B266EE00DA28DE /* Bitstream.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA5F17B266EE00DA28DE /* Bitstream.h */; };
+		A101DA8817B266EE00DA28DE /* Blob.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6017B266EE00DA28DE /* Blob.h */; };
+		A101DA8917B266EE00DA28DE /* Blob.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6017B266EE00DA28DE /* Blob.h */; };
+		A101DA8A17B266EE00DA28DE /* CbhDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6117B266EE00DA28DE /* CbhDatabase.h */; };
+		A101DA8B17B266EE00DA28DE /* CbhDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6117B266EE00DA28DE /* CbhDatabase.h */; };
+		A101DA8C17B266EE00DA28DE /* CfdbDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6217B266EE00DA28DE /* CfdbDatabase.h */; };
+		A101DA8D17B266EE00DA28DE /* CfdbDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6217B266EE00DA28DE /* CfdbDatabase.h */; };
+		A101DA8E17B266EE00DA28DE /* ChessCore.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6317B266EE00DA28DE /* ChessCore.h */; };
+		A101DA8F17B266EE00DA28DE /* ChessCore.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6317B266EE00DA28DE /* ChessCore.h */; };
+		A101DA9017B266EE00DA28DE /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6417B266EE00DA28DE /* Data.h */; };
+		A101DA9117B266EE00DA28DE /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6417B266EE00DA28DE /* Data.h */; };
+		A101DA9217B266EE00DA28DE /* Database.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6517B266EE00DA28DE /* Database.h */; };
+		A101DA9317B266EE00DA28DE /* Database.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6517B266EE00DA28DE /* Database.h */; };
+		A101DA9417B266EE00DA28DE /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6617B266EE00DA28DE /* Engine.h */; };
+		A101DA9517B266EE00DA28DE /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6617B266EE00DA28DE /* Engine.h */; };
+		A101DA9617B266EE00DA28DE /* EngineMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6717B266EE00DA28DE /* EngineMessage.h */; };
+		A101DA9717B266EE00DA28DE /* EngineMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6717B266EE00DA28DE /* EngineMessage.h */; };
+		A101DA9817B266EE00DA28DE /* EngineMessageQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6817B266EE00DA28DE /* EngineMessageQueue.h */; };
+		A101DA9917B266EE00DA28DE /* EngineMessageQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6817B266EE00DA28DE /* EngineMessageQueue.h */; };
+		A101DA9A17B266EE00DA28DE /* Epd.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6917B266EE00DA28DE /* Epd.h */; };
+		A101DA9B17B266EE00DA28DE /* Epd.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6917B266EE00DA28DE /* Epd.h */; };
+		A101DA9C17B266EE00DA28DE /* Game.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6A17B266EE00DA28DE /* Game.h */; };
+		A101DA9D17B266EE00DA28DE /* Game.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6A17B266EE00DA28DE /* Game.h */; };
+		A101DA9E17B266EE00DA28DE /* GameHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6B17B266EE00DA28DE /* GameHeader.h */; };
+		A101DA9F17B266EE00DA28DE /* GameHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6B17B266EE00DA28DE /* GameHeader.h */; };
+		A101DAA017B266EE00DA28DE /* IndexManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6C17B266EE00DA28DE /* IndexManager.h */; };
+		A101DAA117B266EE00DA28DE /* IndexManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6C17B266EE00DA28DE /* IndexManager.h */; };
+		A101DAA217B266EE00DA28DE /* IoEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6D17B266EE00DA28DE /* IoEvent.h */; };
+		A101DAA317B266EE00DA28DE /* IoEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6D17B266EE00DA28DE /* IoEvent.h */; };
+		A101DAA417B266EE00DA28DE /* IoEventWaiter.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6E17B266EE00DA28DE /* IoEventWaiter.h */; };
+		A101DAA517B266EE00DA28DE /* IoEventWaiter.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6E17B266EE00DA28DE /* IoEventWaiter.h */; };
+		A101DAA617B266EE00DA28DE /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6F17B266EE00DA28DE /* Log.h */; };
+		A101DAA717B266EE00DA28DE /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA6F17B266EE00DA28DE /* Log.h */; };
+		A101DAA817B266EE00DA28DE /* Lowlevel.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7017B266EE00DA28DE /* Lowlevel.h */; };
+		A101DAA917B266EE00DA28DE /* Lowlevel.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7017B266EE00DA28DE /* Lowlevel.h */; };
+		A101DAAA17B266EE00DA28DE /* Move.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7117B266EE00DA28DE /* Move.h */; };
+		A101DAAB17B266EE00DA28DE /* Move.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7117B266EE00DA28DE /* Move.h */; };
+		A101DAAC17B266EE00DA28DE /* Mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7217B266EE00DA28DE /* Mutex.h */; };
+		A101DAAD17B266EE00DA28DE /* Mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7217B266EE00DA28DE /* Mutex.h */; };
+		A101DAAE17B266EE00DA28DE /* OpeningTree.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7317B266EE00DA28DE /* OpeningTree.h */; };
+		A101DAAF17B266EE00DA28DE /* OpeningTree.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7317B266EE00DA28DE /* OpeningTree.h */; };
+		A101DAB017B266EE00DA28DE /* PgnDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7417B266EE00DA28DE /* PgnDatabase.h */; };
+		A101DAB117B266EE00DA28DE /* PgnDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7417B266EE00DA28DE /* PgnDatabase.h */; };
+		A101DAB217B266EE00DA28DE /* PgnScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7517B266EE00DA28DE /* PgnScanner.h */; };
+		A101DAB317B266EE00DA28DE /* PgnScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7517B266EE00DA28DE /* PgnScanner.h */; };
+		A101DAB417B266EE00DA28DE /* Player.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7617B266EE00DA28DE /* Player.h */; };
+		A101DAB517B266EE00DA28DE /* Player.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7617B266EE00DA28DE /* Player.h */; };
+		A101DAB617B266EE00DA28DE /* Position.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7717B266EE00DA28DE /* Position.h */; };
+		A101DAB717B266EE00DA28DE /* Position.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7717B266EE00DA28DE /* Position.h */; };
+		A101DAB817B266EE00DA28DE /* Process.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7817B266EE00DA28DE /* Process.h */; };
+		A101DAB917B266EE00DA28DE /* Process.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7817B266EE00DA28DE /* Process.h */; };
+		A101DABA17B266EE00DA28DE /* ProgOption.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7917B266EE00DA28DE /* ProgOption.h */; };
+		A101DABB17B266EE00DA28DE /* ProgOption.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7917B266EE00DA28DE /* ProgOption.h */; };
+		A101DABC17B266EE00DA28DE /* Rand64.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7A17B266EE00DA28DE /* Rand64.h */; };
+		A101DABD17B266EE00DA28DE /* Rand64.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7A17B266EE00DA28DE /* Rand64.h */; };
+		A101DABE17B266EE00DA28DE /* SqliteStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7B17B266EE00DA28DE /* SqliteStatement.h */; };
+		A101DABF17B266EE00DA28DE /* SqliteStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7B17B266EE00DA28DE /* SqliteStatement.h */; };
+		A101DAC017B266EE00DA28DE /* Thread.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7C17B266EE00DA28DE /* Thread.h */; };
+		A101DAC117B266EE00DA28DE /* Thread.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7C17B266EE00DA28DE /* Thread.h */; };
+		A101DAC217B266EE00DA28DE /* Types.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7D17B266EE00DA28DE /* Types.h */; };
+		A101DAC317B266EE00DA28DE /* Types.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7D17B266EE00DA28DE /* Types.h */; };
+		A101DAC417B266EE00DA28DE /* UCIEngineOption.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7E17B266EE00DA28DE /* UCIEngineOption.h */; };
+		A101DAC517B266EE00DA28DE /* UCIEngineOption.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7E17B266EE00DA28DE /* UCIEngineOption.h */; };
+		A101DAC617B266EE00DA28DE /* Util.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7F17B266EE00DA28DE /* Util.h */; };
+		A101DAC717B266EE00DA28DE /* Util.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DA7F17B266EE00DA28DE /* Util.h */; };
+		A101DAC917B268CD00DA28DE /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DAC817B268CD00DA28DE /* Version.h */; };
+		A101DACA17B268CD00DA28DE /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DAC817B268CD00DA28DE /* Version.h */; };
+		A10CCA1B17A70DB800B21641 /* Movegen_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A10CCA1A17A70DB800B21641 /* Movegen_unittest.cpp */; };
+		A12CEF961639B46F00750519 /* IoEventWaiter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A12CEF941639B46F00750519 /* IoEventWaiter.cpp */; };
+		A133505315E7E0EA00343649 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A133505115E7E0EA00343649 /* Player.cpp */; };
+		A13571271656ACED00FF8931 /* AnalyzeGames.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A135711D1656ACED00FF8931 /* AnalyzeGames.cpp */; };
+		A13571281656ACED00FF8931 /* ccore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A135711E1656ACED00FF8931 /* ccore.cpp */; };
+		A13571291656ACED00FF8931 /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A13571201656ACED00FF8931 /* Config.cpp */; };
+		A135712A1656ACED00FF8931 /* Functions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A13571221656ACED00FF8931 /* Functions.cpp */; };
+		A135712B1656ACED00FF8931 /* PlayGames.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A13571231656ACED00FF8931 /* PlayGames.cpp */; };
+		A135712C1656ACED00FF8931 /* ProcessEpd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A13571241656ACED00FF8931 /* ProcessEpd.cpp */; };
+		A135712E1656AD4D00FF8931 /* libChessCore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A13A6EF516559E2700F341C7 /* libChessCore.dylib */; };
+		A13A6EFE16559F8B00F341C7 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121454D15753AE700F1226B /* Util.cpp */; };
+		A13A6F0016559F8B00F341C7 /* Version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121454F15753AE700F1226B /* Version.cpp */; };
+		A13A6F0516559F9800F341C7 /* AnnotMove.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121451215753AE700F1226B /* AnnotMove.cpp */; };
+		A13A6F0916559F9800F341C7 /* Bitstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1C68B6D1601000200126B8B /* Bitstream.cpp */; };
+		A13A6F0B16559F9800F341C7 /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121451615753AE700F1226B /* Blob.cpp */; };
+		A13A6F0F16559F9800F341C7 /* CbhDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121451A15753AE700F1226B /* CbhDatabase.cpp */; };
+		A13A6F1116559F9800F341C7 /* CfdbDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121451C15753AE700F1226B /* CfdbDatabase.cpp */; };
+		A13A6F1316559F9800F341C7 /* ChessCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121451E15753AE700F1226B /* ChessCore.cpp */; };
+		A13A6F1716559F9800F341C7 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452015753AE700F1226B /* Data.cpp */; };
+		A13A6F1916559F9800F341C7 /* Database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452215753AE700F1226B /* Database.cpp */; };
+		A13A6F1B16559F9800F341C7 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452415753AE700F1226B /* Engine.cpp */; };
+		A13A6F1D16559F9800F341C7 /* EngineMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1D89F3A1644423200C1DD2A /* EngineMessage.cpp */; };
+		A13A6F1F16559F9800F341C7 /* EngineMessageQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1D89F3C1644423200C1DD2A /* EngineMessageQueue.cpp */; };
+		A13A6F2116559F9800F341C7 /* Epd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452615753AE700F1226B /* Epd.cpp */; };
+		A13A6F2316559F9800F341C7 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452815753AE700F1226B /* Game.cpp */; };
+		A13A6F2516559F9800F341C7 /* GameHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452A15753AE700F1226B /* GameHeader.cpp */; };
+		A13A6F2716559F9800F341C7 /* IoEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452C15753AE700F1226B /* IoEvent.cpp */; };
+		A13A6F2916559F9800F341C7 /* IoEventWaiter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A12CEF941639B46F00750519 /* IoEventWaiter.cpp */; };
+		A13A6F2B16559F9800F341C7 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452F15753AE700F1226B /* Log.cpp */; };
+		A13A6F2F16559F9800F341C7 /* Move.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121453415753AE700F1226B /* Move.cpp */; };
+		A13A6F3516559F9800F341C7 /* OpeningTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A17131DD160CD054003A8EE3 /* OpeningTree.cpp */; };
+		A13A6F3716559F9800F341C7 /* PgnDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121453A15753AE700F1226B /* PgnDatabase.cpp */; };
+		A13A6F3A16559F9800F341C7 /* PgnScanner.l in Sources */ = {isa = PBXBuildFile; fileRef = A121453E15753AE700F1226B /* PgnScanner.l */; };
+		A13A6F3B16559F9800F341C7 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A133505115E7E0EA00343649 /* Player.cpp */; };
+		A13A6F3D16559F9800F341C7 /* Position.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121453F15753AE700F1226B /* Position.cpp */; };
+		A13A6F3F16559F9800F341C7 /* Process.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121454115753AE700F1226B /* Process.cpp */; };
+		A13A6F4116559F9800F341C7 /* Rand64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121454515753AE700F1226B /* Rand64.cpp */; };
+		A13A6F4316559F9800F341C7 /* SqliteStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121454715753AE700F1226B /* SqliteStatement.cpp */; };
+		A13A6F4816559F9800F341C7 /* UCIEngineOption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1D89F3E1644423200C1DD2A /* UCIEngineOption.cpp */; };
+		A13A6F4C1655A0E100F341C7 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A17131E5160CD114003A8EE3 /* libsqlite3.dylib */; };
+		A1464A851669239E00D7B5DB /* ProgOption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1464A831669239E00D7B5DB /* ProgOption.cpp */; };
+		A1464A891669454400D7B5DB /* IndexManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1464A871669454300D7B5DB /* IndexManager.cpp */; };
+		A1464A8A1669454400D7B5DB /* IndexManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1464A871669454300D7B5DB /* IndexManager.cpp */; };
+		A154CDDC17AAD25C00C17BEC /* Mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CDDA17AAD25C00C17BEC /* Mutex.cpp */; };
+		A154CDDD17AAD25C00C17BEC /* Mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CDDA17AAD25C00C17BEC /* Mutex.cpp */; };
+		A157FFC617AA6CBF006EC9CC /* AppleUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = A157FFC517AA6CBF006EC9CC /* AppleUtil.mm */; };
+		A157FFC717AA6CBF006EC9CC /* AppleUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = A157FFC517AA6CBF006EC9CC /* AppleUtil.mm */; };
+		A17131DF160CD054003A8EE3 /* OpeningTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A17131DD160CD054003A8EE3 /* OpeningTree.cpp */; };
+		A1843A9217A2EEB700A0A219 /* gtest-all.cc in Sources */ = {isa = PBXBuildFile; fileRef = A1843A9117A2EEB700A0A219 /* gtest-all.cc */; };
+		A1843A9A17A2EEE100A0A219 /* Bitstream_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1843A9417A2EEE100A0A219 /* Bitstream_unittest.cpp */; };
+		A1843A9B17A2EEE100A0A219 /* Game_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1843A9517A2EEE100A0A219 /* Game_unittest.cpp */; };
+		A1843A9C17A2EEE100A0A219 /* Lowlevel_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1843A9617A2EEE100A0A219 /* Lowlevel_unittest.cpp */; };
+		A1843A9D17A2EEE100A0A219 /* PackUtil_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1843A9717A2EEE100A0A219 /* PackUtil_unittest.cpp */; };
+		A1843A9E17A2EEE100A0A219 /* unittest_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1843A9817A2EEE100A0A219 /* unittest_main.cpp */; };
+		A1843A9F17A2EEE100A0A219 /* Util_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1843A9917A2EEE100A0A219 /* Util_unittest.cpp */; };
+		A1843AA217A2EEFE00A0A219 /* libChessCore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A13A6EF516559E2700F341C7 /* libChessCore.dylib */; };
+		A1AA7C0517B0EAD2009B3792 /* PositionHash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1AA7C0417B0EAD2009B3792 /* PositionHash.cpp */; };
+		A1AA7C0617B0EAD2009B3792 /* PositionHash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1AA7C0417B0EAD2009B3792 /* PositionHash.cpp */; };
+		A1C0E9B817AA74C1000DA81C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A181816216EB702B00CCBC24 /* Foundation.framework */; };
+		A1C1F84417AC0E9100D6CFE3 /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1C1F84217AC0E9100D6CFE3 /* Thread.cpp */; };
+		A1C1F84517AC0E9100D6CFE3 /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1C1F84217AC0E9100D6CFE3 /* Thread.cpp */; };
+		A1C68B6F1601000200126B8B /* Bitstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1C68B6D1601000200126B8B /* Bitstream.cpp */; };
+		A1D89F401644423200C1DD2A /* EngineMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1D89F3A1644423200C1DD2A /* EngineMessage.cpp */; };
+		A1D89F421644423200C1DD2A /* EngineMessageQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1D89F3C1644423200C1DD2A /* EngineMessageQueue.cpp */; };
+		A1D89F441644423200C1DD2A /* UCIEngineOption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1D89F3E1644423200C1DD2A /* UCIEngineOption.cpp */; };
+		A1E661881575F47000ED9F13 /* AnnotMove.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121451215753AE700F1226B /* AnnotMove.cpp */; };
+		A1E6618C1575F47B00ED9F13 /* Blob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121451615753AE700F1226B /* Blob.cpp */; };
+		A1E661901575F48800ED9F13 /* CbhDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121451A15753AE700F1226B /* CbhDatabase.cpp */; };
+		A1E661921575F48800ED9F13 /* CfdbDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121451C15753AE700F1226B /* CfdbDatabase.cpp */; };
+		A1E661941575F48800ED9F13 /* ChessCore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121451E15753AE700F1226B /* ChessCore.cpp */; };
+		A1E661961575F48800ED9F13 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452015753AE700F1226B /* Data.cpp */; };
+		A1E661981575F48800ED9F13 /* Database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452215753AE700F1226B /* Database.cpp */; };
+		A1E6619A1575F48800ED9F13 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452415753AE700F1226B /* Engine.cpp */; };
+		A1E6619C1575F48800ED9F13 /* Epd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452615753AE700F1226B /* Epd.cpp */; };
+		A1E6619E1575F48800ED9F13 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452815753AE700F1226B /* Game.cpp */; };
+		A1E661A01575F48800ED9F13 /* GameHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452A15753AE700F1226B /* GameHeader.cpp */; };
+		A1E661A21575F48800ED9F13 /* IoEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452C15753AE700F1226B /* IoEvent.cpp */; };
+		A1E661A51575F48800ED9F13 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121452F15753AE700F1226B /* Log.cpp */; };
+		A1E661A91575F48800ED9F13 /* Move.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121453415753AE700F1226B /* Move.cpp */; };
+		A1E661AF1575F48800ED9F13 /* PgnDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121453A15753AE700F1226B /* PgnDatabase.cpp */; };
+		A1E661B11575F48B00ED9F13 /* PgnScanner.l in Sources */ = {isa = PBXBuildFile; fileRef = A121453E15753AE700F1226B /* PgnScanner.l */; };
+		A1E661B21575F49100ED9F13 /* Position.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121453F15753AE700F1226B /* Position.cpp */; };
+		A1E661B41575F49100ED9F13 /* Process.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121454115753AE700F1226B /* Process.cpp */; };
+		A1E661B81575F49100ED9F13 /* Rand64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121454515753AE700F1226B /* Rand64.cpp */; };
+		A1E661BA1575F49100ED9F13 /* SqliteStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121454715753AE700F1226B /* SqliteStatement.cpp */; };
+		A1E661C01575F49100ED9F13 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121454D15753AE700F1226B /* Util.cpp */; };
+		A1E661C21575F49500ED9F13 /* Version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A121454F15753AE700F1226B /* Version.cpp */; };
+		A1E814E9165B6FDD00378F1C /* Lowlevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E814E7165B6FDD00378F1C /* Lowlevel.cpp */; };
+		A1E814EE165B701800378F1C /* AsmX86.S in Sources */ = {isa = PBXBuildFile; fileRef = A1E814EC165B701800378F1C /* AsmX86.S */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		A13A6F4B1655A04500F341C7 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = sourcecode.lex;
+			isEditable = 1;
+			name = "Lex source using script";
+			outputFiles = (
+				"${INPUT_FILE_DIR}/${INPUT_FILE_BASE}.cpp",
+			);
+			script = "\"${PROJECT_DIR}/tools/flex.py\" \"${INPUT_FILE_PATH}\" \"${INPUT_FILE_DIR}/${INPUT_FILE_BASE}.cpp\"\n";
+		};
+		A1E661C51575F57B00ED9F13 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = sourcecode.lex;
+			isEditable = 1;
+			outputFiles = (
+				"${INPUT_FILE_DIR}/${INPUT_FILE_BASE}.cpp",
+			);
+			script = "${PROJECT_DIR}/tools/flex.py ${INPUT_FILE_PATH} ${INPUT_FILE_DIR}/${INPUT_FILE_BASE}.cpp\n";
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXContainerItemProxy section */
+		A1843AA017A2EEF400A0A219 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A10FD9CE15753A790009BC1C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A13A6EF416559E2700F341C7;
+			remoteInfo = "ChessCore-dynamic";
+		};
+		A1B5FAB71657FE4F00CF6E93 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A10FD9CE15753A790009BC1C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A13A6EF416559E2700F341C7;
+			remoteInfo = "ChessCore-dynamic";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A18438BD17A2EE5B00A0A219 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A101DA5C17B266EE00DA28DE /* AnnotMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotMove.h; path = include/ChessCore/AnnotMove.h; sourceTree = "<group>"; };
+		A101DA5D17B266EE00DA28DE /* AppleUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppleUtil.h; path = include/ChessCore/AppleUtil.h; sourceTree = "<group>"; };
+		A101DA5F17B266EE00DA28DE /* Bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bitstream.h; path = include/ChessCore/Bitstream.h; sourceTree = "<group>"; };
+		A101DA6017B266EE00DA28DE /* Blob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Blob.h; path = include/ChessCore/Blob.h; sourceTree = "<group>"; };
+		A101DA6117B266EE00DA28DE /* CbhDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CbhDatabase.h; path = include/ChessCore/CbhDatabase.h; sourceTree = "<group>"; };
+		A101DA6217B266EE00DA28DE /* CfdbDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CfdbDatabase.h; path = include/ChessCore/CfdbDatabase.h; sourceTree = "<group>"; };
+		A101DA6317B266EE00DA28DE /* ChessCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChessCore.h; path = include/ChessCore/ChessCore.h; sourceTree = "<group>"; };
+		A101DA6417B266EE00DA28DE /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Data.h; path = include/ChessCore/Data.h; sourceTree = "<group>"; };
+		A101DA6517B266EE00DA28DE /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Database.h; path = include/ChessCore/Database.h; sourceTree = "<group>"; };
+		A101DA6617B266EE00DA28DE /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = include/ChessCore/Engine.h; sourceTree = "<group>"; };
+		A101DA6717B266EE00DA28DE /* EngineMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EngineMessage.h; path = include/ChessCore/EngineMessage.h; sourceTree = "<group>"; };
+		A101DA6817B266EE00DA28DE /* EngineMessageQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EngineMessageQueue.h; path = include/ChessCore/EngineMessageQueue.h; sourceTree = "<group>"; };
+		A101DA6917B266EE00DA28DE /* Epd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Epd.h; path = include/ChessCore/Epd.h; sourceTree = "<group>"; };
+		A101DA6A17B266EE00DA28DE /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Game.h; path = include/ChessCore/Game.h; sourceTree = "<group>"; };
+		A101DA6B17B266EE00DA28DE /* GameHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameHeader.h; path = include/ChessCore/GameHeader.h; sourceTree = "<group>"; };
+		A101DA6C17B266EE00DA28DE /* IndexManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IndexManager.h; path = include/ChessCore/IndexManager.h; sourceTree = "<group>"; };
+		A101DA6D17B266EE00DA28DE /* IoEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IoEvent.h; path = include/ChessCore/IoEvent.h; sourceTree = "<group>"; };
+		A101DA6E17B266EE00DA28DE /* IoEventWaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IoEventWaiter.h; path = include/ChessCore/IoEventWaiter.h; sourceTree = "<group>"; };
+		A101DA6F17B266EE00DA28DE /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = include/ChessCore/Log.h; sourceTree = "<group>"; };
+		A101DA7017B266EE00DA28DE /* Lowlevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Lowlevel.h; path = include/ChessCore/Lowlevel.h; sourceTree = "<group>"; };
+		A101DA7117B266EE00DA28DE /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Move.h; path = include/ChessCore/Move.h; sourceTree = "<group>"; };
+		A101DA7217B266EE00DA28DE /* Mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mutex.h; path = include/ChessCore/Mutex.h; sourceTree = "<group>"; };
+		A101DA7317B266EE00DA28DE /* OpeningTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpeningTree.h; path = include/ChessCore/OpeningTree.h; sourceTree = "<group>"; };
+		A101DA7417B266EE00DA28DE /* PgnDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PgnDatabase.h; path = include/ChessCore/PgnDatabase.h; sourceTree = "<group>"; };
+		A101DA7517B266EE00DA28DE /* PgnScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PgnScanner.h; path = include/ChessCore/PgnScanner.h; sourceTree = "<group>"; };
+		A101DA7617B266EE00DA28DE /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = include/ChessCore/Player.h; sourceTree = "<group>"; };
+		A101DA7717B266EE00DA28DE /* Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Position.h; path = include/ChessCore/Position.h; sourceTree = "<group>"; };
+		A101DA7817B266EE00DA28DE /* Process.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Process.h; path = include/ChessCore/Process.h; sourceTree = "<group>"; };
+		A101DA7917B266EE00DA28DE /* ProgOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgOption.h; path = include/ChessCore/ProgOption.h; sourceTree = "<group>"; };
+		A101DA7A17B266EE00DA28DE /* Rand64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rand64.h; path = include/ChessCore/Rand64.h; sourceTree = "<group>"; };
+		A101DA7B17B266EE00DA28DE /* SqliteStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SqliteStatement.h; path = include/ChessCore/SqliteStatement.h; sourceTree = "<group>"; };
+		A101DA7C17B266EE00DA28DE /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = include/ChessCore/Thread.h; sourceTree = "<group>"; };
+		A101DA7D17B266EE00DA28DE /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = include/ChessCore/Types.h; sourceTree = "<group>"; };
+		A101DA7E17B266EE00DA28DE /* UCIEngineOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UCIEngineOption.h; path = include/ChessCore/UCIEngineOption.h; sourceTree = "<group>"; };
+		A101DA7F17B266EE00DA28DE /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Util.h; path = include/ChessCore/Util.h; sourceTree = "<group>"; };
+		A101DAC817B268CD00DA28DE /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Version.h; path = include/ChessCore/Version.h; sourceTree = "<group>"; };
+		A10CCA1A17A70DB800B21641 /* Movegen_unittest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Movegen_unittest.cpp; path = test/unittests/Movegen_unittest.cpp; sourceTree = SOURCE_ROOT; };
+		A121451215753AE700F1226B /* AnnotMove.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotMove.cpp; path = src/AnnotMove.cpp; sourceTree = "<group>"; };
+		A121451615753AE700F1226B /* Blob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Blob.cpp; path = src/Blob.cpp; sourceTree = "<group>"; };
+		A121451A15753AE700F1226B /* CbhDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CbhDatabase.cpp; path = src/CbhDatabase.cpp; sourceTree = "<group>"; };
+		A121451C15753AE700F1226B /* CfdbDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CfdbDatabase.cpp; path = src/CfdbDatabase.cpp; sourceTree = "<group>"; };
+		A121451E15753AE700F1226B /* ChessCore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ChessCore.cpp; path = src/ChessCore.cpp; sourceTree = "<group>"; };
+		A121452015753AE700F1226B /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Data.cpp; path = src/Data.cpp; sourceTree = "<group>"; };
+		A121452215753AE700F1226B /* Database.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Database.cpp; path = src/Database.cpp; sourceTree = "<group>"; };
+		A121452415753AE700F1226B /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = src/Engine.cpp; sourceTree = "<group>"; };
+		A121452615753AE700F1226B /* Epd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Epd.cpp; path = src/Epd.cpp; sourceTree = "<group>"; };
+		A121452815753AE700F1226B /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Game.cpp; path = src/Game.cpp; sourceTree = "<group>"; };
+		A121452A15753AE700F1226B /* GameHeader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameHeader.cpp; path = src/GameHeader.cpp; sourceTree = "<group>"; };
+		A121452C15753AE700F1226B /* IoEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IoEvent.cpp; path = src/IoEvent.cpp; sourceTree = "<group>"; };
+		A121452F15753AE700F1226B /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
+		A121453415753AE700F1226B /* Move.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Move.cpp; path = src/Move.cpp; sourceTree = "<group>"; };
+		A121453A15753AE700F1226B /* PgnDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PgnDatabase.cpp; path = src/PgnDatabase.cpp; sourceTree = "<group>"; };
+		A121453E15753AE700F1226B /* PgnScanner.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = PgnScanner.l; path = src/PgnScanner.l; sourceTree = "<group>"; };
+		A121453F15753AE700F1226B /* Position.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Position.cpp; path = src/Position.cpp; sourceTree = "<group>"; };
+		A121454115753AE700F1226B /* Process.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Process.cpp; path = src/Process.cpp; sourceTree = "<group>"; };
+		A121454515753AE700F1226B /* Rand64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Rand64.cpp; path = src/Rand64.cpp; sourceTree = "<group>"; };
+		A121454715753AE700F1226B /* SqliteStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SqliteStatement.cpp; path = src/SqliteStatement.cpp; sourceTree = "<group>"; };
+		A121454D15753AE700F1226B /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Util.cpp; path = src/Util.cpp; sourceTree = "<group>"; };
+		A121454F15753AE700F1226B /* Version.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Version.cpp; path = src/Version.cpp; sourceTree = "<group>"; };
+		A12CEF941639B46F00750519 /* IoEventWaiter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IoEventWaiter.cpp; path = src/IoEventWaiter.cpp; sourceTree = "<group>"; };
+		A133505115E7E0EA00343649 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = src/Player.cpp; sourceTree = "<group>"; };
+		A135711D1656ACED00FF8931 /* AnalyzeGames.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnalyzeGames.cpp; path = ccore/AnalyzeGames.cpp; sourceTree = SOURCE_ROOT; };
+		A135711E1656ACED00FF8931 /* ccore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ccore.cpp; path = ccore/ccore.cpp; sourceTree = SOURCE_ROOT; };
+		A135711F1656ACED00FF8931 /* ccore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ccore.h; path = ccore/ccore.h; sourceTree = SOURCE_ROOT; };
+		A13571201656ACED00FF8931 /* Config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Config.cpp; path = ccore/Config.cpp; sourceTree = SOURCE_ROOT; };
+		A13571211656ACED00FF8931 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Config.h; path = ccore/Config.h; sourceTree = SOURCE_ROOT; };
+		A13571221656ACED00FF8931 /* Functions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Functions.cpp; path = ccore/Functions.cpp; sourceTree = SOURCE_ROOT; };
+		A13571231656ACED00FF8931 /* PlayGames.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlayGames.cpp; path = ccore/PlayGames.cpp; sourceTree = SOURCE_ROOT; };
+		A13571241656ACED00FF8931 /* ProcessEpd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProcessEpd.cpp; path = ccore/ProcessEpd.cpp; sourceTree = SOURCE_ROOT; };
+		A13A6EF516559E2700F341C7 /* libChessCore.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libChessCore.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1464A831669239E00D7B5DB /* ProgOption.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgOption.cpp; path = src/ProgOption.cpp; sourceTree = "<group>"; };
+		A1464A871669454300D7B5DB /* IndexManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IndexManager.cpp; path = src/IndexManager.cpp; sourceTree = "<group>"; };
+		A154CDDA17AAD25C00C17BEC /* Mutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mutex.cpp; path = src/Mutex.cpp; sourceTree = "<group>"; };
+		A157FFC517AA6CBF006EC9CC /* AppleUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppleUtil.mm; path = src/AppleUtil.mm; sourceTree = "<group>"; };
+		A17131DD160CD054003A8EE3 /* OpeningTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpeningTree.cpp; path = src/OpeningTree.cpp; sourceTree = "<group>"; };
+		A17131E5160CD114003A8EE3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		A181816216EB702B00CCBC24 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A18438BF17A2EE5B00A0A219 /* unittests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = unittests; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1843A9117A2EEB700A0A219 /* gtest-all.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "gtest-all.cc"; path = "test/gtest/src/gtest-all.cc"; sourceTree = SOURCE_ROOT; };
+		A1843A9417A2EEE100A0A219 /* Bitstream_unittest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bitstream_unittest.cpp; path = test/unittests/Bitstream_unittest.cpp; sourceTree = SOURCE_ROOT; };
+		A1843A9517A2EEE100A0A219 /* Game_unittest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Game_unittest.cpp; path = test/unittests/Game_unittest.cpp; sourceTree = SOURCE_ROOT; };
+		A1843A9617A2EEE100A0A219 /* Lowlevel_unittest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Lowlevel_unittest.cpp; path = test/unittests/Lowlevel_unittest.cpp; sourceTree = SOURCE_ROOT; };
+		A1843A9717A2EEE100A0A219 /* PackUtil_unittest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PackUtil_unittest.cpp; path = test/unittests/PackUtil_unittest.cpp; sourceTree = SOURCE_ROOT; };
+		A1843A9817A2EEE100A0A219 /* unittest_main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = unittest_main.cpp; path = test/unittests/unittest_main.cpp; sourceTree = SOURCE_ROOT; };
+		A1843A9917A2EEE100A0A219 /* Util_unittest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Util_unittest.cpp; path = test/unittests/Util_unittest.cpp; sourceTree = SOURCE_ROOT; };
+		A1924B5A157552780006AA78 /* ccore */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ccore; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1AA7C0417B0EAD2009B3792 /* PositionHash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PositionHash.cpp; path = src/PositionHash.cpp; sourceTree = "<group>"; };
+		A1C1F84217AC0E9100D6CFE3 /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Thread.cpp; path = src/Thread.cpp; sourceTree = "<group>"; };
+		A1C68B6D1601000200126B8B /* Bitstream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bitstream.cpp; path = src/Bitstream.cpp; sourceTree = "<group>"; };
+		A1D89F3A1644423200C1DD2A /* EngineMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EngineMessage.cpp; path = src/EngineMessage.cpp; sourceTree = "<group>"; };
+		A1D89F3C1644423200C1DD2A /* EngineMessageQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EngineMessageQueue.cpp; path = src/EngineMessageQueue.cpp; sourceTree = "<group>"; };
+		A1D89F3E1644423200C1DD2A /* UCIEngineOption.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UCIEngineOption.cpp; path = src/UCIEngineOption.cpp; sourceTree = "<group>"; };
+		A1E661831575F2F400ED9F13 /* libChessCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libChessCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1E814E7165B6FDD00378F1C /* Lowlevel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Lowlevel.cpp; path = src/Lowlevel.cpp; sourceTree = "<group>"; };
+		A1E814EC165B701800378F1C /* AsmX86.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = AsmX86.S; path = src/AsmX86.S; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A13A6EF216559E2700F341C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1C0E9B817AA74C1000DA81C /* Foundation.framework in Frameworks */,
+				A13A6F4C1655A0E100F341C7 /* libsqlite3.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A18438BC17A2EE5B00A0A219 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1843AA217A2EEFE00A0A219 /* libChessCore.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1924B57157552780006AA78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A135712E1656AD4D00FF8931 /* libChessCore.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1E661801575F2F400ED9F13 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A10FD9CC15753A790009BC1C = {
+			isa = PBXGroup;
+			children = (
+				A1924B54157551DC0006AA78 /* Source */,
+				A1924B5C157552780006AA78 /* ccore Source */,
+				A18438C017A2EE5B00A0A219 /* unittests Source */,
+				A1924B55157551E60006AA78 /* Libraries */,
+				A181816116EB702B00CCBC24 /* Frameworks */,
+				A10FD9D815753A790009BC1C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A10FD9D815753A790009BC1C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1924B5A157552780006AA78 /* ccore */,
+				A1E661831575F2F400ED9F13 /* libChessCore.a */,
+				A13A6EF516559E2700F341C7 /* libChessCore.dylib */,
+				A18438BF17A2EE5B00A0A219 /* unittests */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A181816116EB702B00CCBC24 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A181816216EB702B00CCBC24 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A18438C017A2EE5B00A0A219 /* unittests Source */ = {
+			isa = PBXGroup;
+			children = (
+				A10CCA1A17A70DB800B21641 /* Movegen_unittest.cpp */,
+				A1843A9417A2EEE100A0A219 /* Bitstream_unittest.cpp */,
+				A1843A9517A2EEE100A0A219 /* Game_unittest.cpp */,
+				A1843A9617A2EEE100A0A219 /* Lowlevel_unittest.cpp */,
+				A1843A9717A2EEE100A0A219 /* PackUtil_unittest.cpp */,
+				A1843A9817A2EEE100A0A219 /* unittest_main.cpp */,
+				A1843A9917A2EEE100A0A219 /* Util_unittest.cpp */,
+				A1843A9117A2EEB700A0A219 /* gtest-all.cc */,
+			);
+			name = "unittests Source";
+			path = unittests;
+			sourceTree = "<group>";
+		};
+		A1924B54157551DC0006AA78 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				A121451215753AE700F1226B /* AnnotMove.cpp */,
+				A101DA5C17B266EE00DA28DE /* AnnotMove.h */,
+				A101DA5D17B266EE00DA28DE /* AppleUtil.h */,
+				A157FFC517AA6CBF006EC9CC /* AppleUtil.mm */,
+				A1E814EC165B701800378F1C /* AsmX86.S */,
+				A1C68B6D1601000200126B8B /* Bitstream.cpp */,
+				A101DA5F17B266EE00DA28DE /* Bitstream.h */,
+				A121451615753AE700F1226B /* Blob.cpp */,
+				A101DA6017B266EE00DA28DE /* Blob.h */,
+				A121451A15753AE700F1226B /* CbhDatabase.cpp */,
+				A101DA6117B266EE00DA28DE /* CbhDatabase.h */,
+				A121451C15753AE700F1226B /* CfdbDatabase.cpp */,
+				A101DA6217B266EE00DA28DE /* CfdbDatabase.h */,
+				A121451E15753AE700F1226B /* ChessCore.cpp */,
+				A101DA6317B266EE00DA28DE /* ChessCore.h */,
+				A121452015753AE700F1226B /* Data.cpp */,
+				A101DA6417B266EE00DA28DE /* Data.h */,
+				A121452215753AE700F1226B /* Database.cpp */,
+				A101DA6517B266EE00DA28DE /* Database.h */,
+				A121452415753AE700F1226B /* Engine.cpp */,
+				A101DA6617B266EE00DA28DE /* Engine.h */,
+				A1D89F3A1644423200C1DD2A /* EngineMessage.cpp */,
+				A101DA6717B266EE00DA28DE /* EngineMessage.h */,
+				A1D89F3C1644423200C1DD2A /* EngineMessageQueue.cpp */,
+				A101DA6817B266EE00DA28DE /* EngineMessageQueue.h */,
+				A121452615753AE700F1226B /* Epd.cpp */,
+				A101DA6917B266EE00DA28DE /* Epd.h */,
+				A121452815753AE700F1226B /* Game.cpp */,
+				A101DA6A17B266EE00DA28DE /* Game.h */,
+				A121452A15753AE700F1226B /* GameHeader.cpp */,
+				A101DA6B17B266EE00DA28DE /* GameHeader.h */,
+				A1464A871669454300D7B5DB /* IndexManager.cpp */,
+				A101DA6C17B266EE00DA28DE /* IndexManager.h */,
+				A121452C15753AE700F1226B /* IoEvent.cpp */,
+				A101DA6D17B266EE00DA28DE /* IoEvent.h */,
+				A12CEF941639B46F00750519 /* IoEventWaiter.cpp */,
+				A101DA6E17B266EE00DA28DE /* IoEventWaiter.h */,
+				A121452F15753AE700F1226B /* Log.cpp */,
+				A101DA6F17B266EE00DA28DE /* Log.h */,
+				A1E814E7165B6FDD00378F1C /* Lowlevel.cpp */,
+				A101DA7017B266EE00DA28DE /* Lowlevel.h */,
+				A121453415753AE700F1226B /* Move.cpp */,
+				A101DA7117B266EE00DA28DE /* Move.h */,
+				A154CDDA17AAD25C00C17BEC /* Mutex.cpp */,
+				A101DA7217B266EE00DA28DE /* Mutex.h */,
+				A17131DD160CD054003A8EE3 /* OpeningTree.cpp */,
+				A101DA7317B266EE00DA28DE /* OpeningTree.h */,
+				A121453A15753AE700F1226B /* PgnDatabase.cpp */,
+				A101DA7417B266EE00DA28DE /* PgnDatabase.h */,
+				A101DA7517B266EE00DA28DE /* PgnScanner.h */,
+				A121453E15753AE700F1226B /* PgnScanner.l */,
+				A133505115E7E0EA00343649 /* Player.cpp */,
+				A101DA7617B266EE00DA28DE /* Player.h */,
+				A121453F15753AE700F1226B /* Position.cpp */,
+				A101DA7717B266EE00DA28DE /* Position.h */,
+				A1AA7C0417B0EAD2009B3792 /* PositionHash.cpp */,
+				A121454115753AE700F1226B /* Process.cpp */,
+				A101DA7817B266EE00DA28DE /* Process.h */,
+				A1464A831669239E00D7B5DB /* ProgOption.cpp */,
+				A101DA7917B266EE00DA28DE /* ProgOption.h */,
+				A121454515753AE700F1226B /* Rand64.cpp */,
+				A101DA7A17B266EE00DA28DE /* Rand64.h */,
+				A121454715753AE700F1226B /* SqliteStatement.cpp */,
+				A101DA7B17B266EE00DA28DE /* SqliteStatement.h */,
+				A1C1F84217AC0E9100D6CFE3 /* Thread.cpp */,
+				A101DA7C17B266EE00DA28DE /* Thread.h */,
+				A101DA7D17B266EE00DA28DE /* Types.h */,
+				A1D89F3E1644423200C1DD2A /* UCIEngineOption.cpp */,
+				A101DA7E17B266EE00DA28DE /* UCIEngineOption.h */,
+				A121454D15753AE700F1226B /* Util.cpp */,
+				A101DA7F17B266EE00DA28DE /* Util.h */,
+				A121454F15753AE700F1226B /* Version.cpp */,
+				A101DAC817B268CD00DA28DE /* Version.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		A1924B55157551E60006AA78 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				A17131E5160CD114003A8EE3 /* libsqlite3.dylib */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		A1924B5C157552780006AA78 /* ccore Source */ = {
+			isa = PBXGroup;
+			children = (
+				A135711D1656ACED00FF8931 /* AnalyzeGames.cpp */,
+				A135711E1656ACED00FF8931 /* ccore.cpp */,
+				A135711F1656ACED00FF8931 /* ccore.h */,
+				A13571201656ACED00FF8931 /* Config.cpp */,
+				A13571211656ACED00FF8931 /* Config.h */,
+				A13571221656ACED00FF8931 /* Functions.cpp */,
+				A13571231656ACED00FF8931 /* PlayGames.cpp */,
+				A13571241656ACED00FF8931 /* ProcessEpd.cpp */,
+			);
+			name = "ccore Source";
+			path = cute;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		A13A6EF316559E2700F341C7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A101DAB417B266EE00DA28DE /* Player.h in Headers */,
+				A101DA9617B266EE00DA28DE /* EngineMessage.h in Headers */,
+				A101DAA617B266EE00DA28DE /* Log.h in Headers */,
+				A101DAA017B266EE00DA28DE /* IndexManager.h in Headers */,
+				A101DAAE17B266EE00DA28DE /* OpeningTree.h in Headers */,
+				A101DAB617B266EE00DA28DE /* Position.h in Headers */,
+				A101DA9417B266EE00DA28DE /* Engine.h in Headers */,
+				A101DA8E17B266EE00DA28DE /* ChessCore.h in Headers */,
+				A101DAB017B266EE00DA28DE /* PgnDatabase.h in Headers */,
+				A101DA9217B266EE00DA28DE /* Database.h in Headers */,
+				A101DAC017B266EE00DA28DE /* Thread.h in Headers */,
+				A101DA8817B266EE00DA28DE /* Blob.h in Headers */,
+				A101DA9E17B266EE00DA28DE /* GameHeader.h in Headers */,
+				A101DAC417B266EE00DA28DE /* UCIEngineOption.h in Headers */,
+				A101DAA417B266EE00DA28DE /* IoEventWaiter.h in Headers */,
+				A101DAAA17B266EE00DA28DE /* Move.h in Headers */,
+				A101DABE17B266EE00DA28DE /* SqliteStatement.h in Headers */,
+				A101DA9C17B266EE00DA28DE /* Game.h in Headers */,
+				A101DA8C17B266EE00DA28DE /* CfdbDatabase.h in Headers */,
+				A101DAAC17B266EE00DA28DE /* Mutex.h in Headers */,
+				A101DAB217B266EE00DA28DE /* PgnScanner.h in Headers */,
+				A101DA8617B266EE00DA28DE /* Bitstream.h in Headers */,
+				A101DA9A17B266EE00DA28DE /* Epd.h in Headers */,
+				A101DA8A17B266EE00DA28DE /* CbhDatabase.h in Headers */,
+				A101DAC217B266EE00DA28DE /* Types.h in Headers */,
+				A101DAB817B266EE00DA28DE /* Process.h in Headers */,
+				A101DA9817B266EE00DA28DE /* EngineMessageQueue.h in Headers */,
+				A101DA8017B266EE00DA28DE /* AnnotMove.h in Headers */,
+				A101DAA217B266EE00DA28DE /* IoEvent.h in Headers */,
+				A101DABC17B266EE00DA28DE /* Rand64.h in Headers */,
+				A101DA9017B266EE00DA28DE /* Data.h in Headers */,
+				A101DABA17B266EE00DA28DE /* ProgOption.h in Headers */,
+				A101DA8217B266EE00DA28DE /* AppleUtil.h in Headers */,
+				A101DAC917B268CD00DA28DE /* Version.h in Headers */,
+				A101DAC617B266EE00DA28DE /* Util.h in Headers */,
+				A101DAA817B266EE00DA28DE /* Lowlevel.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1E661811575F2F400ED9F13 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A101DAB517B266EE00DA28DE /* Player.h in Headers */,
+				A101DA9717B266EE00DA28DE /* EngineMessage.h in Headers */,
+				A101DAA717B266EE00DA28DE /* Log.h in Headers */,
+				A101DAA117B266EE00DA28DE /* IndexManager.h in Headers */,
+				A101DAAF17B266EE00DA28DE /* OpeningTree.h in Headers */,
+				A101DAB717B266EE00DA28DE /* Position.h in Headers */,
+				A101DA9517B266EE00DA28DE /* Engine.h in Headers */,
+				A101DA8F17B266EE00DA28DE /* ChessCore.h in Headers */,
+				A101DAB117B266EE00DA28DE /* PgnDatabase.h in Headers */,
+				A101DA9317B266EE00DA28DE /* Database.h in Headers */,
+				A101DAC117B266EE00DA28DE /* Thread.h in Headers */,
+				A101DA8917B266EE00DA28DE /* Blob.h in Headers */,
+				A101DA9F17B266EE00DA28DE /* GameHeader.h in Headers */,
+				A101DAC517B266EE00DA28DE /* UCIEngineOption.h in Headers */,
+				A101DAA517B266EE00DA28DE /* IoEventWaiter.h in Headers */,
+				A101DAAB17B266EE00DA28DE /* Move.h in Headers */,
+				A101DABF17B266EE00DA28DE /* SqliteStatement.h in Headers */,
+				A101DA9D17B266EE00DA28DE /* Game.h in Headers */,
+				A101DA8D17B266EE00DA28DE /* CfdbDatabase.h in Headers */,
+				A101DAAD17B266EE00DA28DE /* Mutex.h in Headers */,
+				A101DAB317B266EE00DA28DE /* PgnScanner.h in Headers */,
+				A101DA8717B266EE00DA28DE /* Bitstream.h in Headers */,
+				A101DA9B17B266EE00DA28DE /* Epd.h in Headers */,
+				A101DA8B17B266EE00DA28DE /* CbhDatabase.h in Headers */,
+				A101DAC317B266EE00DA28DE /* Types.h in Headers */,
+				A101DAB917B266EE00DA28DE /* Process.h in Headers */,
+				A101DA9917B266EE00DA28DE /* EngineMessageQueue.h in Headers */,
+				A101DA8117B266EE00DA28DE /* AnnotMove.h in Headers */,
+				A101DAA317B266EE00DA28DE /* IoEvent.h in Headers */,
+				A101DABD17B266EE00DA28DE /* Rand64.h in Headers */,
+				A101DA9117B266EE00DA28DE /* Data.h in Headers */,
+				A101DABB17B266EE00DA28DE /* ProgOption.h in Headers */,
+				A101DA8317B266EE00DA28DE /* AppleUtil.h in Headers */,
+				A101DACA17B268CD00DA28DE /* Version.h in Headers */,
+				A101DAC717B266EE00DA28DE /* Util.h in Headers */,
+				A101DAA917B266EE00DA28DE /* Lowlevel.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		A13A6EF416559E2700F341C7 /* ChessCore-dynamic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A13A6EF816559E2700F341C7 /* Build configuration list for PBXNativeTarget "ChessCore-dynamic" */;
+			buildPhases = (
+				A13A6F4A16559FFA00F341C7 /* Bump Version Number */,
+				A13A6EF116559E2700F341C7 /* Sources */,
+				A13A6EF216559E2700F341C7 /* Frameworks */,
+				A13A6EF316559E2700F341C7 /* Headers */,
+			);
+			buildRules = (
+				A13A6F4B1655A04500F341C7 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = "ChessCore-dynamic";
+			productName = ChessCore;
+			productReference = A13A6EF516559E2700F341C7 /* libChessCore.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		A18438BE17A2EE5B00A0A219 /* unittests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A18438C717A2EE5C00A0A219 /* Build configuration list for PBXNativeTarget "unittests" */;
+			buildPhases = (
+				A18438BB17A2EE5B00A0A219 /* Sources */,
+				A18438BC17A2EE5B00A0A219 /* Frameworks */,
+				A18438BD17A2EE5B00A0A219 /* CopyFiles */,
+				A1843AA317A2EF1800A0A219 /* Run install_name_tool */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A1843AA117A2EEF400A0A219 /* PBXTargetDependency */,
+			);
+			name = unittests;
+			productName = unittests;
+			productReference = A18438BF17A2EE5B00A0A219 /* unittests */;
+			productType = "com.apple.product-type.tool";
+		};
+		A1924B59157552780006AA78 /* ccore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1924B61157552780006AA78 /* Build configuration list for PBXNativeTarget "ccore" */;
+			buildPhases = (
+				A1924B56157552780006AA78 /* Sources */,
+				A1924B57157552780006AA78 /* Frameworks */,
+				A1B5FAB91658019900CF6E93 /* Run install_name_tool */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A1B5FAB81657FE4F00CF6E93 /* PBXTargetDependency */,
+			);
+			name = ccore;
+			productName = cute;
+			productReference = A1924B5A157552780006AA78 /* ccore */;
+			productType = "com.apple.product-type.tool";
+		};
+		A1E661821575F2F400ED9F13 /* ChessCore-static */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1E661841575F2F400ED9F13 /* Build configuration list for PBXNativeTarget "ChessCore-static" */;
+			buildPhases = (
+				A1E661C41575F4AF00ED9F13 /* Bump Version Number */,
+				A1E6617F1575F2F400ED9F13 /* Sources */,
+				A1E661801575F2F400ED9F13 /* Frameworks */,
+				A1E661811575F2F400ED9F13 /* Headers */,
+			);
+			buildRules = (
+				A1E661C51575F57B00ED9F13 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = "ChessCore-static";
+			productName = ChessCore;
+			productReference = A1E661831575F2F400ED9F13 /* libChessCore.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A10FD9CE15753A790009BC1C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Andy Duplain";
+			};
+			buildConfigurationList = A10FD9D115753A790009BC1C /* Build configuration list for PBXProject "ChessCore" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A10FD9CC15753A790009BC1C;
+			productRefGroup = A10FD9D815753A790009BC1C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A13A6EF416559E2700F341C7 /* ChessCore-dynamic */,
+				A1E661821575F2F400ED9F13 /* ChessCore-static */,
+				A1924B59157552780006AA78 /* ccore */,
+				A18438BE17A2EE5B00A0A219 /* unittests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A13A6F4A16559FFA00F341C7 /* Bump Version Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PROJECT_DIR}/src/Version.ver",
+				"$(PROJECT_DIR)/include/ChessCore/Version.h",
+			);
+			name = "Bump Version Number";
+			outputPaths = (
+				"${PROJECT_DIR}/src/Version.cpp",
+				"${PROJECT_DIR}/src/Version.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PROJECT_DIR}/tools/upver.py ${PROJECT_DIR}/src/Version.ver ${PROJECT_DIR}/src/Version.cpp ${PROJECT_DIR}/include/ChessCore/Version.h";
+			showEnvVarsInLog = 0;
+		};
+		A1843AA317A2EF1800A0A219 /* Run install_name_tool */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run install_name_tool";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -change @loader_path/../Frameworks/libChessCore.dylib @loader_path/libChessCore.dylib \"${TARGET_BUILD_DIR}/${TARGETNAME}\"";
+			showEnvVarsInLog = 0;
+		};
+		A1B5FAB91658019900CF6E93 /* Run install_name_tool */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run install_name_tool";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -change @loader_path/../Frameworks/libChessCore.dylib @loader_path/libChessCore.dylib \"${TARGET_BUILD_DIR}/${TARGETNAME}\"";
+			showEnvVarsInLog = 0;
+		};
+		A1E661C41575F4AF00ED9F13 /* Bump Version Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PROJECT_DIR}/src/Version.ver",
+				"$(PROJECT_DIR)/include/Version.h",
+			);
+			name = "Bump Version Number";
+			outputPaths = (
+				"${PROJECT_DIR}/src/Version.cpp",
+				"${PROJECT_DIR}/src/Version.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PROJECT_DIR}/tools/upver.py ${PROJECT_DIR}/src/Version.ver ${PROJECT_DIR}/src/Version.cpp ${PROJECT_DIR}/include/ChessCore/Version.h";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A13A6EF116559E2700F341C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A13A6EFE16559F8B00F341C7 /* Util.cpp in Sources */,
+				A13A6F0016559F8B00F341C7 /* Version.cpp in Sources */,
+				A13A6F0516559F9800F341C7 /* AnnotMove.cpp in Sources */,
+				A13A6F0916559F9800F341C7 /* Bitstream.cpp in Sources */,
+				A13A6F0B16559F9800F341C7 /* Blob.cpp in Sources */,
+				A13A6F0F16559F9800F341C7 /* CbhDatabase.cpp in Sources */,
+				A13A6F1116559F9800F341C7 /* CfdbDatabase.cpp in Sources */,
+				A13A6F1316559F9800F341C7 /* ChessCore.cpp in Sources */,
+				A13A6F1716559F9800F341C7 /* Data.cpp in Sources */,
+				A13A6F1916559F9800F341C7 /* Database.cpp in Sources */,
+				A13A6F1B16559F9800F341C7 /* Engine.cpp in Sources */,
+				A1AA7C0517B0EAD2009B3792 /* PositionHash.cpp in Sources */,
+				A13A6F1D16559F9800F341C7 /* EngineMessage.cpp in Sources */,
+				A13A6F1F16559F9800F341C7 /* EngineMessageQueue.cpp in Sources */,
+				A13A6F2116559F9800F341C7 /* Epd.cpp in Sources */,
+				A13A6F2316559F9800F341C7 /* Game.cpp in Sources */,
+				A13A6F2516559F9800F341C7 /* GameHeader.cpp in Sources */,
+				A13A6F2716559F9800F341C7 /* IoEvent.cpp in Sources */,
+				A13A6F2916559F9800F341C7 /* IoEventWaiter.cpp in Sources */,
+				A13A6F2B16559F9800F341C7 /* Log.cpp in Sources */,
+				A13A6F2F16559F9800F341C7 /* Move.cpp in Sources */,
+				A13A6F3516559F9800F341C7 /* OpeningTree.cpp in Sources */,
+				A13A6F3716559F9800F341C7 /* PgnDatabase.cpp in Sources */,
+				A13A6F3A16559F9800F341C7 /* PgnScanner.l in Sources */,
+				A154CDDC17AAD25C00C17BEC /* Mutex.cpp in Sources */,
+				A13A6F3B16559F9800F341C7 /* Player.cpp in Sources */,
+				A13A6F3D16559F9800F341C7 /* Position.cpp in Sources */,
+				A13A6F3F16559F9800F341C7 /* Process.cpp in Sources */,
+				A13A6F4116559F9800F341C7 /* Rand64.cpp in Sources */,
+				A13A6F4316559F9800F341C7 /* SqliteStatement.cpp in Sources */,
+				A157FFC617AA6CBF006EC9CC /* AppleUtil.mm in Sources */,
+				A13A6F4816559F9800F341C7 /* UCIEngineOption.cpp in Sources */,
+				A1E814E9165B6FDD00378F1C /* Lowlevel.cpp in Sources */,
+				A1E814EE165B701800378F1C /* AsmX86.S in Sources */,
+				A1464A851669239E00D7B5DB /* ProgOption.cpp in Sources */,
+				A1464A891669454400D7B5DB /* IndexManager.cpp in Sources */,
+				A1C1F84417AC0E9100D6CFE3 /* Thread.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A18438BB17A2EE5B00A0A219 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1843A9217A2EEB700A0A219 /* gtest-all.cc in Sources */,
+				A1843A9A17A2EEE100A0A219 /* Bitstream_unittest.cpp in Sources */,
+				A1843A9B17A2EEE100A0A219 /* Game_unittest.cpp in Sources */,
+				A1843A9C17A2EEE100A0A219 /* Lowlevel_unittest.cpp in Sources */,
+				A1843A9D17A2EEE100A0A219 /* PackUtil_unittest.cpp in Sources */,
+				A1843A9E17A2EEE100A0A219 /* unittest_main.cpp in Sources */,
+				A1843A9F17A2EEE100A0A219 /* Util_unittest.cpp in Sources */,
+				A10CCA1B17A70DB800B21641 /* Movegen_unittest.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1924B56157552780006AA78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A13571271656ACED00FF8931 /* AnalyzeGames.cpp in Sources */,
+				A13571281656ACED00FF8931 /* ccore.cpp in Sources */,
+				A13571291656ACED00FF8931 /* Config.cpp in Sources */,
+				A135712A1656ACED00FF8931 /* Functions.cpp in Sources */,
+				A135712B1656ACED00FF8931 /* PlayGames.cpp in Sources */,
+				A135712C1656ACED00FF8931 /* ProcessEpd.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1E6617F1575F2F400ED9F13 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1E661881575F47000ED9F13 /* AnnotMove.cpp in Sources */,
+				A1E6618C1575F47B00ED9F13 /* Blob.cpp in Sources */,
+				A1E661901575F48800ED9F13 /* CbhDatabase.cpp in Sources */,
+				A1E661921575F48800ED9F13 /* CfdbDatabase.cpp in Sources */,
+				A1E661941575F48800ED9F13 /* ChessCore.cpp in Sources */,
+				A1E661961575F48800ED9F13 /* Data.cpp in Sources */,
+				A1E661981575F48800ED9F13 /* Database.cpp in Sources */,
+				A1E6619A1575F48800ED9F13 /* Engine.cpp in Sources */,
+				A1E6619C1575F48800ED9F13 /* Epd.cpp in Sources */,
+				A1E6619E1575F48800ED9F13 /* Game.cpp in Sources */,
+				A1E661A01575F48800ED9F13 /* GameHeader.cpp in Sources */,
+				A1E661A21575F48800ED9F13 /* IoEvent.cpp in Sources */,
+				A157FFC717AA6CBF006EC9CC /* AppleUtil.mm in Sources */,
+				A154CDDD17AAD25C00C17BEC /* Mutex.cpp in Sources */,
+				A1E661A51575F48800ED9F13 /* Log.cpp in Sources */,
+				A1E661A91575F48800ED9F13 /* Move.cpp in Sources */,
+				A1E661AF1575F48800ED9F13 /* PgnDatabase.cpp in Sources */,
+				A1C1F84517AC0E9100D6CFE3 /* Thread.cpp in Sources */,
+				A1E661B11575F48B00ED9F13 /* PgnScanner.l in Sources */,
+				A1E661B21575F49100ED9F13 /* Position.cpp in Sources */,
+				A1E661B41575F49100ED9F13 /* Process.cpp in Sources */,
+				A1E661B81575F49100ED9F13 /* Rand64.cpp in Sources */,
+				A1E661BA1575F49100ED9F13 /* SqliteStatement.cpp in Sources */,
+				A1E661C01575F49100ED9F13 /* Util.cpp in Sources */,
+				A1E661C21575F49500ED9F13 /* Version.cpp in Sources */,
+				A133505315E7E0EA00343649 /* Player.cpp in Sources */,
+				A1C68B6F1601000200126B8B /* Bitstream.cpp in Sources */,
+				A17131DF160CD054003A8EE3 /* OpeningTree.cpp in Sources */,
+				A12CEF961639B46F00750519 /* IoEventWaiter.cpp in Sources */,
+				A1D89F401644423200C1DD2A /* EngineMessage.cpp in Sources */,
+				A1AA7C0617B0EAD2009B3792 /* PositionHash.cpp in Sources */,
+				A1D89F421644423200C1DD2A /* EngineMessageQueue.cpp in Sources */,
+				A1D89F441644423200C1DD2A /* UCIEngineOption.cpp in Sources */,
+				A1464A8A1669454400D7B5DB /* IndexManager.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A1843AA117A2EEF400A0A219 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A13A6EF416559E2700F341C7 /* ChessCore-dynamic */;
+			targetProxy = A1843AA017A2EEF400A0A219 /* PBXContainerItemProxy */;
+		};
+		A1B5FAB81657FE4F00CF6E93 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A13A6EF416559E2700F341C7 /* ChessCore-dynamic */;
+			targetProxy = A1B5FAB71657FE4F00CF6E93 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A10FD9D915753A790009BC1C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"_DEBUG=1",
+					"TESTING=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
+				LLVM_LTO = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-std=c++0x",
+				);
+				SDKROOT = macosx;
+				SEPARATE_STRIP = YES;
+				SKIP_INSTALL = YES;
+				STRIP_STYLE = debugging;
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		A10FD9DA15753A790009BC1C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"NDEBUG=1",
+					"TESTING=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
+				LLVM_LTO = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-std=c++0x",
+				);
+				SDKROOT = macosx;
+				SEPARATE_STRIP = YES;
+				SKIP_INSTALL = YES;
+				STRIP_STYLE = debugging;
+				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+		A13A6EF616559E2700F341C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_EMPTY_BODY = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				INSTALL_PATH = "@loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+			};
+			name = Debug;
+		};
+		A13A6EF716559E2700F341C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_EMPTY_BODY = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = YES;
+				INSTALL_PATH = "@loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+			};
+			name = Release;
+		};
+		A18438C517A2EE5C00A0A219 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_WARN_CONSTANT_CONVERSION = NO;
+				CLANG_WARN_EMPTY_BODY = NO;
+				CLANG_WARN_ENUM_CONVERSION = NO;
+				CLANG_WARN_INT_CONVERSION = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"GTEST_USE_OWN_TR1_TUPLE=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/test/gtest",
+					"$(PROJECT_DIR)/test/gtest/include",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A18438C617A2EE5C00A0A219 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_WARN_CONSTANT_CONVERSION = NO;
+				CLANG_WARN_EMPTY_BODY = NO;
+				CLANG_WARN_ENUM_CONVERSION = NO;
+				CLANG_WARN_INT_CONVERSION = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"GTEST_USE_OWN_TR1_TUPLE=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/test/gtest",
+					"$(PROJECT_DIR)/test/gtest/include",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A1924B62157552780006AA78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A1924B63157552780006AA78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A1E661851575F2F400ED9F13 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = ChessCore;
+				SDKROOT = macosx;
+				STRIP_STYLE = debugging;
+			};
+			name = Debug;
+		};
+		A1E661861575F2F400ED9F13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = ChessCore;
+				SDKROOT = macosx;
+				STRIP_STYLE = debugging;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A10FD9D115753A790009BC1C /* Build configuration list for PBXProject "ChessCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10FD9D915753A790009BC1C /* Debug */,
+				A10FD9DA15753A790009BC1C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A13A6EF816559E2700F341C7 /* Build configuration list for PBXNativeTarget "ChessCore-dynamic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A13A6EF616559E2700F341C7 /* Debug */,
+				A13A6EF716559E2700F341C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A18438C717A2EE5C00A0A219 /* Build configuration list for PBXNativeTarget "unittests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A18438C517A2EE5C00A0A219 /* Debug */,
+				A18438C617A2EE5C00A0A219 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1924B61157552780006AA78 /* Build configuration list for PBXNativeTarget "ccore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1924B62157552780006AA78 /* Debug */,
+				A1924B63157552780006AA78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1E661841575F2F400ED9F13 /* Build configuration list for PBXNativeTarget "ChessCore-static" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1E661851575F2F400ED9F13 /* Debug */,
+				A1E661861575F2F400ED9F13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A10FD9CE15753A790009BC1C /* Project object */;
+}

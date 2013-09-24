@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "0500"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A1924B59157552780006AA78"
+               BuildableName = "ccore"
+               BlueprintName = "ccore"
+               ReferencedContainer = "container:ChessCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      buildConfiguration = "Debug">
+      <Testables>
+      </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A1924B59157552780006AA78"
+            BuildableName = "ccore"
+            BlueprintName = "ccore"
+            ReferencedContainer = "container:ChessCore.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+   </TestAction>
+   <LaunchAction
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "YES"
+      customWorkingDirectory = "/Users/andy/Source/ChessCore"
+      buildConfiguration = "Debug"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      allowLocationSimulation = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A1924B59157552780006AA78"
+            BuildableName = "ccore"
+            BlueprintName = "ccore"
+            ReferencedContainer = "container:ChessCore.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog -n 10000 randompos"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog -f &apos;Q7/p7/8/k7/6K1/8/8/8 b - - 0 1&apos; -d 1 perftdiv"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog --logcomms -o $(HOME)/tmp/games.pgn -E test/cfdb/eco.cfdb -c test/config/macosx.cfg -n 1 -t 10s tournament komodo stockfish231"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog --logcomms -o $(HOME)/tmp/games.pgn -E test/cfdb/eco.cfdb -c test/config/macosx.cfg -n 25 -t 10s tournament komodo stockfish231"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog -i test/pgn/Boris_Spassky.pgn -o $(HOME)/tmp/analyzed.pgn -c test/config/macosx.cfg -n 1 -N 1 -t 1s analyze stockfish231"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog -n 100000000 testpopcnt"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog -i $(HOME)/tmp/copydb1.cfdb validatedb"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog -i test/pgn/Kramnik.pgn -o $(HOME)/tmp/copydb1.cfdb copydb"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog -n 100000000 --nopopcnt --nobuiltin testpopcnt"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog -i test/pgn/Boris_Spassky.pgn -E test/cfdb/eco.cfdb classify"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog -i test/cfdb/Kramnik.cfdb searchdb"
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </LaunchAction>
+   <ProfileAction
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      buildConfiguration = "Release"
+      debugDocumentVersioning = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A1924B59157552780006AA78"
+            BuildableName = "ccore"
+            BlueprintName = "ccore"
+            ReferencedContainer = "container:ChessCore.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>

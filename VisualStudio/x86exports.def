@@ -1,0 +1,7 @@
+LIBRARY ChessCore
+EXPORTS
+    x86Lsb
+    x86Lsb2
+    x86Bswap16
+    x86Bswap32
+    x86Bswap64

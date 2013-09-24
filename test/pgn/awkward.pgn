@@ -1,0 +1,11 @@
+[Event "This is an event with a \""] 
+[Site "This site has \\\\ xxx"] 
+[Date "1996.08.15"][Round "-"][White "White"][Black "Black"] 
+[Result "1/2-1/2"][SetUp "1"];I love comments 
+[FEN "1nbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/1NBQKBNR w KQkq - "]e4(d4;comment 
+d5!!2.c4$50(Nf3?))e5 Nf3{Comment !}Nc6 Nc3 Nf6 Bc4 Bc5 O-O O-O 
+% This is a line with an escape character ! 
+@@@æææ {unexpected characters are skipped} 
+<> {These symbols are reserved} 
+1/2-1/2
+

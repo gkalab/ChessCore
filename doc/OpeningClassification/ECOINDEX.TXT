@@ -1,0 +1,229 @@
+
+ECO/ENGLISH OPENINGS
+
+A00            Polish Opening; Sokolsky's Opening
+A01            Larsen Attack
+A02-A03        Bird's Opening
+     A03            Dutch Variation
+A04-A09        King's Indian Attack
+A10            English Opening
+A11-A12        Reti Opening
+A13-A39        English Opening
+     A17            Hedgehog Variation
+     A20-A29        Reversed Sicilian
+     A30-A31        Hedgehod Variation
+     A32-A39        Symmetrical Variation
+A40            Englund Gambit
+A41-A42        Modern Defense
+A43-A44        Old Benoni Defense
+A45            Trompovsky Attack
+A46            Queen's Pawn Game
+A47            Queen's Indian Defense
+A48-A49        Torre Attack
+A50            Queen's Indian Defense
+A51-A52        Budapest Gambit
+     A52            Main Line
+A53-A55        Old Indian Defense
+A56            Czech Benoni Defense
+A57-A59        Benko (Volga) Gambit
+     A58            Accepted
+A60-A79        Modern Benoni Defense
+A80-A99        Dutch Defense
+     A82            Staunton Gambit
+     A83            Mainline
+     A87-A90        Leningrad
+
+B00            Nimzowitsch Defense; Owens Defense
+B01            Scandinavian Defense
+B02-B05        Alekhine's Defense
+     B03            Four Pawns Attack
+B06            Modern Defense
+B07-B09        Pirc Defense
+     B08            Classical Variation
+     B09            Austrian Attack
+B10-B19        Caro-Kann Defense
+     B11            Two Knights' Defense
+     B12            3.c5 Attack
+     B14            Panov Attack
+B20-B99        Sicilian Defense
+     B21            Morra Gambit; Grand Prix Attack
+     B22            Alapin Variation
+     B23-B26        Closed Variation
+     B29            Rubinstein Variation
+     B30-B31        Rossolimo Variation
+     B32            Lowenthal Hunting Variation
+     B33            Sveshnikov Variation
+     B34-B39        Accelerated Dragon Variation
+          B37-B38        Maroczy Bind
+     B40            Counter Attack Variation
+     B41-B49        Paulsen Variation
+          B41-B43        Kan System
+          B44            Tiamanov System
+          B45            Classical System
+          B46-B47        Tiamanov System
+     B50            Kopec Variation
+     B51-B52        Rossolimo Variation
+     B53            Hungarian Variation
+     B55            Anti-Dragon Variation
+     B57            Sozin-Benko Variation
+     B58            Boleslavsky Variation
+     B60-B69        Richter Rauzer Attack
+     B70-B79        Dragon Variation
+          B72            Classical System
+          B76-B78        Yugoslav Attack
+     B80-B89        Scheveningen Variation
+          B81            Keres System
+          B86-B87        Fischer/Sozin System
+     B90-B99        Najdorf Variation
+          B96            Goteborg System
+          B97            Poisoned Pawn System
+
+C00-C20             French Defense
+     C01                 Exchange Variation
+     C02                 Advance Variation
+     C03-C09             Tarrasch Variation
+          C03                 3.... a6 System
+          C04                 3.... Bc6 System
+          C05-C06             3.... Nf6 System
+          C07-C09             3.... c5 System
+     C10                 Rubinstein Variation
+     C11                 Steinitz Variation
+     C12                 MacCutcheon Variation
+     C15-C20             Winawer Variation
+          C15                 Lapus Manus System
+          C17                 Swiss System
+          C18                 Main Line
+          C20                 Exchange System
+C21                 Nordic Gambit
+C22                 Center Game
+C23-C24             Bishop's Opening
+C25-C29             Vienna Game
+C30-C30             King's Gambit
+     C31-C32             Falkbeer Counter Gambit
+     C33                 Keres Variation
+     C35                 Cunningham Variation
+     C36                 Modern Variation
+     C37                 Muzio Gambit
+     C38                 Greco & Philidor Gambits
+     C39                 Allagier & Kiesertisky Gambits
+C40                 Latvian Gambit
+C41                 Philidor's Defense
+C42-C43             Russian (Petroff's) Defense
+C44                 Ponziani Opening
+C45                 Scotch Game
+C46                 Three Knights' Opening
+C47-C49             Four Knights' Opening
+C50-C59             Italian Game (Guioco Piano)
+     C50                 Hungarian Defense
+     C51-C52             Evans Gambit
+     C55                 Two Knights' Defense
+     C56                 Max Lange Attack
+     C57-C59             Two Knights' Defense
+
+C60-C99             Spanish Opening (Ruy Lopez)
+     C61                 Bird's Defense
+     C62                 Old Steinitz Defense
+     C63                 Schliemann Gambit
+     C64                 Cordel Defense
+     C65                 Berlin Defense
+     C66                 Modern Steinitz Defense
+     C67                 Rio de Janerio Defense
+     C68-C69             Exchange Variation
+     C71-C76             Modern Steinitz Defense
+     C77                 Anderssen Variation
+     C78                 Archangel Variation; Moeller Attack
+     C79                 Russian Variation
+     C80-C83             Open Variation
+          C80                 Bernstein System
+          C81                 Keres System
+          C83                 Main Line
+     C84                 Center Attack
+     C85                 Delayed Defered Exchange Variation
+     C86                 Worral Attack
+     C88                 Marshall Gambit
+     C92                 Zaitsev Variation
+     C93                 Smyslov Variation
+     C94-C95             Breyer Variation
+     C96-C99             Tchigorin
+
+D00                 Queen's Pawn Opening
+D01                 Veresov Opening
+D02                 Gruenfeld Reversed Opening
+D03
+D04
+D05                 Colle System
+D06-D69             Queen's Gambit
+     D07                 Tchigorin Variation
+     D08-D09             Albin Counter Gambit
+     D10-D19             Slav Defense
+          D14                 Exchange System
+          D15                 Geller Gambit
+          D17                 Czech System
+          D18                 Main Line
+          D19                 Euwe System
+     D20-D29             Accepted
+          D21                 Borsenko-Furman System
+     D30-D69             Declined
+          D31                 Alatortsev System
+          D32-D33             Tarrasch System
+          D34                 Rubinstein System
+          D35-D36             Exchange System
+          D37                 5.Bf4 System
+          D38-D39             Ragozin Defense
+          D40-D42             Semi-Tarrasch Defense
+          D43                 Semi-Slav Defense
+          D44-D45             Anti-Meran Defense
+          D46                 Semi-Slav Defense
+          D47-D49             Meran Defense
+          D51-D52             Cambridge Springs Defense
+          D53-D54             Orthodox Defense
+          D55                 Anti-Tartakower System
+          D56                 Lasker System
+          D57                 Modern System
+          D58-D59             Tartakower System
+          D60-D62             Orthodox Defense
+          D63-D66             Blackburne System
+          D67                 Capablanca System
+          D68                 Blackburne System
+
+D70-D99             Grunfeld Defense
+     D71                 Neo-Grunfeld Variation
+     D76                 Orthodox Fianchetto Variation
+     D79                 Slav Variation
+     D82-D84             Bf4 System
+     D85                 Modern Exchange Variation
+     D87                 Botvinnik Exchange Variation
+     D89                 Exchange Variation
+     D93                 Bg3 System
+     D94-D95             Closed Variation
+     D96                 Russian Variation
+     D97                 Ragozin Variation (Classical)
+     D99                 Ragozin Variation (Smyslov)
+
+E00-E09             Catalan Opening
+     E04-E05             Open Variation
+     E06-E09             Closed Variation
+E10                 Blumenfeld Gambit
+E11                 Bogo-Indian Defense
+E12-E19             Queen's Indian Defense
+     E15                 Accelerated Fianchetto Variation
+     E16                 Bogo Variation
+E20-E59             Nimzo-Indian Defense
+     E24-E29             Saemisch Variation
+     E30-E31             Leningrad Variation
+     E32-E39             Classical Variation
+     E41-E42             Huebner Variation
+     E43-E46             Nimzowitsch Variation
+     E47-E49             Rubinstein Variation
+     E50-E59             Modern Variation
+E60-E99             King's Indian Defense
+     E62-E70             Fianchetto Variation
+          E62-E63             Panno System
+          E65-E66             Yugoslav System
+     E73-E74             Averbach Variation
+     E76-E79             Four Pawns' Variation
+     E80-E89             Classical Variation
+          E81                 Saemisch (Byrne) System
+          E83                 Panov System
+     E92                 Exchange Variation
+     E93                 Petrosian Variation

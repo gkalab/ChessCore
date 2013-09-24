@@ -1,0 +1,577 @@
+From: http://rybkaforum.net/cgi-bin/rybkaforum/topic_show.pl?pid=26942#pid26942
+
+This could be interesting. (For some reason, the forum plain refuses to let me post anything with "0xcc" and then a colon in it, so I mangled the original .txt file.)
+
+
+The CTG (Chessbase book) format
+Unofficial specification, version 0.2 (incomplete).
+This document is placed in the public domain by its author.
+
+0. Structure
+
+Each Chessbase book consists of four files:
+
+  - The .INI file, which contains some auxilliary information. Being a text
+    file, it's mostly self-explanatory and will not be treated here.
+  - The .CTG file, which contains all the real data. This is described in
+    chapter 1.
+  - The .CTB file, which is unknown but conjectured to be some kind of bitmap
+    over free pages in the .CTG file. Only described very loosely, in chapter
+    2.
+  - The .CTO file, which contains a lookup table into the CTG file for fast
+    lookups. The format of this is only partially known, but is described in
+    chapter 3.
+
+1. The CTG file
+
+1.1. General conventions
+
+The following conventions apply:
+
+  - All integers are stored in big-endian format, whether they are 2, 3 or 4
+    bytes long.
+  - Whenever a length of a block is stored, the number generally includes the
+    length byte itself.
+  - There is no alignment of values, except that pages are aligned on
+    4096-byte boundaries.
+
+The CTG file is divided into 4096 byte pages.
+
+1.2. Header page
+
+The first page is the header page which contains some general information
+about the file:
+
+  - At offset 28, a 4-byte value is stored, denoting the number of games
+    "stored" in the field. There is also some other (unknown) data in the
+    first 32 bytes.
+  - At offset 1024 (0x400), 32 unknown bytes are stored.
+  - At offset 2048 (0x800), 32 unknown bytes are stored.
+
+The other bytes in the header page are unused.
+
+1.3. Data pages
+
+After the first page, all the other pages store positions. The first data
+page (starting at offset 4096) is denoted "page 0", the next is "page 1",
+etc.. The page numbers are used in the CTO file.
+
+In general, what is looked up in the CTG format is positions, although
+possible moves from each position are also stored. This enables the format to
+deal with transpositions. Each page stores one or more positions in random
+order. It is not known how Chessbase decides what page to put each position
+in, but it is conjectured to be based on hash value (see the section about
+the CTO format below).
+
+Each data page starts with a brief header:
+
+  - At offset 0 in the page, a 2-byte integer is stored, telling the number
+    of positions stored in the page.
+  - At offset 2, a 2-byte integer is stored, giving the number of bytes
+    stored in the page (including the four header bytes). Note that after
+    this, there may be random junk data, so be sure to stop reading the
+    page after reaching the given number of bytes.
+
+At offset 4, the first position entry starts. Position entries then follow
+directly after each other until the end of the page (ie. the number of bytes
+specified in the header).
+
+1.4. Position storage
+
+Note that this specification distinguished between position entries and
+positions. A position is a chess position, with information about castling
+rights and en passant move. (The CTG format does not store any information
+about the 50-move rule or move history.) A position entry contains a position
+and book information about the position:
+
+The position entry contains a position, the book moves, and some information
+associated with the position. (In general, most of the information that seem
+to be associated with moves in the Chessbase GUI actually stems from looking
+it up in the resulting position.)
+
+1.4.1. Symmetry
+
+Every position is stored as if white is to move. If black is to move,
+invert the white/black pieces and flip the board vertically (so a1 <-> a8, a2
+<-> a7, etc.). Due to the symmetry of chess this will give the same result.
+
+After this inversion (if any), check if the white king is in the left half
+of the board (columns one through four). If it is, and neither side has any
+castling rights remaining, flip the board horizontally (so a1 <-> h1,
+a2 <-> h2, etc.). Naturally, the en passant square is also flipped.
+
+1.4.2. Header byte
+
+Each position entry begins with a header byte:
+
+  - The lower five bits (x & 0x1f) describe the length of the position
+    itself, in bytes, including the header byte.
+  - If the sixth bit (x & 0x20) is set, the position contains en passant
+    information. This happens if and only if an en passant capture is
+    possible.
+  - If the seventh bit (x & 0x40) is set, the position contains castling
+    information. If not, neither side can castle. (The bit is never set
+    if neither side can castle.)
+  - The eighth bit (x & 0x80) is unused.
+
+1.4.3. Chess board
+
+After the header byte, the position itself is encoded. The position is stored
+using a Huffman encoding and as such uses a variable number of bits. The
+bit-packing convention is the usual one, with the first bit in the MSB (0x80)
+of the first byte, any any excess bits at the end being set to zero,
+
+The position is encoded starting at the a1 square, then the a2 square, up to
+a8, b1, b2, etc.. Each square is encoded as follows:
+
+  0       Empty square
+  11c     Pawn (c=1 means black, c=0 means white)
+  1011c   Rook
+  1010c   Bishop
+  1001c   Knight
+  10001c  Queen
+  10000c  King
+
+1.4.4. Alignment padding bits
+
+At this point, padding bits may be inserted. The rules are somewhat complex:
+First, if the position ended exactly on a byte, there are no castling rights
+and no en passant column, insert a full zero byte at this point, and ignore
+the rest of this section.
+
+Otherwise, define a number N as follows, based on whether there is an en
+passant square (E=1, otherwise E=0) and if castling is stored (C=1, otherwise
+C=0):
+
+  E=0, C=0: N=8
+  E=0, C=1: N=4
+  E=1, C=0: N=3
+  E=1, C=1: N=7
+
+If there are not exactly N bits left in the current byte, insert zero bits
+as needed (possibly as many as seven) until there is. This alignment scheme
+ensures that the last data bit ends exactly on a byte boundary.
+
+1.4.5. En passant column
+
+If en passant information is stored (see 1.4.2), it follows (still bitpacked)
+immediately after the padding. Three bits store the column, where 000=a,
+001=b, 010=c, etc..
+
+1.4.6. Castling rights
+
+If castling rights are stored (see 1.4.2), it follows (still bitpacked) at
+this point. The castling rights are stored as four bits, storing in turn
+black kingside castling rights (1 = can castle, 0 = can not castle), black
+queenside castling rights, and then the same for white.
+
+1.4.7. Position end
+
+At this point, the bit-packing ends. As mentioned in section 1.4.4, this
+should be exactly on a byte boundary, so no further padding should be needed.
+
+1.4.8. Book moves
+
+After the position, any book moves (excluding unplayed transpositions) are
+stored. First, there is a header byte telling the number bytes used for book
+moves (including the header byte itself). Each move is stored in two bytes,
+and as such the header byte contains the value (2 * the number of moves) + 1.
+
+The first byte of each move contains the move itself, and the second byte
+contains the move annotation, if any. The encoding of moves is slightly
+unusual -- in general, a look-up table is needed to decode the move
+information. Every possible byte can then be looked up into the combination
+(piece, relative movement).
+
+The "piece" is in general something like "knight 2". Here, the board is
+searched for a white piece of the appropriate type in the same ordering as
+the board storage: If a white knight is on a1 it is always "knight 1" (since
+no squares are before a1 in this ordering).
+
+The "relative movement" is the number of squares the piece is to move from
+its current position, for instance "two squares forward and one to the right"
+for a typical knight move. Note that the board is taken to wrap around on all
+four sides, so "forward seven squares" is exactly the same as "backwards one
+square" and will be encoded using the same byte. Long and short castling have
+their own bytes. (It is not known whether the format can represent castling
+in Chess960.)
+
+Note that in this encoding, some legal but obscure moves can not be stored.
+In particular, promotions are automatically assumed to be to queen, so an
+underpromotion can simply not be stored. Also, there are no moves for "queen
+5" or above, so if there are more than four queens on the board, moves for
+the fifth can not be entered. (In the case of underpromotion, however, the
+GUI actually stores the position as "pawn N forward one square" as usual, but
+when trying to look up the position later, it cannot find a position with a
+queen on the 8th rank, and thus will simply hide the move in the GUI.) In
+general, this should not be a problem for an opening book.
+
+An incomplete table of move encoding follows. This encompasses all possible
+moves for the sixteen (white) pieces that are initially found on a chess
+board, as well as for an extra queen, which should be sufficient for most
+books, especially as underpromotion is not supported. A later version may
+include the moves for queen 3, rook 3, etc..
+
+  0x00: Pawn 5    f1 r1
+  0x01: Knight 2  b1 l2
+  0x03: Queen 2   r2
+  0x04: Pawn 2    f1
+  0x05: Queen 1   f1
+  0x06: Pawn 4    f1 l1
+  0x08: Queen 2   r4
+  0x09: Bishop 2  f6 r6
+  0x0a: King      b1
+  0x0c: Pawn 1    f1 l1
+  0x0d: Bishop 1  f3 r3
+  0x0e: Rook 2    r3
+  0x0f: Knight 1  b1 l2
+  0x12: Bishop 1  f7 r7
+  0x13: King      f1
+  0x14: Pawn 8    f1 r1
+  0x15: Bishop 1  f5 r5
+  0x18: Pawn 7    f1
+  0x1a: Queen 2   f6
+  0x1b: Bishop 1  f1 l1
+  0x1d: Bishop 2  f7 r7
+  0x21: Rook 2    r7
+  0x22: Bishop 2  f2 l2
+  0x23: Queen 2   f6 r6
+  0x24: Pawn 8    f1 l1
+  0x26: Bishop 1  f7 l7
+  0x27: Pawn 3    f1 l1
+  0x28: Queen 1   f5 r5
+  0x29: Queen 1   r6
+  0x2a: Knight 2  b2 r1
+  0x2d: Pawn 6    f1 r1
+  0x2e: Bishop 1  f1 r1
+  0x2f: Queen 1   r1
+  0x30: Knight 2  b2 l1
+  0x31: Queen 1   r3
+  0x32: Bishop 2  f5 r5
+  0x34: Knight 1  f2 r1
+  0x36: Knight 1  f1 r2
+  0x37: Queen 1   f4
+  0x38: Queen 2   f4 l4
+  0x39: Queen 1   r5
+  0x3a: Bishop 1  f6 r6
+  0x3b: Queen 2   f5 l5
+  0x3c: Bishop 1  f5 l5
+  0x41: Queen 2   f5 r5
+  0x42: Queen 1   f7 l7
+  0x44: King      b1 r1
+  0x45: Queen 1   f3 r3
+  0x4a: Pawn 8    f2
+  0x4b: Queen 1   f5 l5
+  0x4c: Knight 2  f2 r1
+  0x4d: Queen 2   f1
+  0x50: Rook 1    f6
+  0x52: Rook 1    r6
+  0x54: Bishop 2  f1 l1
+  0x55: Pawn 3    f1
+  0x5c: Pawn 7    f1 r1
+  0x5f: Pawn 5    f2
+  0x61: Queen 1   f6 r6
+  0x62: Pawn 2    f2
+  0x63: Queen 2   f7 l7
+  0x66: Bishop 1  f3 l3
+  0x67: King      f1 r1
+  0x69: Rook 2    f7
+  0x6a: Bishop 1  f4 r4
+  0x6b: O-O
+  0x6e: Rook 1    r5
+  0x6f: Queen 2   f7 r7
+  0x72: Bishop 2  f7 l7
+  0x74: Queen 1   r2
+  0x79: Bishop 2  f6 l6
+  0x7a: Rook 1    f3
+  0x7b: Rook 2    f6
+  0x7c: Pawn 3    f1 r1
+  0x7d: Rook 2    f1
+  0x7e: Queen 1   f3 l3
+  0x7f: Rook 1    r1
+  0x80: Queen 1   f6 l6
+  0x81: Rook 1    f1
+  0x82: Pawn 6    f1 l1
+  0x85: Knight 1  f2 l1
+  0x86: Rook 1    r7
+  0x87: Rook 1    f5
+  0x8a: Knight 1  b2 r1
+  0x8b: Pawn 1    f1 r1
+  0x8c: King      b1 l1
+  0x8e: Queen 2   f2 l2
+  0x8f: Queen 1   r7
+  0x92: Queen 2   f1 r1
+  0x94: Queen 1   f3
+  0x96: Pawn 2    f1 r1
+  0x97: King      l1
+  0x98: Rook 1    r3
+  0x99: Rook 1    f4
+  0x9a: Queen 1   f6
+  0x9b: Pawn 3    f2
+  0x9d: Queen 1   f2
+  0x9f: Bishop 2  f4 l4
+  0xa0: Queen 2   f3
+  0xa2: Queen 1   f2 r2
+  0xa3: Pawn 8    f1
+  0xa5: Rook 2    f5
+  0xa9: Rook 2    r2
+  0xab: Queen 2   f6 l6
+  0xad: Rook 2    r4
+  0xae: Queen 2   f3 r3
+  0xb0: Queen 2   f4
+  0xb1: Pawn 6    f2
+  0xb2: Bishop 1  f6 l6
+  0xb5: Rook 2    r5
+  0xb7: Queen 1   f5
+  0xb9: Bishop 2  f3 r3
+  0xbb: Pawn 5    f1
+  0xbc: Queen 2   r5
+  0xbd: Queen 2   f2
+  0xbe: King      r1
+  0xc1: Bishop 1  f2 r2
+  0xc2: Bishop 2  f2 r2
+  0xc3: Bishop 1  f2 l2
+  0xc4: Rook 2    r1
+  0xc5: Rook 2    f4
+  0xc6: Queen 2   f5
+  0xc7: Pawn 7    f1 l1
+  0xc8: Pawn 7    f2
+  0xc9: Queen 2   f7
+  0xca: Bishop 2  f3 l3
+  0xcb: Pawn 6    f1
+  0xcc  Bishop 2  f5 l5
+  0xcd: Rook 1    r2
+  0xcf: Pawn 4    f1
+  0xd1: Pawn 2    f1 l1
+  0xd2: Knight 2  f1 r2
+  0xd3: Knight 2  f1 l2
+  0xd7: Queen 1   f1 l1
+  0xd8: Rook 2    r6
+  0xd9: Queen 1   f2 l2
+  0xda: Knight 1  b2 l1
+  0xdb: Pawn 1    f2
+  0xde: Pawn 5    f1 l1
+  0xdf: King      f1 l1
+  0xe0: Knight 2  b1 r2
+  0xe1: Rook 1    f7
+  0xe3: Rook 2    f3
+  0xe5: Queen 1   r4
+  0xe6: Pawn 4    f2
+  0xe7: Queen 1   f4 r4
+  0xe8: Rook 1    f2
+  0xe9: Knight 1  b1 r2
+  0xeb: Pawn 4    f1 r1
+  0xec: Pawn 1    f1
+  0xed: Queen 1   f7 r7
+  0xee: Queen 2   f1 l1
+  0xef: Rook 1    r4
+  0xf0: Queen 2   r7
+  0xf1: Queen 1   f1 r1
+  0xf3: Knight 2  f2 l1
+  0xf4: Rook 2    f2
+  0xf5: Bishop 2  f1 r1
+  0xf6: O-O-O
+  0xf7: Knight 1  f1 l2
+  0xf8: Queen 2   r1
+  0xf9: Queen 2   f6
+  0xfa: Queen 2   r3
+  0xfb: Queen 2   f2 r2
+  0xfd: Queen 1   f7
+  0xfe: Queen 2   f3 l3
+
+After the byte describing the move, the annotation for that move is stored as
+a single byte:
+
+  0x00: No annotation
+  0x01: !
+  0x02: ?
+  0x03: !!
+  0x04: ??
+  0x05: !?
+  0x06: ?!
+  0x08: Only move
+  0x16: Zugzwang
+
+Note that the other annotations (=, Unclear, =+, etc.) belong to the position
+and not the move, as described in section 1.4.13.
+
+1.4.9. Position statistics
+
+After all moves and annotations have been encoded, the statistics for this
+position are stored:
+
+  - First, a three-byte integer describing the number of games for this
+    position. This is the number reported in parenthesises after "N = 12345"
+    in Chessbase. (The "real" N number is the sum of the number of wins,
+    draws and losses.)
+  - Then, three bytes describing the number of wins for white (1-0). Remember
+    that the position is always stored from white's perspective, so if black
+    is to move, one will need to swap the numbers for 1-0 and 0-1.
+  - Then, three bytes describing the number of wins for black (0-1).
+  - Then, three bytes describing the number of draws (1/2).
+
+The percentages and performance percentages are calculated from these
+numbers, seemingly with correct rounding.
+
+1.4.10. Unknown integer
+
+After the statistics, an unknown 4-byte integer is stored. It is almost
+always zero, but sometimes another small number (typically in the single
+digits).
+
+1.4.11. Ratings
+
+After the unknown integer, rating information for this position is stored.
+There are two ratings. Both are stored first as a number of games (this is
+the number shown after the "-" to the lower right in Chessbase) in three
+bytes, and then the sum of the ratings in four bytes. To get the average
+rating (the number shown before the "-"), divide the second number by the
+first number (guarding for division by zero).
+
+The performance rating is calculated from these ratings and the position
+statistics.
+
+1.4.12. Engine recommendations
+
+After the ratings, a single byte is stored for the position's
+recommendations. The possibilities are:
+
+  0x00: No special preference
+  0x40: Don't play in tournaments (red in the GUI)
+  0x80: Main move (green in the GUI)
+
+Other values have been spotted (0x04, 0a10, 0x14, 0x20, 0x60, 0xa0), without
+knowing exactly what they are. It may be that this is actually a bit field.
+
+Again, note that this value belongs to the position entry, not the move, so
+when checking a move's desirability, one will need to look up the resulting
+position and check this byte.
+
+After the engine recommendation, a second unknown byte is stored. This may be
+a weight somehow, or it may be something else.
+
+1.4.13. Position commentary
+
+Finally for the position, the commentary is stored as a single byte. The
+following values are legal:
+
+  0x00: None
+  0x0b: =
+  0x0d: Unclear
+  0x0e: =+
+  0x0f: +=
+  0x10: -/+
+  0x11: +/-
+  0x13: +-
+  0x20: Development adv.
+  0x24: Initiative
+  0x28: With attack
+  0x2c: Compensation
+  0x84: Counterplay
+  0x8a: Zeitnot
+  0x92: Novelty
+
+2. The CTB file
+
+Unknown, except that it may be a bit field of some sort over the pages in the
+CTG file. However, two values are of special interest:
+
+  - The lower storage bound, a 4-byte integer stored at offset 4.
+  - The upper storage bound, a 4-byte integer stored at offset 8.
+
+The usage of these bounds will be clear from section 3.
+
+3. The CTO file
+
+Note that the CTO file is not as well understood as the CTG file. As such,
+the information presented here is mainly guesswork, and may be wrong.
+
+The CTO file is an index into the CTG file, for rapid lookup. It is believed
+to be a simple hash table, with no forms of overflow, so only a single lookup
+in the CTO file is required to find the right page in the CTG file for a
+given position. (It is guessed that if a given page in the CTG file becomes
+too big, the number of pages is increased and all the positions moved
+around.)
+
+The CTO file starts with sixteen header bytes. At file offset 4, a 4-byte
+integer is stored, describing the number of entries in the CTO file. (This
+seems to neither be a prime nor a power of two.)
+
+After the header, four bytes are stored for each entry. When looking up a
+position, the position is hashed, and the hash value is reduced relative to
+the number of index entries. The appropriate four-byte value in the CTO file
+is then looked up based on the hash. The number is a page number in the
+CTG file, which is then read and searched for the position. (If the page in
+the CTG file does not actually contain the position, the GUI seems to simply
+fail the lookup, so there appears to be no provision for traditional
+overflowing.) -1 (ff ff ff ff) means that no positions with this (reduced)
+hash value exists. More than one hash value may point to the same page in the
+CTG file.
+
+The code for computing a 32-bit hash from a position (which is encoded
+exactly as in the CTG file, including the header byte) is the equivalent
+of this C code:
+
+  unsigned int tbl[] = {
+          0x3100d2bf, 0x3118e3de, 0x34ab1372, 0x2807a847,
+          0x1633f566, 0x2143b359, 0x26d56488, 0x3b9e6f59,
+          0x37755656, 0x3089ca7b, 0x18e92d85, 0x0cd0e9d8,
+          0x1a9e3b54, 0x3eaa902f, 0x0d9bfaae, 0x2f32b45b,
+          0x31ed6102, 0x3d3c8398, 0x146660e3, 0x0f8d4b76,
+          0x02c77a5f, 0x146c8799, 0x1c47f51f, 0x249f8f36,
+          0x24772043, 0x1fbc1e4d, 0x1e86b3fa, 0x37df36a6,
+          0x16ed30e4, 0x02c3148e, 0x216e5929, 0x0636b34e,
+          0x317f9f56, 0x15f09d70, 0x131026fb, 0x38c784b1,
+          0x29ac3305, 0x2b485dc5, 0x3c049ddc, 0x35a9fbcd,
+          0x31d5373b, 0x2b246799, 0x0a2923d3, 0x08a96e9d,
+          0x30031a9f, 0x08f525b5, 0x33611c06, 0x2409db98,
+          0x0ca4feb2, 0x1000b71e, 0x30566e32, 0x39447d31,
+          0x194e3752, 0x08233a95, 0x0f38fe36, 0x29c7cd57,
+          0x0f7b3a39, 0x328e8a16, 0x1e7d1388, 0x0fba78f5,
+          0x274c7e7c, 0x1e8be65c, 0x2fa0b0bb, 0x1eb6c371
+  };
+
+  unsigned int gen_hash(signed char *ptr, unsigned len)
+  {
+          signed hash = 0;
+          short tmp = 0;
+          int i;
+
+          for (i = 0; i < len; ++i) {
+                  signed char ch = *ptr++;
+                  tmp += ((0x0f - (ch & 0x0f)) << 2) + 1;
+                  hash += tbl[tmp & 0x3f];
+                  tmp += ((0xf0 - (ch & 0xf0)) >> 2) + 1;
+                  hash += tbl[tmp & 0x3f];
+          }
+          return hash;
+  }
+
+Note that this code may not be 64-bit clean, as it relies on 32-bit overflow
+behavior of the addition to the hash variable.
+
+The reduction of this 32-bit hash to a value in the CTO file is not
+completely known. The following C code is believed to approximate the
+lookup, and is worst-case O(log n) (usually much better) in the number of
+index entries:
+
+  for (int n = 0; n < 0x7fffffff; n = 2*n + 1) {
+        unsigned c = (hash & n) + n;
+
+        if (c < lower_bound)
+                continue;
+
+        search_page(c);
+
+        if (c >= upper_bound)
+                break;
+  }
+
+Here, lower_bound and upper_bound are the values found in the CTB file as
+described in section 2. search_page() indicates that the given value should
+be looked up in the CTO file, and the resulting page in the CTG file (if
+any) should be searched for the given position. ChessBase itself seems to
+have more conditional logic around search_page(), but unless you want
+to make new CTG files yourself this uncertainity should not be a big
+problem.
+
