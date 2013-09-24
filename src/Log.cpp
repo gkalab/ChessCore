@@ -222,14 +222,14 @@ bool Log::snapshot(Blob &contents) {
 
     contents.free();
 
-    long size = (unsigned)ftell(m_fp);
+    size_t size = (size_t)ftell(m_fp);
     if (!contents.reserve((unsigned)size))
         return false;
     contents.setLength((unsigned)size);     // Blob::reserve() doesn't set the length
 
     fseek(m_fp, 0, SEEK_SET);
-    long numRead = fread(contents.data(), 1, size, m_fp);
-    fseek(m_fp, size, SEEK_SET);
+    size_t numRead = fread(contents.data(), 1, size, m_fp);
+    fseek(m_fp, (long)size, SEEK_SET);
 
     return (numRead == size);
 }
