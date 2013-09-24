@@ -2,8 +2,14 @@
 #
 # Set-up make.conf for cpu, build type, library type and compiler.
 #
-
-USE_EFENCE=0
+# The following environment variables will be carried over from the environment:
+#
+# $CFLAGS, $CXXFLAGS, $ASFLAGS, $LDFLAGS, $LIBS.
+#
+# So to enable Electric Fence, which was installed via Macports, you would do:
+#
+#  LDFLAGS="-L /opt/local/lib" LIBS="-lefence" ./config.sh x64 dynamic clang
+#
 
 dir=$(dirname $0)
 progname=$(basename $0)
@@ -84,10 +90,9 @@ gcc)
     CC=${crosscomp}gcc
     CXX=${crosscomp}g++
     AR=${crosscomp}ar
-    CFLAGS="-Wall -Wno-unused-but-set-variable -fvisibility=hidden"
-    CXXFLAGS="$cxxstd -Wall -Wno-unused-but-set-variable -fvisibility=hidden"
-    ASFLAGS=""
-    LDFLAGS="$rpath"
+    CFLAGS="$CFLAGS -Wall -Wno-unused-but-set-variable -fvisibility=hidden"
+    CXXFLAGS="$CXXFLAGS $cxxstd -Wall -Wno-unused-but-set-variable -fvisibility=hidden"
+    LDFLAGS="$LDFLAGS $rpath"
     if [ ! -z "$size" ]; then
         CFLAGS="$CFLAGS -m$size"
         CXXFLAGS="$CXXFLAGS -m$size"
@@ -123,10 +128,9 @@ clang)    # Assumes Apple LLVM 5.0 (-Ofast and -flto)
         CXX=clang++
     fi
     AR=ar
-    CFLAGS="-mmacosx-version-min=10.7 -Wall -Wno-unused-variable -fvisibility=hidden"
-    CXXFLAGS="$cxxstd $cxxstdlib -mmacosx-version-min=10.7 -Wall -Wno-unused-variable -fvisibility=hidden"
-    ASFLAGS=""
-    LDFLAGS="-mmacosx-version-min=10.7 $rpath $cxxstdlib"
+    CFLAGS="$CFLAGS -mmacosx-version-min=10.7 -Wall -Wno-unused-variable -fvisibility=hidden"
+    CXXFLAGS="$CXXFLAGS $cxxstd $cxxstdlib -mmacosx-version-min=10.7 -Wall -Wno-unused-variable -fvisibility=hidden"
+    LDFLAGS="$LDFLAGS -mmacosx-version-min=10.7 $rpath $cxxstdlib"
     if [ ! -z "$size" ]; then
         CFLAGS="$CFLAGS -m$size"
         CXXFLAGS="$CXXFLAGS -m$size"
@@ -150,8 +154,8 @@ intel)
     CC=icc
     CXX=icpc
     AR=xiar
-    CFLAGS="-Wall"
-    CXXFLAGS="-Wall"
+    CFLAGS="$CFLAGS -Wall"
+    CXXFLAGS="$CXXFLAGS -Wall"
     RELEASE_CFLAGS="-O3"
     RELEASE_CXXFLAGS="$RELEASE_CFLAGS"
     RELEASE_ASFLAGS=""
@@ -169,10 +173,9 @@ analyzer)
     CC=/usr/local/bin/scan-build/ccc-analyzer
     CXX=/usr/local/bin/scan-build/c++-analyzer
     AR=ar
-    CFLAGS="-Wall"
-    CXXFLAGS="$cxxstd $cxxstdlib -Wall"
-    ASFLAGS=""
-    LDFLAGS="$rpath $cxxstdlib"
+    CFLAGS="$CFLAGS -Wall"
+    CXXFLAGS="$CXXFLAGS $cxxstd $cxxstdlib -Wall"
+    LDFLAGS="$LDFLAGS $rpath $cxxstdlib"
     if [ ! -z "$size" ]; then
         CFLAGS="$CFLAGS -m$size"
         CXXFLAGS="$CXXFLAGS -m$size"
@@ -221,7 +224,7 @@ CXXFLAGS := $CXXFLAGS
 MMFLAGS := $CXXFLAGS
 ASFLAGS := $ASFLAGS
 LDFLAGS := $LDFLAGS
-LIBS :=
+LIBS := $LIBS
 
 ifeq (\$(BUILDTYPE),Debug)
     CFLAGS += $DEBUG_CFLAGS -D_DEBUG
