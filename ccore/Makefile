@@ -20,6 +20,9 @@ endif
 ifeq ($(LIBTYPE),Static)
     LDFLAGS += -L$(BUILDDIR)
 	LIBS += -lsqlite3
+ifeq ($(PLATFORM),Darwin)
+    LIBS += -framework Foundation
+endif
 else ifeq ($(LIBTYPE),Shared)
     LDFLAGS += -L$(BINDIR)
 endif

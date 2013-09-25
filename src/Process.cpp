@@ -230,7 +230,7 @@ bool Process::load(const string &name, const string &exeFile, const string &work
     posix_spawnattr_init(&attribs);
 
     // Make the arguments writable by copying them into a buffer
-	char *buffer = ::strdup(exeFile);
+	char *buffer = ::strdup(exeFile.c_str());
     char *arg[2] = { buffer, NULL };
 
     // Spawn the process
