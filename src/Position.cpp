@@ -935,20 +935,22 @@ string Position::completeMove(Move &move, bool includeMoveNum) {
 }
 
 Position::Legal Position::setFromFen(const char *fen) {
-    char *fields[6];
+
+	Legal retval = LEGAL;
+	char *fields[6] = { 0, 0, 0, 0, 0, 0 };
     unsigned numFields;
-    shared_ptr<char> copy(strdup(fen), free);
+	char *fencopy = ::strdup(fen);
 
-    numFields = Util::splitLine(copy.get(), fields, 6);
-    if (numFields == 4) {
-        fields[4] = 0;
-        fields[5] = 0;
-    } else if (numFields != 6) {
-        LOGERR << "Expected 4 or 6 fields in the FEN string but got " << numFields;
-        return ILLFEN_WRONG_NUMBER_OF_FIELDS;
-    }
+	numFields = Util::splitLine(fencopy, fields, 6);
+	if (numFields == 4 || numFields == 6) {
+		retval = setFromFen(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5]);
+	} else if (numFields != 6) {
+		LOGERR << "Expected 4 or 6 fields in the FEN string but got " << numFields;
+		retval = ILLFEN_WRONG_NUMBER_OF_FIELDS;
+	}
 
-    return setFromFen(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5]);
+	::free(fencopy);
+	return retval;
 }
 
 Position::Legal Position::setFromFen(const char *piecePlacement, const char *activeColour, const char *castling,

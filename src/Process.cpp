@@ -230,12 +230,14 @@ bool Process::load(const string &name, const string &exeFile, const string &work
     posix_spawnattr_init(&attribs);
 
     // Make the arguments writable by copying them into a buffer
-    shared_ptr<char> buffer(strdup(exeFile.c_str()), free);
-    char *arg[2] = { buffer.get(), NULL };
+	char *buffer = ::strdup(exeFile);
+    char *arg[2] = { buffer, NULL };
 
     // Spawn the process
     int spawnResult = ::posix_spawn(&m_procId, exeFile.c_str(), &fileActions, &attribs, arg, NULL);
     int error = errno;      // Save as we do lots of clean-up before reporting error
+
+	::free(buffer);
 
     // Clean-up allocated resources
     posix_spawnattr_destroy(&attribs);
@@ -243,7 +245,7 @@ bool Process::load(const string &name, const string &exeFile, const string &work
 
     // Change back to our original directory
     if (!workDir.empty()) {
-        chdir(currDir);
+        ::chdir(currDir);
     }
 
     if (spawnResult != 0) {
