@@ -15,14 +15,11 @@
 #else // !WINDOWS
 
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
 #include <signal.h>
 #include <errno.h>
-
-#if PROCESS_WAIT_FOR_CHILD
-#include <sys/wait.h>
-#endif // PROCESS_WAIT_FOR_CHILD
 
 #if PROCESS_USE_POSIX_SPAWN
 #include <spawn.h>
@@ -381,7 +378,6 @@ bool Process::unload() {
 #else // !WINDOWS
 
     if (m_loaded) {
-#if PROCESS_WAIT_FOR_CHILD
         m_exitCode = 88;
         bool terminated = false;
 
@@ -424,10 +420,6 @@ bool Process::unload() {
             if (!terminated)
                 Util::sleep(250);
         }
-
-#else // !PROCESS_WAIT_FOR_CHILD
-        m_exitCode = 0;
-#endif // PROCESS_WAIT_FOR_CHILD
 
         m_loaded = false;
     }

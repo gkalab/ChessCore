@@ -15,18 +15,15 @@ namespace ChessCore {
 #define PROCESS_USE_POSIX_SPAWN 1
 #endif // !WINDOWS
 
-// Define PROCESS_WAIT_FOR_CHILD to use wait() to get process termination status
-#define PROCESS_WAIT_FOR_CHILD  1
-
 class CHESSCORE_EXPORT Process {
 private:
     static const char *m_classname;
 
 protected:
-    std::string m_name; // Process nick name
+    std::string m_name; // Process nickname
     bool m_loaded;      // Process is loaded
-    int m_procId;		// Process id
-    int m_exitCode;
+    int m_procId;		// Process identifier
+    int m_exitCode;     // Exit code (m_loaded == false)
 
 #ifdef WINDOWS
 
@@ -76,17 +73,11 @@ public:
         return m_loaded;
     }
 
-    /**
-     * Set the process priority.
-     *
-     * @param background If true, the process is set to "background priority", else
-     * if false, the process is set to "foreground priority".
-     *
-     * @return true if the process priority was successfully changed.
-     */
-    bool setBackgroundPriority(bool background);
-
+    inline unsigned procId() const {
+        return m_procId;
+    }
 #ifdef WINDOWS
+
     inline HANDLE procHandle() const {
         return m_procHandle;
     }
@@ -98,10 +89,8 @@ public:
     inline HANDLE toHandle() const {
         return m_toHandle;
     }
+
 #else // !WINDOWS
-    inline unsigned procId() const {
-        return m_procId;
-    }
 
     inline int fromFD() const {
         return m_fromFD;
@@ -110,6 +99,19 @@ public:
     inline int toFD() const {
         return m_toFD;
     }
+
 #endif // WINDOWS
+
+
+    /**
+     * Set the process priority.
+     *
+     * @param background If true, the process is set to "background priority", else
+     * if false, the process is set to "foreground priority".
+     *
+     * @return true if the process priority was successfully changed.
+     */
+    bool setBackgroundPriority(bool background);
 };
+
 } // namespace ChessCore
