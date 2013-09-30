@@ -179,13 +179,13 @@ void PgnScannerContext::incLineNumber(unsigned amount /*=1*/) {
 void PgnScannerContext::initScanner() {
     ASSERT(m_scanner == 0);
     int status = pgnlex_init_extra(this, &m_scanner);
-    if (status != 0) {
+    if (status) {
         LOGERR << "Failed to initialise PGN scanner: " << status;
     }
 }
 
 void PgnScannerContext::destroyScanner() {
-    if (m_scanner != 0) {
+    if (m_scanner) {
         pgnlex_destroy(m_scanner);
         m_scanner = 0;
     }

@@ -60,8 +60,8 @@ void Position::initStarting() {
 
 #ifdef _DEBUG
 #define CHECK_PIECE(col, pce, sq, sqBit) \
-    ASSERT((m_pieces[col][pce] & sqBit) != 0ULL); \
-    ASSERT((m_pieces[col][ALLPIECES] & sqBit) != 0ULL); \
+    ASSERT(m_pieces[col][pce] & sqBit); \
+    ASSERT(m_pieces[col][ALLPIECES] & sqBit); \
     ASSERT(m_board[sq] == toPieceColour(pce, col))
 
 #define CHECK_EMPTY(col, pce, sq, sqBit) \
@@ -196,7 +196,7 @@ bool Position::makeMove(Move move, UnmakeMoveInfo &umi) {
 
     m_hashKey ^= m_hashTurn;
 
-    if ((m_flags & FL_EP_MOVE) != 0)
+    if (m_flags & FL_EP_MOVE)
         m_hashKey ^= m_hashEnPassant[m_ep];
 
     m_ply++;
@@ -253,20 +253,20 @@ bool Position::makeMove(Move move, UnmakeMoveInfo &umi) {
             clearPieceBB(oppSide, capPce, ~toBit);
 
             // Cancel castling rights if a rook is captured
-            if (capPce == ROOK && (toBit & rookSquares) != 0ULL && (m_flags & FL_CASTLE) != 0) {
-                if (moveSide == WHITE && (m_flags & FL_BCASTLE) != 0) {
-                    if (to == H8 && (m_flags & FL_BCASTLE_KS) != 0) {
+            if (capPce == ROOK && (toBit & rookSquares) && (m_flags & FL_CASTLE)) {
+                if (moveSide == WHITE && (m_flags & FL_BCASTLE)) {
+                    if (to == H8 && (m_flags & FL_BCASTLE_KS)) {
                         m_flags &= ~FL_BCASTLE_KS;
                         m_hashKey ^= m_hashCastle[HASH_BCASTLE_KS];
-                    } else if (to == A8 && (m_flags & FL_BCASTLE_QS) != 0) {
+                    } else if (to == A8 && (m_flags & FL_BCASTLE_QS)) {
                         m_flags &= ~FL_BCASTLE_QS;
                         m_hashKey ^= m_hashCastle[HASH_BCASTLE_QS];
                     }
-                } else if (moveSide == BLACK && (m_flags & FL_WCASTLE) != 0) {
-                    if (to == H1 && (m_flags & FL_WCASTLE_KS) != 0) {
+                } else if (moveSide == BLACK && (m_flags & FL_WCASTLE)) {
+                    if (to == H1 && (m_flags & FL_WCASTLE_KS)) {
                         m_flags &= ~FL_WCASTLE_KS;
                         m_hashKey ^= m_hashCastle[HASH_WCASTLE_KS];
-                    } else if (to == A1 && (m_flags & FL_WCASTLE_QS) != 0) {
+                    } else if (to == A1 && (m_flags & FL_WCASTLE_QS)) {
                         m_flags &= ~FL_WCASTLE_QS;
                         m_hashKey ^= m_hashCastle[HASH_WCASTLE_QS];
                     }
@@ -292,12 +292,12 @@ bool Position::makeMove(Move move, UnmakeMoveInfo &umi) {
             m_hashKey ^= pieceHash(WHITE, ROOK, H1);
             m_hashKey ^= pieceHash(WHITE, ROOK, F1);
 
-            if ((m_flags & FL_WCASTLE_KS) != 0) {
+            if (m_flags & FL_WCASTLE_KS) {
                 m_flags &= ~FL_WCASTLE_KS;
                 m_hashKey ^= m_hashCastle[HASH_WCASTLE_KS];
             }
 
-            if ((m_flags & FL_WCASTLE_QS) != 0) {
+            if (m_flags & FL_WCASTLE_QS) {
                 m_flags &= ~FL_WCASTLE_QS;
                 m_hashKey ^= m_hashCastle[HASH_WCASTLE_QS];
             }
@@ -315,12 +315,12 @@ bool Position::makeMove(Move move, UnmakeMoveInfo &umi) {
             m_hashKey ^= pieceHash(BLACK, ROOK, H8);
             m_hashKey ^= pieceHash(BLACK, ROOK, F8);
 
-            if ((m_flags & FL_BCASTLE_KS) != 0) {
+            if (m_flags & FL_BCASTLE_KS) {
                 m_flags &= ~FL_BCASTLE_KS;
                 m_hashKey ^= m_hashCastle[HASH_BCASTLE_KS];
             }
 
-            if ((m_flags & FL_BCASTLE_QS) != 0) {
+            if (m_flags & FL_BCASTLE_QS) {
                 m_flags &= ~FL_BCASTLE_QS;
                 m_hashKey ^= m_hashCastle[HASH_BCASTLE_QS];
             }
@@ -340,12 +340,12 @@ bool Position::makeMove(Move move, UnmakeMoveInfo &umi) {
             m_hashKey ^= pieceHash(WHITE, ROOK, A1);
             m_hashKey ^= pieceHash(WHITE, ROOK, D1);
 
-            if ((m_flags & FL_WCASTLE_KS) != 0) {
+            if (m_flags & FL_WCASTLE_KS) {
                 m_flags &= ~FL_WCASTLE_KS;
                 m_hashKey ^= m_hashCastle[HASH_WCASTLE_KS];
             }
 
-            if ((m_flags & FL_WCASTLE_QS) != 0) {
+            if (m_flags & FL_WCASTLE_QS) {
                 m_flags &= ~FL_WCASTLE_QS;
                 m_hashKey ^= m_hashCastle[HASH_WCASTLE_QS];
             }
@@ -363,12 +363,12 @@ bool Position::makeMove(Move move, UnmakeMoveInfo &umi) {
             m_hashKey ^= pieceHash(BLACK, ROOK, A8);
             m_hashKey ^= pieceHash(BLACK, ROOK, D8);
 
-            if ((m_flags & FL_BCASTLE_KS) != 0) {
+            if (m_flags & FL_BCASTLE_KS) {
                 m_flags &= ~FL_BCASTLE_KS;
                 m_hashKey ^= m_hashCastle[HASH_BCASTLE_KS];
             }
 
-            if ((m_flags & FL_BCASTLE_QS) != 0) {
+            if (m_flags & FL_BCASTLE_QS) {
                 m_flags &= ~FL_BCASTLE_QS;
                 m_hashKey ^= m_hashCastle[HASH_BCASTLE_QS];
             }
@@ -391,21 +391,21 @@ bool Position::makeMove(Move move, UnmakeMoveInfo &umi) {
 
         m_hashKey ^= pieceHash(moveSide, PAWN, to);
         m_hashKey ^= pieceHash(moveSide, move.prom(), to);
-    } else if (pce == ROOK && (m_flags & FL_CASTLE) != 0 && (fromBit & rookSquares) != 0ULL) {
+    } else if (pce == ROOK && (m_flags & FL_CASTLE) && (fromBit & rookSquares)) {
         // Cancel castling rights as rook has moved
-        if (moveSide == WHITE && (m_flags & FL_WCASTLE) != 0) {
-            if (from == H1 && (m_flags & FL_WCASTLE_KS) != 0) {
+        if (moveSide == WHITE && (m_flags & FL_WCASTLE)) {
+            if (from == H1 && (m_flags & FL_WCASTLE_KS)) {
                 m_flags &= ~FL_WCASTLE_KS;
                 m_hashKey ^= m_hashCastle[HASH_WCASTLE_KS];
-            } else if (from == A1 && (m_flags & FL_WCASTLE_QS) != 0) {
+            } else if (from == A1 && (m_flags & FL_WCASTLE_QS)) {
                 m_flags &= ~FL_WCASTLE_QS;
                 m_hashKey ^= m_hashCastle[HASH_WCASTLE_QS];
             }
-        } else if (moveSide == BLACK && (m_flags & FL_BCASTLE) != 0) {
-            if (from == H8 && (m_flags & FL_BCASTLE_KS) != 0) {
+        } else if (moveSide == BLACK && (m_flags & FL_BCASTLE)) {
+            if (from == H8 && (m_flags & FL_BCASTLE_KS)) {
                 m_flags &= ~FL_BCASTLE_KS;
                 m_hashKey ^= m_hashCastle[HASH_BCASTLE_KS];
-            } else if (from == A8 && (m_flags & FL_BCASTLE_QS) != 0) {
+            } else if (from == A8 && (m_flags & FL_BCASTLE_QS)) {
                 m_flags &= ~FL_BCASTLE_QS;
                 m_hashKey ^= m_hashCastle[HASH_BCASTLE_QS];
             }
@@ -413,22 +413,22 @@ bool Position::makeMove(Move move, UnmakeMoveInfo &umi) {
     } else if (pce == KING && !move.isCastle() && (fromBit & kingSquares) != 0ULL) {
         // Cancel castling rights if king moved
         if (moveSide == WHITE) {
-            if ((m_flags & FL_WCASTLE_KS) != 0) {
+            if (m_flags & FL_WCASTLE_KS) {
                 m_flags &= ~FL_WCASTLE_KS;
                 m_hashKey ^= m_hashCastle[HASH_WCASTLE_KS];
             }
 
-            if ((m_flags & FL_WCASTLE_QS) != 0) {
+            if (m_flags & FL_WCASTLE_QS) {
                 m_flags &= ~FL_WCASTLE_QS;
                 m_hashKey ^= m_hashCastle[HASH_WCASTLE_QS];
             }
         } else {
-            if ((m_flags & FL_BCASTLE_KS) != 0) {
+            if (m_flags & FL_BCASTLE_KS) {
                 m_flags &= ~FL_BCASTLE_KS;
                 m_hashKey ^= m_hashCastle[HASH_BCASTLE_KS];
             }
 
-            if ((m_flags & FL_BCASTLE_QS) != 0) {
+            if (m_flags & FL_BCASTLE_QS) {
                 m_flags &= ~FL_BCASTLE_QS;
                 m_hashKey ^= m_hashCastle[HASH_BCASTLE_QS];
             }
@@ -495,7 +495,7 @@ bool Position::makeNullMove(UnmakeMoveInfo &umi) {
         m_flags |= FL_INCHECK | FL_INDBLCHECK;
 
 #ifdef _DEBUG
-    ASSERT(attacks(lsb(m_pieces[moveSide][KING]), 0, true) != 0);
+    ASSERT(attacks(lsb(m_pieces[moveSide][KING]), 0, true));
 
     if (!sanityCheck())
         return false;
@@ -619,15 +619,15 @@ unsigned Position::findPinned(Move *pinned, uint64_t &epCapPinned, bool stm) con
 
     // Queen and Rook attacks
     bb = fileRankMasks[kingOffset] & (m_pieces[oppSide][QUEEN] | m_pieces[oppSide][ROOK]);
-    while (bb != 0ULL) {
+    while (bb) {
         toOffset = lsb2(bb, toBit);
 
         moveBits = connectMasks[kingOffset][toOffset] & m_pieces[moveSide][ALLPIECES];
         oppBits = connectMasks[kingOffset][toOffset] & m_pieces[oppSide][ALLPIECES];
 
-        if (moveBits != 0ULL && oppBits != 0ULL) {
+        if (moveBits && oppBits) {
             // Check if this piece is en-passant capture pinned
-            if ((m_flags & FL_EP_MOVE) != 0 &&
+            if ((m_flags & FL_EP_MOVE) &&
                 offsetRank(toOffset) == (moveSide == WHITE ? 4 : 3) &&
                 popcnt(moveBits) == 1 && popcnt(oppBits) == 1 &&
                 popcnt(moveBits & m_pieces[moveSide][PAWN]) == 1 &&
@@ -641,7 +641,7 @@ unsigned Position::findPinned(Move *pinned, uint64_t &epCapPinned, bool stm) con
             continue; // There is another attacking piece in the way
         }
 
-        if (moveBits != 0ULL && popcnt(moveBits) == 1) {
+        if (moveBits && popcnt(moveBits) == 1) {
             // Just one of our pieces between the attacking queen/rook
             fromOffset = lsb(moveBits);
             pinnedPiece = m_board[fromOffset] & PIECE_MASK;
@@ -668,14 +668,14 @@ unsigned Position::findPinned(Move *pinned, uint64_t &epCapPinned, bool stm) con
     // Queen and Bishop attacks
     bb = diagMasks[kingOffset] & (m_pieces[oppSide][QUEEN] | m_pieces[oppSide][BISHOP]);
 
-    while (bb != 0ULL) {
+    while (bb) {
         toOffset = lsb2(bb, toBit);
 
-        if ((connectMasks[kingOffset][toOffset] & m_pieces[oppSide][ALLPIECES]) != 0ULL)
+        if (connectMasks[kingOffset][toOffset] & m_pieces[oppSide][ALLPIECES])
             continue; // There is another attacking piece in the way
 
         moveBits = connectMasks[kingOffset][toOffset] & m_pieces[moveSide][ALLPIECES];
-        if (moveBits != 0ULL && popcnt(moveBits) == 1) {
+        if (moveBits && popcnt(moveBits) == 1) {
             // Just one of our pieces between the attacking queen/bishop
             fromOffset = lsb(moveBits);
             pinnedPiece = m_board[fromOffset] & PIECE_MASK;
@@ -690,10 +690,8 @@ unsigned Position::findPinned(Move *pinned, uint64_t &epCapPinned, bool stm) con
                 pinnedDir = pinnedDirs[fromOffset][toOffset];
                 o = fromOffset + pinnedDir;
 
-                if (abs(pinnedDir - pawnMoveDir) == 1
-                    && (o == toOffset
-                        || ((m_flags & FL_EP_MOVE) != 0
-                            && o == fileRankOffset(m_ep, epRank[moveSide]))))
+                if (abs(pinnedDir - pawnMoveDir) == 1 &&
+                    (o == toOffset || ((m_flags & FL_EP_MOVE) && o == fileRankOffset(m_ep, epRank[moveSide]))))
                     canMove = true;
             }
 
@@ -728,15 +726,15 @@ unsigned Position::findPinned(uint64_t &pinned, uint64_t &epCapPinned, bool stm)
 
     // Queen and Rook attacks
     bb = fileRankMasks[kingOffset] & (m_pieces[oppSide][QUEEN] | m_pieces[oppSide][ROOK]);
-    while (bb != 0ULL) {
+    while (bb) {
         toOffset = lsb2(bb, toBit);
 
         moveBits = connectMasks[kingOffset][toOffset] & m_pieces[moveSide][ALLPIECES];
         oppBits = connectMasks[kingOffset][toOffset] & m_pieces[oppSide][ALLPIECES];
 
-        if (moveBits != 0ULL && oppBits != 0ULL) {
+        if (moveBits && oppBits) {
             // Check if this piece is en-passant capture pinned
-            if ((m_flags & FL_EP_MOVE) != 0 &&
+            if ((m_flags & FL_EP_MOVE) &&
                 offsetRank(toOffset) == (moveSide == WHITE ? 4 : 3) &&
                 popcnt(moveBits) == 1 && popcnt(oppBits) == 1 &&
                 popcnt(moveBits & m_pieces[moveSide][PAWN]) == 1 &&
@@ -750,21 +748,21 @@ unsigned Position::findPinned(uint64_t &pinned, uint64_t &epCapPinned, bool stm)
             continue; // There is another attacking piece in the way
         }
 
-        if (moveBits != 0ULL && popcnt(moveBits) == 1) {
+        if (moveBits && popcnt(moveBits) == 1) {
             pinned |= moveBits;
             count++;
         }
     }
     // Queen and Bishop attacks
     bb = diagMasks[kingOffset] & (m_pieces[oppSide][QUEEN] | m_pieces[oppSide][BISHOP]);
-    while (bb != 0ULL) {
+    while (bb) {
         toOffset = lsb2(bb, toBit);
 
-        if ((connectMasks[kingOffset][toOffset] & m_pieces[oppSide][ALLPIECES]) != 0ULL)
+        if ((connectMasks[kingOffset][toOffset] & m_pieces[oppSide][ALLPIECES]))
             continue; // There is another attacking piece in the way
 
         moveBits = connectMasks[kingOffset][toOffset] & m_pieces[moveSide][ALLPIECES];
-        if (moveBits != 0ULL && popcnt(moveBits) == 1) {
+        if (moveBits && popcnt(moveBits) == 1) {
             // Just one of our pieces between the attacking queen/bishop
             pinned |= moveBits;
             count++;
@@ -803,10 +801,10 @@ unsigned Position::attacks(unsigned sq, Move *moves, bool stm) const {
     }
 
     bb = pawnAttacks[oppSide][sq] & m_pieces[moveSide][PAWN];
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
 
-        if (moves != 0) {
+        if (moves) {
             moves->set(flags, PAWN, fromOffset, sq);
             moves++;
         }
@@ -815,10 +813,10 @@ unsigned Position::attacks(unsigned sq, Move *moves, bool stm) const {
     }
 
     bb = knightAttacks[sq] & m_pieces[moveSide][KNIGHT];
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
 
-        if (moves != 0) {
+        if (moves) {
             moves->set(flags, KNIGHT, fromOffset, sq);
             moves++;
         }
@@ -826,10 +824,10 @@ unsigned Position::attacks(unsigned sq, Move *moves, bool stm) const {
         count++;
     }
 
-    if ((kingAttacks[sq] & m_pieces[moveSide][KING]) != 0ULL) {
+    if (kingAttacks[sq] & m_pieces[moveSide][KING]) {
         fromOffset = lsb(m_pieces[moveSide][KING]);
 
-        if (moves != 0) {
+        if (moves) {
             moves->set(flags, KING, fromOffset, sq);
             moves++;
         }
@@ -839,11 +837,11 @@ unsigned Position::attacks(unsigned sq, Move *moves, bool stm) const {
 
     // Queen and Rook attacks
     bb = fileRankMasks[sq] & (m_pieces[moveSide][QUEEN] | m_pieces[moveSide][ROOK]);
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
 
         if ((connectMasks[sq][fromOffset] & (m_pieces[WHITE][ALLPIECES] | m_pieces[BLACK][ALLPIECES])) == 0ULL) {
-            if (moves != 0) {
+            if (moves) {
                 moves->set(flags, m_board[fromOffset] & PIECE_MASK, fromOffset, sq);
                 moves++;
             }
@@ -854,11 +852,11 @@ unsigned Position::attacks(unsigned sq, Move *moves, bool stm) const {
 
     // Queen and Bishop attacks
     bb = diagMasks[sq] & (m_pieces[moveSide][QUEEN] | m_pieces[moveSide][BISHOP]);
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
 
         if ((connectMasks[sq][fromOffset] & (m_pieces[WHITE][ALLPIECES] | m_pieces[BLACK][ALLPIECES])) == 0ULL) {
-            if (moves != 0) {
+            if (moves) {
                 moves->set(flags, m_board[fromOffset] & PIECE_MASK, fromOffset, sq);
                 moves++;
             }
@@ -883,20 +881,20 @@ bool Position::attacks(unsigned sq, bool stm, uint64_t removePiece /*= 0ULL*/) c
         oppSide = flipColour(moveSide);
     }
 
-    if ((pawnAttacks[oppSide][sq] & m_pieces[moveSide][PAWN]) != 0ULL)
+    if (pawnAttacks[oppSide][sq] & m_pieces[moveSide][PAWN])
         return true;
 
-    if ((knightAttacks[sq] & m_pieces[moveSide][KNIGHT]) != 0ULL)
+    if (knightAttacks[sq] & m_pieces[moveSide][KNIGHT])
         return true;
 
-    if ((kingAttacks[sq] & m_pieces[moveSide][KING]) != 0ULL)
+    if (kingAttacks[sq] & m_pieces[moveSide][KING])
         return true;
 
     pieceBits = (m_pieces[WHITE][ALLPIECES] | m_pieces[BLACK][ALLPIECES]) & ~removePiece;
 
     // Queen and Rook attacks
     bb = fileRankMasks[sq] & (m_pieces[moveSide][QUEEN] | m_pieces[moveSide][ROOK]);
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
 
         if ((connectMasks[sq][fromOffset] & pieceBits) == 0ULL)
@@ -905,7 +903,7 @@ bool Position::attacks(unsigned sq, bool stm, uint64_t removePiece /*= 0ULL*/) c
 
     // Queen and Bishop attacks
     bb = diagMasks[sq] & (m_pieces[moveSide][QUEEN] | m_pieces[moveSide][BISHOP]);
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
 
         if ((connectMasks[sq][fromOffset] & pieceBits) == 0ULL)
@@ -1077,7 +1075,7 @@ Position::Legal Position::setFromFen(const char *piecePlacement, const char *act
     }
 
     // Field 5: Halfmove Clock
-    if (halfmoveClock != 0 && fullmoveNumber != 0) {
+    if (halfmoveClock && fullmoveNumber) {
         fen = halfmoveClock;
         i = (int)strtol(fen, &base, 10);
 
@@ -1168,17 +1166,17 @@ string Position::fen(bool epd /*=false*/) const {
 
     oss << " " << (toColour(m_ply) == WHITE ? 'b' : 'w') << " ";
 
-    if ((m_flags & FL_CASTLE) != 0) {
-        if ((m_flags & FL_WCASTLE_KS) != 0)
+    if (m_flags & FL_CASTLE) {
+        if (m_flags & FL_WCASTLE_KS)
             oss << 'K';
 
-        if ((m_flags & FL_WCASTLE_QS) != 0)
+        if (m_flags & FL_WCASTLE_QS)
             oss << 'Q';
 
-        if ((m_flags & FL_BCASTLE_KS) != 0)
+        if (m_flags & FL_BCASTLE_KS)
             oss << 'k';
 
-        if ((m_flags & FL_BCASTLE_QS) != 0)
+        if (m_flags & FL_BCASTLE_QS)
             oss << 'q';
     } else {
         oss << '-';
@@ -1186,7 +1184,7 @@ string Position::fen(bool epd /*=false*/) const {
 
     oss << ' ';
 
-    if ((m_flags & FL_EP_MOVE) != 0) {
+    if (m_flags & FL_EP_MOVE) {
         if (toColour(m_ply) == WHITE)
             oss << char(m_ep + 'a') << '3';
         else
@@ -1235,7 +1233,7 @@ Position::Legal Position::setFromBlob(const Blob &blob) {
         if (b == 0)
             continue;
 
-        Colour colour = (b & 0x8) != 0 ? BLACK : WHITE;
+        Colour colour = (b & 0x8) ? BLACK : WHITE;
         Piece piece = b & PIECE_MASK;
         setPieceAll(colour, piece, sq);
     }
@@ -1254,16 +1252,16 @@ Position::Legal Position::setFromBlob(const Blob &blob) {
         return ILLBLOB_DECODE_FAIL;
     }
 
-    if ((b & 0x8) != 0)
+    if (b & 0x8)
         m_flags |= FL_WCASTLE_KS;
 
-    if ((b & 0x4) != 0)
+    if (b & 0x4)
         m_flags |= FL_WCASTLE_QS;
 
-    if ((b & 0x2) != 0)
+    if (b & 0x2)
         m_flags |= FL_BCASTLE_KS;
 
-    if ((b & 0x1) != 0)
+    if (b & 0x1)
         m_flags |= FL_BCASTLE_QS;
 
     // En-passant file
@@ -1274,7 +1272,7 @@ Position::Legal Position::setFromBlob(const Blob &blob) {
 
     m_ep = (uint8_t)b;
 
-    if (m_ep != 0)
+    if (m_ep)
         m_flags |= FL_EP_MOVE;
 
     // Halfmove clock
@@ -1356,16 +1354,16 @@ bool Position::blob(Blob &blob) const {
     // Castling rights
     b = 0;
 
-    if ((m_flags & FL_WCASTLE_KS) != 0)
+    if (m_flags & FL_WCASTLE_KS)
         b |= 0x8;
 
-    if ((m_flags & FL_WCASTLE_QS) != 0)
+    if (m_flags & FL_WCASTLE_QS)
         b |= 0x4;
 
-    if ((m_flags & FL_BCASTLE_KS) != 0)
+    if (m_flags & FL_BCASTLE_KS)
         b |= 0x2;
 
-    if ((m_flags & FL_BCASTLE_QS) != 0)
+    if (m_flags & FL_BCASTLE_QS)
         b |= 0x1;
 
     if (!stream.write(b, 4)) {
@@ -1436,7 +1434,7 @@ void Position::bishopSquares(Colour col, uint32_t &lightCount, uint32_t &darkCou
 
     bb = m_pieces[col][BISHOP];
 
-    while (bb != 0ULL) {
+    while (bb) {
         offset = lsb2(bb, bit);
 
         if (isLightSqOffset(offset))
@@ -1486,41 +1484,41 @@ Position::Legal Position::isLegal() const {
         return ILLPOS_BLACK_TOO_MANY_PIECES;
     }
 
-    if ((flags() & FL_WCASTLE) != 0) {
+    if (flags() & FL_WCASTLE) {
         if (m_pieces[WHITE][KING] != offsetBit(E1)) {
             LOGWRN << "Position is invalid; white cannot castle as no king on E1";
             return ILLPOS_WHITE_CASTLE_KING_MOVED;
         }
 
-        if ((flags() & FL_WCASTLE_KS) != 0 && (m_pieces[WHITE][ROOK] & offsetBit(H1)) == 0) {
+        if ((flags() & FL_WCASTLE_KS) && (m_pieces[WHITE][ROOK] & offsetBit(H1)) == 0) {
             LOGWRN << "Position is invalid; white cannot castle kingside as no rook on H1";
             return ILLPOS_WHITE_CASTLE_KS_ROOK_MOVED;
         }
 
-        if ((flags() & FL_WCASTLE_QS) != 0 && (m_pieces[WHITE][ROOK] & offsetBit(A1)) == 0) {
+        if ((flags() & FL_WCASTLE_QS) && (m_pieces[WHITE][ROOK] & offsetBit(A1)) == 0) {
             LOGWRN << "Position is invalid; white cannot castle queenside as no rook on A1";
             return ILLPOS_WHITE_CASTLE_QS_ROOK_MOVED;
         }
     }
 
-    if ((flags() & FL_BCASTLE) != 0) {
+    if (flags() & FL_BCASTLE) {
         if (m_pieces[BLACK][KING] != offsetBit(E8)) {
             LOGWRN << "Position is invalid; black cannot castle as no king on E8";
             return ILLPOS_BLACK_CASTLE_KING_MOVED;
         }
 
-        if ((flags() & FL_BCASTLE_KS) != 0 && (m_pieces[BLACK][ROOK] & offsetBit(H8)) == 0) {
+        if ((flags() & FL_BCASTLE_KS) && (m_pieces[BLACK][ROOK] & offsetBit(H8)) == 0) {
             LOGWRN << "Position is invalid; black cannot castle kingside as no rook on H8";
             return ILLPOS_BLACK_CASTLE_KS_ROOK_MOVED;
         }
 
-        if ((flags() & FL_BCASTLE_QS) != 0 && (m_pieces[BLACK][ROOK] & offsetBit(A8)) == 0) {
+        if ((flags() & FL_BCASTLE_QS) && (m_pieces[BLACK][ROOK] & offsetBit(A8)) == 0) {
             LOGWRN << "Position is invalid; black cannot castle queenside as no rook on A8";
             return ILLPOS_BLACK_CASTLE_QS_ROOK_MOVED;
         }
     }
 
-    if ((m_flags & FL_EP_MOVE) != 0) {
+    if (m_flags & FL_EP_MOVE) {
         Colour moveSide = toColour(m_ply);
 
         if (moveSide == WHITE) {
@@ -1568,26 +1566,26 @@ uint64_t Position::generateHashKey() const {
         for (Piece piece  = PAWN; piece <= KING; piece++) {
             bb = m_pieces[colour][piece];
 
-            while (bb != 0ULL) {
+            while (bb) {
                 offset = lsb2(bb, bit);
                 key ^= pieceHash(colour, piece, offset);
             }
         }
 
-    if ((m_flags & FL_WCASTLE_KS) != 0)
+    if (m_flags & FL_WCASTLE_KS)
         key ^= m_hashCastle[HASH_WCASTLE_KS];
 
-    if ((m_flags & FL_WCASTLE_QS) != 0)
+    if (m_flags & FL_WCASTLE_QS)
         key ^= m_hashCastle[HASH_WCASTLE_QS];
 
-    if ((m_flags & FL_BCASTLE_KS) != 0)
+    if (m_flags & FL_BCASTLE_KS)
         key ^= m_hashCastle[HASH_BCASTLE_KS];
 
-    if ((m_flags & FL_BCASTLE_QS) != 0)
+    if (m_flags & FL_BCASTLE_QS)
         key ^= m_hashCastle[HASH_BCASTLE_QS];
 
     // En-passant hash
-    if ((m_flags & FL_EP_MOVE) != 0)
+    if (m_flags & FL_EP_MOVE)
         key ^= m_hashEnPassant[m_ep];
 
     // Turn hash
@@ -1631,24 +1629,24 @@ string Position::dump(bool lowlevel /*=false*/) const {
         else if (rank == RANK7) {
             oss << " flags=";
 
-            if ((m_flags & FL_WCASTLE_KS) != 0)
+            if (m_flags & FL_WCASTLE_KS)
                 oss << "WCASTLE_KS ";
 
-            if ((m_flags & FL_WCASTLE_QS) != 0)
+            if (m_flags & FL_WCASTLE_QS)
                 oss << "WCASTLE_QS ";
 
-            if ((m_flags & FL_BCASTLE_KS) != 0)
+            if (m_flags & FL_BCASTLE_KS)
                 oss << "BCASTLE_KS ";
 
-            if ((m_flags & FL_BCASTLE_QS) != 0)
+            if (m_flags & FL_BCASTLE_QS)
                 oss << "BCASTLE_QS ";
 
-            if ((m_flags & FL_EP_MOVE) != 0)
+            if (m_flags & FL_EP_MOVE)
                 oss << "EP_MOVE ";
 
-            if ((m_flags & FL_INDBLCHECK) != 0)
+            if (m_flags & FL_INDBLCHECK)
                 oss << "DBLCHKECK ";
-            else if ((m_flags & FL_INCHECK) != 0)
+            else if (m_flags & FL_INCHECK)
                 oss << "INCHECK ";
         } else if (rank == RANK6)
             oss << " ep=" << int(m_ep);
@@ -1706,7 +1704,7 @@ bool Position::sanityCheck() const {
                 retval = false;
             }
         } else {
-            if ((m_pieces[col][pce] & offsetBit(sq)) != 0) {
+            if (m_pieces[col][pce] & offsetBit(sq)) {
                 LOGERR << "Position invalid as " << (col == WHITE ? "White" : "Black") <<
                     " piece '" << pieceChars[pce] << "' on square " <<
                     ('A' + offsetFile(sq)) << ('1' + offsetRank(sq)) <<
@@ -1714,14 +1712,14 @@ bool Position::sanityCheck() const {
                 retval = false;
             }
 
-            if ((m_pieces[WHITE][ALLPIECES] & offsetBit(sq)) != 0) {
+            if (m_pieces[WHITE][ALLPIECES] & offsetBit(sq)) {
                 LOGERR << "Position invalid as White ALLPIECES square " <<
                     ('A' + offsetFile(sq)) << ('1' + offsetRank(sq)) <<
                     " should be empty";
                 retval = false;
             }
 
-            if ((m_pieces[BLACK][ALLPIECES] & offsetBit(sq)) != 0) {
+            if (m_pieces[BLACK][ALLPIECES] & offsetBit(sq)) {
                 LOGERR << "Position invalid: Black ALLPIECES square " <<
                     ('A' + offsetFile(sq)) << ('1' + offsetRank(sq)) <<
                     " should be empty";
@@ -1775,7 +1773,7 @@ unsigned Position::genNonEvasions(Move *moves) const {
         pce = pinned[i].piece();
         toOffset = pinned[i].to();
         pinnedDir = pinnedDirs[fromOffset][toOffset];
-        ASSERT(pinnedDir != 0);
+        ASSERT(pinnedDir);
 
         if (Move::isSlidingPiece(pce)) {
             // Move towards pinner ending with capture of pinner
@@ -1809,7 +1807,7 @@ unsigned Position::genNonEvasions(Move *moves) const {
                 moves++;
 
                 // Is promotion possible?
-                if ((toBit & rankMask1and8) != 0ULL) {
+                if (toBit & rankMask1and8) {
                     // Turn the current move into a queen promotion and set the
                     // other possible promotion moves
                     moves--;
@@ -1822,7 +1820,7 @@ unsigned Position::genNonEvasions(Move *moves) const {
                     moves->set(Move::FL_PROMOTION, BISHOP, PAWN, fromOffset, toOffset);
                     moves++;
                 }
-                else if ((fromBit & rankMask2and7) != 0ULL) {
+                else if (fromBit & rankMask2and7) {
                     toOffset += pawnMoveDir;
                     if (m_board[toOffset] == EMPTY) {
                         moves->set(Move::FL_EP_MOVE, PAWN, fromOffset, toOffset);
@@ -1843,7 +1841,7 @@ unsigned Position::genNonEvasions(Move *moves) const {
                 moves++;
 
                 // Is promotion possible?
-                if ((toBit & rankMask1and8) != 0ULL) {
+                if (toBit & rankMask1and8) {
                     // Turn the current move into a queen promotion and set the
                     // other possible promotion moves
                     moves--;
@@ -1871,7 +1869,7 @@ unsigned Position::genNonEvasions(Move *moves) const {
     // Pawns
     //
     bb = m_pieces[moveSide][PAWN] & pinnedBits;
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
 
         if (moveSide == WHITE) {
@@ -1887,7 +1885,7 @@ unsigned Position::genNonEvasions(Move *moves) const {
             moves++;
 
             // Is promotion possible?
-            if ((toBit & rankMask1and8) != 0ULL) {
+            if (toBit & rankMask1and8) {
                 // Turn the current move into a queen promotion and set the
                 // other possible promotion moves
                 moves--;
@@ -1901,7 +1899,7 @@ unsigned Position::genNonEvasions(Move *moves) const {
                 moves++;
             }
             // *ELSE* (important!): If we are on the initial rank, then attempt a two-square move
-            else if ((fromBit & rankMask2and7) != 0ULL) {
+            else if (fromBit & rankMask2and7) {
                 if (moveSide == WHITE) {
                     toOffset = fromOffset + 16;
                     toBit = fromBit << 16;
@@ -1921,14 +1919,14 @@ unsigned Position::genNonEvasions(Move *moves) const {
         // Pawn captures
         //
         att = pawnAttacks[moveSide][fromOffset] & m_pieces[oppSide][ALLPIECES];
-        while (att != 0ULL) {
+        while (att) {
             toOffset = lsb2(att, toBit);
 
             moves->set(Move::FL_CAPTURE, PAWN, fromOffset, toOffset);
             moves++;
 
             // Is capture + promotion possible?
-            if ((toBit & rankMask1and8) != 0ULL) {
+            if (toBit & rankMask1and8) {
                 // Turn the current move into a queen promotion and set the
                 // other possible promotion moves
                 moves--;
@@ -1946,9 +1944,9 @@ unsigned Position::genNonEvasions(Move *moves) const {
         //
         // Pawn en-passant captures
         //
-        if ((m_flags & FL_EP_MOVE) != 0 && (fromBit & epCapPinned) == 0) {
+        if ((m_flags & FL_EP_MOVE) && (fromBit & epCapPinned) == 0) {
             att = epMask[moveSide][fromOffset] & m_pieces[oppSide][PAWN] & fileMasks[m_ep];
-            if (att != 0ULL) {
+            if (att) {
                 toOffset = lsb(att);
 
                 if (moveSide == WHITE)
@@ -1966,14 +1964,14 @@ unsigned Position::genNonEvasions(Move *moves) const {
     // Knights
     //
     bb = m_pieces[moveSide][KNIGHT] & pinnedBits;
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
 
         att = knightAttacks[fromOffset] & ~m_pieces[moveSide][ALLPIECES];
-        while (att != 0ULL) {
+        while (att) {
             toOffset = lsb2(att, toBit);
 
-            if ((m_pieces[oppSide][ALLPIECES] & toBit) != 0ULL)
+            if (m_pieces[oppSide][ALLPIECES] & toBit)
                 moves->set(Move::FL_CAPTURE, KNIGHT, fromOffset, toOffset);
             else
                 moves->set(KNIGHT, fromOffset, toOffset);
@@ -1986,15 +1984,15 @@ unsigned Position::genNonEvasions(Move *moves) const {
     // Rooks and Queens
     //
     bb = (m_pieces[moveSide][ROOK] | m_pieces[moveSide][QUEEN]) & pinnedBits;
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
         att = Util::magicRookAttacks(fromOffset, occupy);
         att &= ~m_pieces[moveSide][ALLPIECES];
 
-        while (att != 0ULL) {
+        while (att) {
             toOffset = lsb2(att, toBit);
 
-            if ((m_pieces[oppSide][ALLPIECES] & toBit) != 0ULL)
+            if (m_pieces[oppSide][ALLPIECES] & toBit)
                 moves->set(Move::FL_CAPTURE, m_board[fromOffset] & PIECE_MASK, fromOffset,
                            toOffset);
             else
@@ -2009,15 +2007,15 @@ unsigned Position::genNonEvasions(Move *moves) const {
     //
     bb = (m_pieces[moveSide][BISHOP] | m_pieces[moveSide][QUEEN]) & pinnedBits;
 
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
         att = Util::magicBishopAttacks(fromOffset, occupy);
         att &= ~m_pieces[moveSide][ALLPIECES];
 
-        while (att != 0ULL) {
+        while (att) {
             toOffset = lsb2(att, toBit);
 
-            if ((m_pieces[oppSide][ALLPIECES] & toBit) != 0ULL)
+            if (m_pieces[oppSide][ALLPIECES] & toBit)
                 moves->set(Move::FL_CAPTURE, m_board[fromOffset] & PIECE_MASK, fromOffset,
                            toOffset);
             else
@@ -2034,13 +2032,13 @@ unsigned Position::genNonEvasions(Move *moves) const {
     fromBit = offsetBit(fromOffset);
     bb = kingAttacks[fromOffset] & ~m_pieces[moveSide][ALLPIECES];
 
-    while (bb != 0ULL) {
+    while (bb) {
         toOffset = lsb2(bb, toBit);
 
         if (attacks(toOffset, false, fromBit))
             continue;
 
-        if ((m_pieces[oppSide][ALLPIECES] & toBit) != 0ULL)
+        if (m_pieces[oppSide][ALLPIECES] & toBit)
             moves->set(Move::FL_CAPTURE, KING, fromOffset, toOffset);
         else
             moves->set(KING, fromOffset, toOffset);
@@ -2053,28 +2051,28 @@ unsigned Position::genNonEvasions(Move *moves) const {
     //
     ASSERT((m_flags & FL_INCHECK) == 0);
     if (moveSide == WHITE) {
-        if ((m_flags & FL_WCASTLE_KS) != 0 &&
+        if ((m_flags & FL_WCASTLE_KS) &&
             (occupy & (offsetBit(F1) | offsetBit(G1))) == 0ULL &&
             !attacks(E1, false, fromBit) && !attacks(F1, false, fromBit) && !attacks(G1, false, fromBit)) {
             moves->set(Move::FL_CASTLE_KS, KING, E1, G1);
             moves++;
         }
 
-        if ((m_flags & FL_WCASTLE_QS) != 0 &&
+        if ((m_flags & FL_WCASTLE_QS) &&
             (occupy & (offsetBit(B1) | offsetBit(C1) | offsetBit(D1))) == 0ULL &&
             !attacks(E1, false, fromBit) && !attacks(D1, false, fromBit) && !attacks(C1, false, fromBit)) {
             moves->set(Move::FL_CASTLE_QS, KING, E1, C1);
             moves++;
         }
     } else { // move_side == BLACK
-        if ((m_flags & FL_BCASTLE_KS) != 0 &&
+        if ((m_flags & FL_BCASTLE_KS) &&
             (occupy & (offsetBit(F8) | offsetBit(G8))) == 0ULL &&
             !attacks(E8, false, fromBit) && !attacks(F8, false, fromBit) && !attacks(G8, false, fromBit)) {
             moves->set(Move::FL_CASTLE_KS, KING, E8, G8);
             moves++;
         }
 
-        if ((m_flags & FL_BCASTLE_QS) != 0 &&
+        if ((m_flags & FL_BCASTLE_QS) &&
             (occupy & (offsetBit(B8) | offsetBit(C8) | offsetBit(D8))) == 0ULL &&
             !attacks(E8, false, fromBit) && !attacks(D8, false, fromBit) && !attacks(C8, false, fromBit)) {
             moves->set(Move::FL_CASTLE_QS, KING, E8, C8);
@@ -2093,7 +2091,7 @@ unsigned Position::genEvasions(Move *moves) const {
     Move attackers[2], *movesStart;
     bool mustCapture;
 
-    ASSERT((m_flags & FL_INCHECK) != 0);
+    ASSERT(m_flags & FL_INCHECK);
 
     oppSide = toColour(m_ply);
     moveSide = flipColour(oppSide);
@@ -2106,13 +2104,13 @@ unsigned Position::genEvasions(Move *moves) const {
     fromBit = offsetBit(fromOffset);
     bb = kingAttacks[fromOffset] & ~m_pieces[moveSide][ALLPIECES];
 
-    while (bb != 0ULL) {
+    while (bb) {
         toOffset = lsb2(bb, toBit);
 
         if (attacks(toOffset, false, fromBit))
             continue;
 
-        if ((m_pieces[oppSide][ALLPIECES] & toBit) != 0ULL)
+        if ((m_pieces[oppSide][ALLPIECES] & toBit))
             moves->set(Move::FL_CAPTURE, KING, fromOffset, toOffset);
         else
             moves->set(KING, fromOffset, toOffset);
@@ -2120,7 +2118,7 @@ unsigned Position::genEvasions(Move *moves) const {
         moves++;
     }
 
-    if ((m_flags & FL_INDBLCHECK) != 0)
+    if (m_flags & FL_INDBLCHECK)
         // If the king is double-checked then moving out of the way
         // is all it can do to evade check
         return (unsigned)(moves - movesStart);
@@ -2151,7 +2149,7 @@ unsigned Position::genEvasions(Move *moves) const {
 
     // Pawns
     bb = m_pieces[moveSide][PAWN] & pinnedBits;
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
 
         if (!mustCapture) {
@@ -2164,12 +2162,12 @@ unsigned Position::genEvasions(Move *moves) const {
             }
 
             if (((m_pieces[WHITE][ALLPIECES] | m_pieces[BLACK][ALLPIECES]) & toBit) == 0ULL) {
-                if ((toBit & attackLine) != 0ULL) {
+                if (toBit & attackLine) {
                     moves->set(0, PAWN, fromOffset, toOffset);
                     moves++;
 
                     // Is promotion possible?
-                    if ((toBit & rankMask1and8) != 0ULL) {
+                    if (toBit & rankMask1and8) {
                         // Turn the current move into a queen promotion and set the
                         // other possible promotion moves
                         moves--;
@@ -2182,7 +2180,7 @@ unsigned Position::genEvasions(Move *moves) const {
                         moves->set(Move::FL_PROMOTION, BISHOP, PAWN, fromOffset, toOffset);
                         moves++;
                     }
-                } else if ((fromBit & rankMask2and7) != 0ULL) {
+                } else if (fromBit & rankMask2and7) {
                     if (moveSide == WHITE) {
                         toOffset = fromOffset + 16;
                         toBit = fromBit << 16;
@@ -2192,7 +2190,7 @@ unsigned Position::genEvasions(Move *moves) const {
                     }
 
                     if (((m_pieces[WHITE][ALLPIECES] | m_pieces[BLACK][ALLPIECES]) & toBit) == 0ULL &&
-                        (toBit & attackLine) != 0ULL) {
+                        (toBit & attackLine)) {
                         moves->set(Move::FL_EP_MOVE, PAWN, fromOffset, toOffset);
                         moves++;
                     }
@@ -2205,14 +2203,14 @@ unsigned Position::genEvasions(Move *moves) const {
         //
         toBit = pawnAttacks[moveSide][fromOffset] & attackerBit;
 
-        if (toBit != 0ULL) {
+        if (toBit) {
             toOffset = lsb(toBit);
 
             moves->set(Move::FL_CAPTURE, PAWN, fromOffset, toOffset);
             moves++;
 
             // Is capture + promotion possible?
-            if ((toBit & rankMask1and8) != 0ULL) {
+            if (toBit & rankMask1and8) {
                 // Turn the current move into a queen promotion and set the
                 // other possible promotion moves
                 moves--;
@@ -2233,10 +2231,10 @@ unsigned Position::genEvasions(Move *moves) const {
         //
         // Pawn en-passant captures
         //
-        if ((m_flags & FL_EP_MOVE) != 0 && (fromBit & epCapPinned) == 0) {
+        if ((m_flags & FL_EP_MOVE) && (fromBit & epCapPinned) == 0) {
             toBit = epMask[moveSide][fromOffset] & attackerBit & fileMasks[m_ep];
 
-            if (toBit != 0ULL) {
+            if (toBit) {
                 toOffset = lsb(toBit);
 
                 if (moveSide == WHITE)
@@ -2259,15 +2257,15 @@ unsigned Position::genEvasions(Move *moves) const {
     //
     bb = m_pieces[moveSide][KNIGHT] & pinnedBits;
 
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
 
         att = knightAttacks[fromOffset] & attackLine;
 
-        while (att != 0ULL) {
+        while (att) {
             toOffset = lsb2(att, toBit);
 
-            if ((toBit & attackerBit) != 0ULL)
+            if (toBit & attackerBit)
                 moves->set(Move::FL_CAPTURE, KNIGHT, fromOffset, toOffset);
             else if (!mustCapture)
                 moves->set(KNIGHT, fromOffset, toOffset);
@@ -2281,19 +2279,20 @@ unsigned Position::genEvasions(Move *moves) const {
     //
     bb = (m_pieces[moveSide][ROOK] | m_pieces[moveSide][QUEEN]) & pinnedBits;
 
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
         att = Util::magicRookAttacks(fromOffset, occupy);
         att &= attackLine;
 
-        while (att != 0ULL) {
+        while (att) {
             toOffset = lsb2(att, toBit);
 
-            if ((toBit & attackerBit) != 0ULL)
+            if (toBit & attackerBit) {
                 moves->set(Move::FL_CAPTURE, m_board[fromOffset] & PIECE_MASK, fromOffset,
                            toOffset);
-            else if (!mustCapture)
+            } else if (!mustCapture) {
                 moves->set(m_board[fromOffset] & PIECE_MASK, fromOffset, toOffset);
+            }
 
             moves++;
         }
@@ -2304,15 +2303,15 @@ unsigned Position::genEvasions(Move *moves) const {
     //
     bb = (m_pieces[moveSide][BISHOP] | m_pieces[moveSide][QUEEN]) & pinnedBits;
 
-    while (bb != 0ULL) {
+    while (bb) {
         fromOffset = lsb2(bb, fromBit);
         att = Util::magicBishopAttacks(fromOffset, occupy);
         att &= attackLine;
 
-        while (att != 0ULL) {
+        while (att) {
             toOffset = lsb2(att, toBit);
 
-            if ((toBit & attackerBit) != 0ULL)
+            if (toBit & attackerBit)
                 moves->set(Move::FL_CAPTURE, m_board[fromOffset] & PIECE_MASK, fromOffset,
                            toOffset);
             else if (!mustCapture)

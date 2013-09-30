@@ -145,7 +145,7 @@ void SqliteStatement::reset() {
 }
 
 void SqliteStatement::finalize() {
-    if (m_stmt != 0) {
+    if (m_stmt) {
         int rv;
         CALLFUNC(sqlite3_finalize(m_stmt));
         m_stmt = 0;
@@ -155,7 +155,7 @@ void SqliteStatement::finalize() {
 bool SqliteStatement::bind(unsigned index, const Blob &blob) {
     int rv;
 
-    if (blob.data() != 0 && blob.length() > 0)
+    if (blob.data() && blob.length())
         CALLBIND(sqlite3_bind_blob(m_stmt, (int)index, blob.data(), (int)blob.length(), SQLITE_STATIC));
     else
         CALLBIND(sqlite3_bind_null(m_stmt, (int)index));
@@ -194,7 +194,7 @@ bool SqliteStatement::bind(unsigned index) {
 bool SqliteStatement::bind(unsigned index, const char *s) {
     int rv;
 
-    if (s != 0 && *s != 0)
+    if (s && *s)
         CALLBINDCP(sqlite3_bind_text(m_stmt, (int)index, s, (int)strlen(s), SQLITE_STATIC));
     else
         CALLBIND(sqlite3_bind_null(m_stmt, (int)index));

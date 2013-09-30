@@ -39,7 +39,7 @@ AnnotMove::AnnotMove(const AnnotMove &other):Move(other.move()), m_prev(0), m_ne
     m_priorPosition(0), m_posHash(other.m_posHash), m_preAnnot(other.m_preAnnot), m_postAnnot(other.m_postAnnot) {
     memcpy(m_nags, other.m_nags, STORED_NAGS);
 
-    if (other.m_priorPosition != 0)
+    if (other.m_priorPosition)
         setPriorPosition(*other.m_priorPosition);
 }
 
@@ -47,7 +47,7 @@ AnnotMove::AnnotMove(const AnnotMove *other):Move(other->move()), m_prev(0), m_n
     m_priorPosition(0), m_posHash(other->m_posHash), m_preAnnot(other->m_preAnnot), m_postAnnot(other->m_postAnnot) {
     memcpy(m_nags, other->m_nags, STORED_NAGS);
 
-    if (other->m_priorPosition != 0)
+    if (other->m_priorPosition)
         setPriorPosition(*other->m_priorPosition);
 }
 
@@ -67,7 +67,7 @@ void AnnotMove::deepDelete(AnnotMove *amove) {
 AnnotMove *AnnotMove::deepCopy(const AnnotMove *amove) {
     AnnotMove *first = 0;
 
-    while (amove != 0) {
+    while (amove) {
         AnnotMove *newMove = new AnnotMove(amove);
 
         if (first == 0)
@@ -75,7 +75,7 @@ AnnotMove *AnnotMove::deepCopy(const AnnotMove *amove) {
         else
             first->addMove(newMove);
 
-        if (amove->m_variation != 0) {
+        if (amove->m_variation) {
             AnnotMove *newVar = AnnotMove::deepCopy(amove->m_variation);
             newMove->m_variation = newVar;
             newVar->m_mainline = newMove;
@@ -88,9 +88,9 @@ AnnotMove *AnnotMove::deepCopy(const AnnotMove *amove) {
 }
 
 void AnnotMove::removeVariations(AnnotMove *amove, vector<AnnotMove *> *removed /*=0*/) {
-    while (amove != 0) {
-        if (amove->m_variation != 0) {
-            if (removed != 0)
+    while (amove) {
+        if (amove->m_variation) {
+            if (removed)
                 removed->push_back(amove->m_variation);
             else
                 deepDelete(amove->m_variation);
@@ -134,13 +134,13 @@ void AnnotMove::addVariation(AnnotMove *variation, bool atEnd /*=true*/) {
     if (atEnd) {
         AnnotMove *m = 0;
 
-        for (m = this; m->m_variation != 0; m = m->m_variation) {
+        for (m = this; m->m_variation; m = m->m_variation) {
         }
 
         m->m_variation = variation;
         variation->m_mainline = m;
     } else {
-        if (m_variation != 0) {
+        if (m_variation) {
             m_variation->m_mainline = variation;
             variation->m_variation = m_variation;
         }
@@ -156,26 +156,26 @@ bool AnnotMove::promote() {
     if (mainline == 0)
         return false;
 
-    if (m_variation != 0)
+    if (m_variation)
         m_variation->m_mainline = mainline;
 
     mainline->m_variation = m_variation;
     m_variation = mainline;
     m_mainline = mainline->m_mainline;
 
-    if (m_mainline != 0)
+    if (m_mainline)
         m_mainline->m_variation = this;
 
     mainline->m_mainline = this;
     m_prev = mainline->m_prev;
     mainline->m_prev = 0;
 
-    if (m_prev != 0)
+    if (m_prev)
         m_prev->m_next = this;
 
     ASSERT(m_priorPosition == 0);
 
-    if (mainline->m_priorPosition != 0) {
+    if (mainline->m_priorPosition) {
         m_priorPosition = mainline->m_priorPosition;
         mainline->m_priorPosition = 0;
     }
@@ -189,24 +189,24 @@ bool AnnotMove::demote() {
     if (variation == 0)
         return false;
 
-    if (m_mainline != 0)
+    if (m_mainline)
         m_mainline->m_variation = variation;
 
     variation->m_mainline = m_mainline;
     m_mainline = variation;
     m_variation = variation->m_variation;
 
-    if (m_variation != 0)
+    if (m_variation)
         m_variation->m_mainline = this;
 
     variation->m_variation = this;
     variation->m_prev = m_prev;
     m_prev = 0;
 
-    if (variation->m_prev != 0)
+    if (variation->m_prev)
         variation->m_prev->m_next = variation;
 
-    if (m_priorPosition != 0) {
+    if (m_priorPosition) {
         variation->m_priorPosition = m_priorPosition;
         m_priorPosition = 0;
     }
@@ -215,7 +215,7 @@ bool AnnotMove::demote() {
 }
 
 bool AnnotMove::promoteToMainline(unsigned *count /*=0*/) {
-    ASSERT(m_mainline != 0);
+    ASSERT(m_mainline);
     ASSERT(m_prev == 0);
 
     unsigned c = 0;
@@ -223,21 +223,21 @@ bool AnnotMove::promoteToMainline(unsigned *count /*=0*/) {
     while (promote())
         c++;
 
-    if (count != 0)
+    if (count)
         *count = c;
 
     return true;
 }
 
 void AnnotMove::replaceNext(AnnotMove *amove, AnnotMove **oldNext /*=0*/) {
-    if (m_next != 0 && oldNext != 0)
+    if (m_next && oldNext)
         *oldNext = m_next;
     else
         deepDelete(m_next);
 
     m_next = amove;
 
-    if (amove != 0)
+    if (amove)
         amove->m_prev = this;
 }
 
@@ -248,30 +248,30 @@ AnnotMove *AnnotMove::remove(bool unlinkOnly /*=false*/) {
     if (!unlinkOnly)
         deepDelete(this);
 
-    if (prev != 0)
+    if (prev)
         prev->m_next = 0;
 
-    if (mainline != 0)
+    if (mainline)
         mainline->m_variation = 0;
 
     return prev;
 }
 
 bool AnnotMove::restore(AnnotMove **replaced /*=0*/) {
-    if (m_prev != 0) {
-        if (m_mainline != 0) {
+    if (m_prev) {
+        if (m_mainline) {
             logwrn("Move has m_prev and m_mainline set");
             return false;
         }
 
-        if (m_prev->m_next != 0)
-            if (replaced != 0)
+        if (m_prev->m_next)
+            if (replaced)
                 *replaced = m_prev->m_next;
 
         m_prev->m_next = this;
-    } else if (m_mainline != 0) {
-        if (m_mainline->m_variation != 0)
-            if (replaced != 0)
+    } else if (m_mainline) {
+        if (m_mainline->m_variation)
+            if (replaced)
                 *replaced = m_mainline->m_variation;
 
         m_mainline->m_variation = this;
@@ -302,11 +302,11 @@ bool AnnotMove::hasAnnotations() const {
 bool AnnotMove::lineHasAnnotations() const {
     const AnnotMove *m = this;
 
-    while (m != 0) {
+    while (m) {
         if (m->hasAnnotations() || m->nagCount() > 0)
             return true;
 
-        if (m->m_variation != 0 && (m->m_variation->hasAnnotations() || m->m_variation->nagCount() > 0))
+        if (m->m_variation && (m->m_variation->hasAnnotations() || m->m_variation->nagCount() > 0))
             return true;
 
         m = m->m_next;
@@ -318,7 +318,7 @@ bool AnnotMove::lineHasAnnotations() const {
 const AnnotMove *AnnotMove::topMainline() const {
     const AnnotMove *m = this;
 
-    while (m->m_mainline != 0)
+    while (m->m_mainline)
         m = m->m_mainline;
 
     return m;
@@ -327,14 +327,14 @@ const AnnotMove *AnnotMove::topMainline() const {
 AnnotMove *AnnotMove::topMainline() {
     AnnotMove *m = this;
 
-    while (m->m_mainline != 0)
+    while (m->m_mainline)
         m = m->m_mainline;
 
     return m;
 }
 
 void AnnotMove::removeAnnotations(SavedAnnotations *savedAnnotations /*=0*/) {
-    if (savedAnnotations != 0) {
+    if (savedAnnotations) {
         savedAnnotations->move = this;
         savedAnnotations->preAnnot = m_preAnnot;
         savedAnnotations->postAnnot = m_postAnnot;
@@ -350,14 +350,14 @@ void AnnotMove::removeLineAnnotations(vector<SavedAnnotations> *removed /*=0*/) 
     AnnotMove *m = this;
     SavedAnnotations savedAnnotations;
 
-    while (m != 0) {
-        if (m->m_variation != 0)
+    while (m) {
+        if (m->m_variation)
             m->m_variation->removeLineAnnotations(removed);
 
         if (m->hasAnnotations()) {
-            m->removeAnnotations(removed != 0 ? &savedAnnotations : 0);
+            m->removeAnnotations(removed ? &savedAnnotations : 0);
 
-            if (removed != 0)
+            if (removed)
                 removed->push_back(savedAnnotations);
         }
 
@@ -442,7 +442,7 @@ void AnnotMove::restoreAnnotations(const SavedAnnotations &savedAnnotations) {
 AnnotMove *AnnotMove::firstMove() {
     AnnotMove *m = this;
 
-    while (m->m_prev != 0)
+    while (m->m_prev)
         m = m->m_prev;
 
     return m;
@@ -451,7 +451,7 @@ AnnotMove *AnnotMove::firstMove() {
 const AnnotMove *AnnotMove::firstMove() const {
     const AnnotMove *m = this;
 
-    while (m->m_prev != 0)
+    while (m->m_prev)
         m = m->m_prev;
 
     return m;
@@ -460,7 +460,7 @@ const AnnotMove *AnnotMove::firstMove() const {
 AnnotMove *AnnotMove::lastMove() {
     AnnotMove *m = this;
 
-    while (m->m_next != 0)
+    while (m->m_next)
         m = m->m_next;
 
     return m;
@@ -469,7 +469,7 @@ AnnotMove *AnnotMove::lastMove() {
 const AnnotMove *AnnotMove::lastMove() const {
     const AnnotMove *m = this;
 
-    while (m->m_next != 0)
+    while (m->m_next)
         m = m->m_next;
 
     return m;
@@ -478,7 +478,7 @@ const AnnotMove *AnnotMove::lastMove() const {
 AnnotMove *AnnotMove::previousVariation() {
     AnnotMove *m = firstMove();
 
-    if (m->m_mainline != 0)
+    if (m->m_mainline)
         return m->m_mainline;
 
     return 0;
@@ -487,7 +487,7 @@ AnnotMove *AnnotMove::previousVariation() {
 const AnnotMove *AnnotMove::previousVariation() const {
     const AnnotMove *m = firstMove();
 
-    if (m->m_mainline != 0)
+    if (m->m_mainline)
         return m->m_mainline;
 
     return 0;
@@ -496,7 +496,7 @@ const AnnotMove *AnnotMove::previousVariation() const {
 AnnotMove *AnnotMove::nextVariation() {
     AnnotMove *m = firstMove();
 
-    if (m->m_variation != 0)
+    if (m->m_variation)
         return m->m_variation;
 
     return 0;
@@ -505,7 +505,7 @@ AnnotMove *AnnotMove::nextVariation() {
 const AnnotMove *AnnotMove::nextVariation() const {
     const AnnotMove *m = firstMove();
 
-    if (m->m_variation != 0)
+    if (m->m_variation)
         return m->m_variation;
 
     return 0;
@@ -518,13 +518,13 @@ unsigned AnnotMove::variationLevel() const {
     do {
         m = m->firstMove();
 
-        if (m->m_mainline != 0) {
+        if (m->m_mainline) {
             count++;
 
-            while (m->m_mainline != 0)
+            while (m->m_mainline)
                 m = m->m_mainline;
         }
-    } while (m->m_prev != 0);
+    } while (m->m_prev);
 
     return count;
 }
@@ -532,8 +532,8 @@ unsigned AnnotMove::variationLevel() const {
 bool AnnotMove::lineHasVariations() const {
     const AnnotMove *m = this;
 
-    while (m != 0) {
-        if (m->m_variation != 0)
+    while (m) {
+        if (m->m_variation)
             return true;
 
         m = m->m_next;
@@ -545,11 +545,11 @@ bool AnnotMove::lineHasVariations() const {
 bool AnnotMove::isDescendant(const AnnotMove *amove) const {
     const AnnotMove *m = amove;
 
-    while (m != 0) {
+    while (m) {
         if (m == this)
             return true;
 
-        if (m->m_variation != 0 && isDescendant(m->m_variation))
+        if (m->m_variation && isDescendant(m->m_variation))
             return true;
 
         m = m->m_next;
@@ -561,7 +561,7 @@ bool AnnotMove::isDescendant(const AnnotMove *amove) const {
 bool AnnotMove::isDirectVariation(const AnnotMove *amove) const {
     const AnnotMove *m = amove;
 
-    while (m != 0) {
+    while (m) {
         if (m == this)
             return true;
 
@@ -574,7 +574,7 @@ bool AnnotMove::isDirectVariation(const AnnotMove *amove) const {
 unsigned AnnotMove::count(const AnnotMove *amove) {
     unsigned count = 0;
 
-    while (amove != 0) {
+    while (amove) {
         count++;
         amove = amove->m_next;
     }
@@ -584,7 +584,7 @@ unsigned AnnotMove::count(const AnnotMove *amove) {
 
 void AnnotMove::count(const AnnotMove *amove, unsigned &moveCount, unsigned &variationCount, unsigned &symbolCount,
                       unsigned &annotationsLength) {
-    while (amove != 0) {
+    while (amove) {
         moveCount++;
 
         unsigned nagCount = amove->nagCount();
@@ -602,7 +602,7 @@ void AnnotMove::count(const AnnotMove *amove, unsigned &moveCount, unsigned &var
         if (!postAnnot.empty())
             annotationsLength += (unsigned)postAnnot.length() + 1;
 
-        if (amove->variation() != 0) {
+        if (amove->variation()) {
             variationCount++;
             count(amove->variation(), moveCount, variationCount, symbolCount, annotationsLength);
         }
@@ -615,13 +615,13 @@ unsigned AnnotMove::countRepeatedPositions(const AnnotMove *amove) {
     unsigned count = 0;
     uint64_t hash = amove->posHash();
 
-    ASSERT(hash != 0ULL);
+    ASSERT(hash);
 
-    while (amove != 0) {
+    while (amove) {
         if (amove->posHash() == hash)
             count++;
 
-        while (amove->mainline() != 0)
+        while (amove->mainline())
             amove = amove->mainline();
 
         amove = amove->prev();
@@ -656,11 +656,11 @@ bool AnnotMove::writeToDotFile(const AnnotMove *line, ostream &os) {
     string style;
 
     // Influence the generated graph by generating all the mainline nodes first
-    for (m = line, oldm = 0; m != 0; m = m->m_next) {
+    for (m = line, oldm = 0; m; m = m->m_next) {
         os << "  N" << m << " [label=<" << m->coord() << "<BR/><FONT POINT-SIZE=\"8\">" << m << "</FONT>>];"
            << endl;
 
-        if (oldm != 0) {
+        if (oldm) {
             style = m->m_prev == oldm ? "filled" : "dotted";
             os << "  N" << oldm << " -> N" << m << " [style=" << style << ", color=black];" << endl;
         }
@@ -669,12 +669,12 @@ bool AnnotMove::writeToDotFile(const AnnotMove *line, ostream &os) {
     }
 
     // And then adding the variations afterwards
-    for (m = line; m != 0; m = m->m_next)
-        if (m->m_variation != 0) {
+    for (m = line; m; m = m->m_next)
+        if (m->m_variation) {
             if (!writeToDotFile(m->m_variation, os))
                 return false;
 
-            style = m->m_variation->m_mainline != 0 && m->m_variation->m_mainline == m ? "filled" : "dotted";
+            style = m->m_variation->m_mainline && m->m_variation->m_mainline == m ? "filled" : "dotted";
 
             os << "  N" << m << " -> N" << m->m_variation << " [style=" << style << ", color=blue];" << endl;
         }
@@ -685,14 +685,14 @@ bool AnnotMove::writeToDotFile(const AnnotMove *line, ostream &os) {
 string AnnotMove::dumpLine() const {
     stringstream ss;
 
-    for (const AnnotMove *amove = this; amove != 0; amove = amove->next()) {
+    for (const AnnotMove *amove = this; amove; amove = amove->next()) {
         if (amove != this)
             ss << ' ';
 
         ss << amove->dump(false);
 
-        if (amove->variation() != 0) {
-            if (amove->variation() != 0) {
+        if (amove->variation()) {
+            if (amove->variation()) {
 #ifdef EMBEDDED_VARIATIONS
                 if (m_embeddedVariations) {
                     ss << " (";
@@ -703,7 +703,7 @@ string AnnotMove::dumpLine() const {
 
                 if (amove->mainline() == 0)
                     // Top of variation tree
-                    for (const AnnotMove *m = amove->variation(); m != 0; m = m->variation()) {
+                    for (const AnnotMove *m = amove->variation(); m; m = m->variation()) {
                         ss << " (";
                         ss << m->dumpLine();
                         ss << ")";

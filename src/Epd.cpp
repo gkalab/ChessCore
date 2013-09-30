@@ -385,13 +385,13 @@ bool Epd::checkMoveOps(const Move &move) {
     // Check the move against any "bm" operations; any hit means success
     op = findFirstOp("bm");
 
-    if (op != 0) {
+    if (op) {
         do {
             if (move.equals(op->operandMove()))
                 return true;
 
             op = findNextOp("bm");
-        } while (op != 0);
+        } while (op);
 
         return false;
     }
@@ -399,7 +399,7 @@ bool Epd::checkMoveOps(const Move &move) {
     // Check the move against any "am" operations; any hit means a failure
     op = findFirstOp("am");
 
-    while (op != 0) {
+    while (op) {
         if (move.equals(op->operandMove()))
             return false;
 

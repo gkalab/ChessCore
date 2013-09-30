@@ -53,7 +53,7 @@ void Game::setGame(const Game &other) {
     m_currentMove = 0;
     m_variationStart = false;
 
-    if (m_mainline != 0)
+    if (m_mainline)
         AnnotMove::deepDelete(m_mainline);
 
     m_mainline = AnnotMove::deepCopy(other.m_mainline);
@@ -63,14 +63,14 @@ void Game::setGame(const Game &other) {
 bool Game::moveList(const AnnotMove *lastMove, vector<Move> &moves) const {
     moves.clear();
 
-    if (m_mainline != 0 && lastMove != 0) {
+    if (m_mainline && lastMove) {
         // Move from the last move, back to the start of the mainline
         const AnnotMove *amove = lastMove;
 
-        while (amove != 0) {
+        while (amove) {
             moves.push_back(amove->move());
 
-            if (amove->mainline() != 0)
+            if (amove->mainline())
                 amove = mainline()->prev();
             else
                 amove = amove->prev();
@@ -93,8 +93,8 @@ AnnotMove *Game::makeMove(const std::string &movetext, const std::string *annot 
             return 0;
     } else {
         if (m_currentMove == 0)
-            if (m_mainline != 0) {
-                if (oldNext != 0)
+            if (m_mainline) {
+                if (oldNext)
                     *oldNext = m_mainline;
                 else
                     AnnotMove::deepDelete(m_mainline);
@@ -122,8 +122,8 @@ AnnotMove *Game::makeMove(Move &move, const std::string *annot /*=0*/, std::stri
             return 0;
     } else {
         if (m_currentMove == 0)
-            if (m_mainline != 0) {
-                if (oldNext != 0)
+            if (m_mainline) {
+                if (oldNext)
                     *oldNext = m_mainline;
                 else
                     AnnotMove::deepDelete(m_mainline);
@@ -152,8 +152,8 @@ AnnotMove *Game::makeMove(unsigned moveIndex, const std::string *annot /*=0*/, s
             return 0;
     } else {
         if (m_currentMove == 0)
-            if (m_mainline != 0) {
-                if (oldNext != 0)
+            if (m_mainline) {
+                if (oldNext)
                     *oldNext = m_mainline;
                 else
                     AnnotMove::deepDelete(m_mainline);
@@ -188,7 +188,7 @@ AnnotMove *Game::makeMoveImpl(Move &move, const Position &prevPosition, const st
         return 0;
     }
 
-    if (gameOver != 0)
+    if (gameOver)
         *gameOver = GAMEOVER_NOT;
 
     uint64_t hash = m_position.hashKey();
@@ -198,7 +198,7 @@ AnnotMove *Game::makeMoveImpl(Move &move, const Position &prevPosition, const st
     AnnotMove *amove = new AnnotMove(m_position.lastMove(), hash);
 
     if (m_variationStart) {
-        ASSERT(m_mainline != 0);
+        ASSERT(m_mainline);
 
         if (m_currentMove == 0) {
             m_mainline->addVariation(amove);
@@ -219,7 +219,7 @@ AnnotMove *Game::makeMoveImpl(Move &move, const Position &prevPosition, const st
             m_mainline = amove;
             amove->setPriorPosition(m_startPosition);
         } else {
-            if (m_currentMove->next() != 0)
+            if (m_currentMove->next())
                 m_currentMove->replaceNext(amove, oldNext);
             else
                 m_currentMove->addMove(amove);
@@ -228,7 +228,7 @@ AnnotMove *Game::makeMoveImpl(Move &move, const Position &prevPosition, const st
 
     m_currentMove = amove;
 
-    if (gameOver != 0) {
+    if (gameOver) {
         *gameOver = isGameOver();
 
         if (*gameOver != GAMEOVER_NOT) {
@@ -264,7 +264,7 @@ AnnotMove *Game::makeMoveImpl(Move &move, const Position &prevPosition, const st
         }
     }
 
-    if (annot != 0) {
+    if (annot) {
         if (!annot->empty() && !autoAnnot.empty())
             amove->setPostAnnot(Util::format("%s. %s", annot->c_str(), autoAnnot.c_str()));
         else if (!annot->empty() && autoAnnot.empty())
@@ -273,7 +273,7 @@ AnnotMove *Game::makeMoveImpl(Move &move, const Position &prevPosition, const st
             amove->setPostAnnot(autoAnnot);
     }
 
-    if (formattedMove != 0) {
+    if (formattedMove) {
         if (includeMoveNum)
             *formattedMove = prevPosition.moveNumber();
 
@@ -326,21 +326,21 @@ bool Game::endVariation() {
     }
 
     // One of these should be true
-    ASSERT(m_currentMove != 0 || m_mainline != 0);
+    ASSERT(m_currentMove || m_mainline);
 
     // Go to the start of the line
-    if (m_currentMove != 0) {
+    if (m_currentMove) {
         while (m_currentMove->prev())
             m_currentMove = m_currentMove->prev();
 
         // Go to the mainline
-        ASSERT(m_currentMove->mainline() != 0);    // Else not a variation
+        ASSERT(m_currentMove->mainline());    // Else not a variation
 
-        while (m_currentMove->mainline() != 0)
+        while (m_currentMove->mainline())
             m_currentMove = m_currentMove->mainline();
 
         // Set the position before the mainline move
-        ASSERT(m_currentMove->priorPosition() != 0);
+        ASSERT(m_currentMove->priorPosition());
         m_position.set(m_currentMove->priorPosition());
     } else {
         setPositionToStart();
@@ -350,7 +350,7 @@ bool Game::endVariation() {
     UnmakeMoveInfo umi;
 
     if (!m_position.makeMove(
-            m_currentMove != 0 ? m_currentMove->move() : m_mainline->move(), umi)) {
+            m_currentMove ? m_currentMove->move() : m_mainline->move(), umi)) {
         LOGERR << "Failed to re-make last move " << m_currentMove->dump() << " after variation end";
         return false;
     }
@@ -388,7 +388,7 @@ AnnotMove *Game::addVariation(const vector<Move> &moveList) {
         ok = false;
     }
 
-    if (!ok && firstMove != 0) {
+    if (!ok && firstMove) {
         // Remove the variation
         removeMove(firstMove);
         delete firstMove;
@@ -407,13 +407,13 @@ bool Game::getPriorPosition(const AnnotMove *amove, Position &position) {
     moves.reserve(m_position.ply() + 1);
     bool first = true;
 
-    if (amove != 0) {
-        while (amove->mainline() != 0)
+    if (amove) {
+        while (amove->mainline())
             amove = amove->mainline();
 
         if (amove->priorPosition() == 0) {
             // Go to the start of the line.
-            while (amove->prev() != 0) {
+            while (amove->prev()) {
                 if (!first)
                     moves.push_back(amove->move());
                 else
@@ -425,8 +425,8 @@ bool Game::getPriorPosition(const AnnotMove *amove, Position &position) {
             moves.push_back(amove->move());
 
             // If this is a variation then get the priorPosition from the mainline
-            if (amove->mainline() != 0)
-                while (amove->mainline() != 0)
+            if (amove->mainline())
+                while (amove->mainline())
                     amove = amove->mainline();
 
             // There should be a prior position here.
@@ -454,7 +454,7 @@ bool Game::getPriorPosition(const AnnotMove *amove, Position &position) {
 }
 
 void Game::removeMove(AnnotMove *amove, bool unlinkOnly /*=false*/) {
-    if (amove != 0) {
+    if (amove) {
         if (amove == m_mainline) {
             removeMoves(unlinkOnly);
             return;
@@ -475,7 +475,7 @@ void Game::removeMoves(bool unlinkOnly /*=false*/) {
 bool Game::restoreMoves(AnnotMove *moves, AnnotMove **replaced /*=0*/) {
     if (moves->prev() == 0 && moves->mainline() == 0) {
         // Was the mainline move
-        if (replaced != 0)
+        if (replaced)
             *replaced = m_mainline;
 
         m_mainline = moves;
@@ -486,8 +486,8 @@ bool Game::restoreMoves(AnnotMove *moves, AnnotMove **replaced /*=0*/) {
 }
 
 bool Game::promoteMove(AnnotMove *move) {
-    ASSERT(m_mainline != 0);
-    ASSERT(move != 0);
+    ASSERT(m_mainline);
+    ASSERT(move);
     bool mainlineAffected = move->isDirectVariation(m_mainline);
 
     if (move->promote()) {
@@ -501,8 +501,8 @@ bool Game::promoteMove(AnnotMove *move) {
 }
 
 bool Game::demoteMove(AnnotMove *move) {
-    ASSERT(m_mainline != 0);
-    ASSERT(move != 0);
+    ASSERT(m_mainline);
+    ASSERT(move);
     bool mainlineAffected = move == m_mainline;
 
     if (move->demote()) {
@@ -516,8 +516,8 @@ bool Game::demoteMove(AnnotMove *move) {
 }
 
 bool Game::promoteMoveToMainline(AnnotMove *move, unsigned *count) {
-    ASSERT(m_mainline != 0);
-    ASSERT(move != 0);
+    ASSERT(m_mainline);
+    ASSERT(move);
     bool mainlineAffected = move->isDirectVariation(m_mainline);
 
     if (move->promoteToMainline(count)) {
@@ -566,12 +566,12 @@ Game::GameOver Game::isGameOver() {
     unsigned numMoves = m_position.genMoves(moves);
 
     if (numMoves == 0)
-        return (m_position.flags() & Position::FL_INCHECK) != 0 ? GAMEOVER_MATE : GAMEOVER_STALEMATE;
+        return (m_position.flags() & Position::FL_INCHECK) ? GAMEOVER_MATE : GAMEOVER_STALEMATE;
 
     // If there are two other instances of this key in the position history then the game
     // is drawn by 3-fold repetition.  This cannot be the case if the last move was a capture,
     // castling or promotion move.
-    if (m_currentMove != 0) {
+    if (m_currentMove) {
         int count = 0;
 
         if (!m_currentMove->isCapture() && !m_currentMove->isCastle() && !m_currentMove->isPromotion())
@@ -585,7 +585,7 @@ Game::GameOver Game::isGameOver() {
 }
 
 bool Game::setMainline(const AnnotMove *amoves) {
-    if (m_mainline != 0) {
+    if (m_mainline) {
         logerr("Cannot set mainline moves as game already contains a mainline");
         return false;
     }
@@ -607,7 +607,7 @@ bool Game::findPosition(uint64_t hashKey, bool mainlineOnly, Position &foundPos,
 
     Position pos = currentPos;
 
-    while (move != 0) {
+    while (move) {
         UnmakeMoveInfo umi;
 
         if (!pos.makeMove(move, umi)) {
@@ -620,8 +620,8 @@ bool Game::findPosition(uint64_t hashKey, bool mainlineOnly, Position &foundPos,
             return true;
         }
 
-        if (!mainlineOnly && move->variation() != 0)
-            for (const AnnotMove *var = move->variation(); var != 0; var = var->variation())
+        if (!mainlineOnly && move->variation())
+            for (const AnnotMove *var = move->variation(); var; var = var->variation())
                 if (findPosition(hashKey, mainlineOnly, foundPos, pos, var))
                     return true;
 
@@ -633,13 +633,13 @@ bool Game::findPosition(uint64_t hashKey, bool mainlineOnly, Position &foundPos,
 }
 
 Colour Game::currentMoveColour() const {
-    return (m_position.ply() & 1) != 0 ? WHITE : BLACK;
+    return (m_position.ply() & 1) ? WHITE : BLACK;
 }
 
 bool Game::setCurrentMove(const AnnotMove *currentMove) {
 #ifdef _DEBUG
 
-    if (m_mainline != 0 && currentMove != 0)
+    if (m_mainline && currentMove)
         ASSERT(currentMove->isDescendant(m_mainline));
 #endif // _DEBUG
 
@@ -662,7 +662,7 @@ bool Game::setCurrentMove(const AnnotMove *currentMove) {
 }
 
 AnnotMove *Game::previousMove() {
-    if (m_currentMove != 0) {
+    if (m_currentMove) {
         AnnotMove *prevMove = m_currentMove->prev();
         setCurrentMove(prevMove);
     }

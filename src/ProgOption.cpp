@@ -68,7 +68,7 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
     // Store the program name
     p = strrchr(argv[0], PATHSEP);
 
-    if (p != 0)
+    if (p)
         progName.assign(p + 1);
     else
         progName.assign(argv[0]);
@@ -226,34 +226,34 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
 void ProgOption::setValue(const string &strvalue) const {
     *(m_value.pstring) = strvalue;
 
-    if (m_pindicator != 0)
+    if (m_pindicator)
         *m_pindicator = true;
 }
 
 void ProgOption::setValue(int intvalue) const {
     *(m_value.pint) = intvalue;
 
-    if (m_pindicator != 0)
+    if (m_pindicator)
         *m_pindicator = true;
 }
 
 void ProgOption::setValue(uint64_t uint64value) const {
     *(m_value.puint64) = uint64value;
 
-    if (m_pindicator != 0)
+    if (m_pindicator)
         *m_pindicator = true;
 }
 
 void ProgOption::setValue(bool boolvalue) const {
     *(m_value.pbool) = boolvalue;
 
-    if (m_pindicator != 0)
+    if (m_pindicator)
         *m_pindicator = true;
 }
 
 void ProgOption::toggleValue() const {
     *(m_value.pbool) = !*(m_value.pbool);
 
-    if (m_pindicator != 0)
+    if (m_pindicator)
         *m_pindicator = true;
 }

@@ -208,7 +208,7 @@ static bool analyzeGame(int gameNum, Game &game, Engine &engine) {
 
     game.setCurrentMove(0);
     for (amove = game.mainline();
-         amove != 0 && gameover == Game::GAMEOVER_NOT && !g_quitFlag;
+         amove && gameover == Game::GAMEOVER_NOT && !g_quitFlag;
          amove = amove->next()) {
         pv.clear();
         lastScore = 0;
@@ -293,7 +293,7 @@ static bool analyzeGame(int gameNum, Game &game, Engine &engine) {
 
         ASSERT(!bestMove.isNull());
 
-        if (lastMateScore != 0)
+        if (lastMateScore)
             score = Util::format("#%d", lastMateScore);
         else
             score = Util::formatCenti(lastScore);
@@ -346,10 +346,10 @@ static bool analyzeGame(int gameNum, Game &game, Engine &engine) {
 static bool displayInfo(const shared_ptr<EngineMessage> &message, int &score, int &mateScore, vector<Move> &pv) {
     EngineMessageInfoSearch *info = dynamic_cast<EngineMessageInfoSearch *> (message.get());
 
-    if ((info->have & EngineMessageInfoSearch::HAVE_SCORE) != 0)
+    if (info->have & EngineMessageInfoSearch::HAVE_SCORE)
         score = info->score;
 
-    if ((info->have & EngineMessageInfoSearch::HAVE_MATESCORE) != 0)
+    if (info->have & EngineMessageInfoSearch::HAVE_MATESCORE)
         mateScore = info->mateScore;
 
     if ((info->have & EngineMessageInfoSearch::HAVE_PV) == 0)

@@ -488,7 +488,7 @@ bool PgnDatabase::index(DATABASE_CALLBACK_FUNC callback, void *contextInfo) {
                         inHeader = true;
                         m_numGames++;
 
-                        if (callback != 0) {
+                        if (callback) {
                             float complete = static_cast<float> ((offset * 100) / totalSize);
 
                             if (!callback(m_numGames, complete, contextInfo)) {
@@ -790,7 +790,7 @@ unsigned PgnDatabase::readMultiFromString(const std::string &input, std::vector<
             numGames++;
             unsigned offset = (unsigned)inss.tellg();
 
-            if (callback != 0) {
+            if (callback) {
                 float complete = static_cast<float>((offset * 100) / totalSize);
                 if (!callback(numGames, complete, contextInfo)) {
                     LOGERR << "User cancelled reading";
@@ -912,14 +912,14 @@ bool PgnDatabase::read(PgnScannerContext &context, Game &game, string &errorMsg)
                 annotation = comment;
                 Util::trim(annotation);
 
-                if (lastMove != 0) {
+                if (lastMove) {
                     lastMove->setPostAnnot(annotation);
                     annotation.clear();
                 } else {
                     //LOGDBG << "Latched annotation: '" << annotation << "'";
                 }
             } else if (IS_PGN_EVAL(token)) {
-                if (lastMove != 0) {
+                if (lastMove) {
                     Nag nag = NAG_NONE;
                     unsigned nagValue;
 
@@ -985,7 +985,7 @@ bool PgnDatabase::read(PgnScannerContext &context, Game &game, string &errorMsg)
             } else if (token == A_VARSTART) {
                 if (!game.startVariation()) {
                     str = Util::format("line %u: failed to start variation after move %s",
-                                       context.lineNumber(), (lastMove != 0 ? lastMove->dump().c_str() : "none"));
+                                       context.lineNumber(), (lastMove ? lastMove->dump().c_str() : "none"));
 
                     if (m_relaxedParsing) {
                         // Consume the invalid variation and carry on
@@ -1236,11 +1236,11 @@ bool PgnDatabase::write(ostream &output, const Game &game, string &errorMsg) {
     output << Util::format("[Site \"%s\"]", formatTagString(game.site()).c_str()) << endl;
     output << Util::format("[Date \"%s\"]", date.c_str()) << endl;
 
-    if (game.roundMajor() != 0 && game.roundMinor() != 0)
+    if (game.roundMajor() && game.roundMinor())
         output << Util::format("[Round \"%u.%u\"]", game.roundMajor(), game.roundMinor()) << endl;
-    else if (game.roundMajor() != 0 && game.roundMinor() == 0)
+    else if (game.roundMajor() && game.roundMinor() == 0)
         output << Util::format("[Round \"%u\"]", game.roundMajor()) << endl;
-    else if (game.roundMajor() == 0 && game.roundMinor() != 0)
+    else if (game.roundMajor() == 0 && game.roundMinor())
         output << Util::format("[Round \"?.%u\"]", game.roundMinor()) << endl;
     else
         output << "[Round \"?\"]" << endl;
@@ -1263,10 +1263,10 @@ bool PgnDatabase::write(ostream &output, const Game &game, string &errorMsg) {
     if (!game.eco().empty())
         output << Util::format("[ECO \"%s\"]", game.eco().c_str()) << endl;
 
-    if (game.white().elo() != 0)
+    if (game.white().elo())
         output << Util::format("[WhiteElo \"%u\"]", game.white().elo()) << endl;
 
-    if (game.black().elo() != 0)
+    if (game.black().elo())
         output << Util::format("[BlackElo \"%u\"]", game.black().elo()) << endl;
 
     output << endl;
@@ -1278,7 +1278,7 @@ bool PgnDatabase::write(ostream &output, const Game &game, string &errorMsg) {
 
     unsigned width = 0;
 
-    if (game.mainline() != 0)
+    if (game.mainline())
         retval = writeMoves(output, game.mainline(), width, errorMsg);
 
     writeText(output, result, width);
@@ -1296,19 +1296,19 @@ bool PgnDatabase::writeMoves(ostream &output, const AnnotMove *amove, unsigned &
     bool retval = true, moveNum = true, forceMoveNum = false, firstWord = true;
     unsigned i, numParts;
 
-    ASSERT(amove != 0);
+    ASSERT(amove);
 
     // There must be a priorPosition available for this line
     m = amove;
 
-    while (m->mainline() != 0)
+    while (m->mainline())
         m = m->mainline();
 
-    ASSERT(m->priorPosition() != 0);
+    ASSERT(m->priorPosition());
     pos.set(m->priorPosition());
 
     // We can write a 'pre-move annotation' at the start of each line
-    if (amove != 0) {
+    if (amove) {
         const string &preAnnot = amove->preAnnot();
 
         if (!preAnnot.empty()) {
@@ -1324,14 +1324,14 @@ bool PgnDatabase::writeMoves(ostream &output, const AnnotMove *amove, unsigned &
         }
     }
 
-    while (amove != 0 && retval) {
+    while (amove && retval) {
         if (output.bad() || output.fail()) {
             LOGERR << "Failed to write moves to stream: " << strerror(errno);
             retval = false;
             break;
         }
 
-        moveNum = toColour(pos.ply() + 1) == WHITE || amove->mainline() != 0;
+        moveNum = toColour(pos.ply() + 1) == WHITE || amove->mainline();
 
         if (moveNum || forceMoveNum) {
             str = pos.moveNumber();
@@ -1352,7 +1352,7 @@ bool PgnDatabase::writeMoves(ostream &output, const AnnotMove *amove, unsigned &
             for (i = 0; i < numNags; i++) {
                 unsigned nagValue = toPgnNag(nags[i]);
 
-                if (nagValue != 0) {
+                if (nagValue) {
                     str = Util::format("$%u", nagValue);
                     writeText(output, str, width);
                     forceMoveNum = true;
@@ -1378,7 +1378,7 @@ bool PgnDatabase::writeMoves(ostream &output, const AnnotMove *amove, unsigned &
             return false;
         }
 
-        if (amove->variation() != 0) {
+        if (amove->variation()) {
             if (EMBEDDED_VARIATIONS) {
                 writeText(output, "(", width, true);
                 retval = writeMoves(output, amove->variation(), width, errorMsg);
@@ -1386,7 +1386,7 @@ bool PgnDatabase::writeMoves(ostream &output, const AnnotMove *amove, unsigned &
                 forceMoveNum = true;
             } else if (amove->mainline() == 0) {
                 // Top of variation tree
-                for (m = amove->variation(); m != 0; m = m->variation()) {
+                for (m = amove->variation(); m; m = m->variation()) {
                     writeText(output, "(", width, true);
                     retval = writeMoves(output, m, width, errorMsg);
                     writeText(output, ")", width, false);

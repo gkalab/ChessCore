@@ -32,7 +32,7 @@ OpeningTree::OpeningTree(const std::string &filename):m_longestLine(0) {
 }
 
 OpeningTree::~OpeningTree() {
-    if (m_db != 0) {
+    if (m_db) {
         m_db->close();
         m_db = 0;
     }
@@ -55,7 +55,7 @@ bool OpeningTree::classify(const Game &game, string &eco, string &opening, strin
 
     // Move through the game until a move no longer appears in the ECO
     // Classification file.
-    for (const AnnotMove *move = game.mainline(); move != 0; move = move->next()) {
+    for (const AnnotMove *move = game.mainline(); move; move = move->next()) {
         prevPos = pos;
         prevCount = count;
         depth++;
@@ -76,7 +76,7 @@ bool OpeningTree::classify(const Game &game, string &eco, string &opening, strin
     }
 
     if (prevCount > 0) {
-        ASSERT(prevPos.hashKey() != 0ULL);
+        ASSERT(prevPos.hashKey());
 
         // The position we want is in prevPos
         vector<OpeningTreeEntry> entries;
@@ -99,7 +99,7 @@ bool OpeningTree::classify(const Game &game, string &eco, string &opening, strin
             }
         }
 
-        if (gameNum != 0) {
+        if (gameNum) {
             GameHeader gameHeader;
 
             if (m_db->readHeader(gameNum, gameHeader)) {
@@ -135,7 +135,7 @@ bool OpeningTree::classify(Game &game, bool setComment /*=true*/) {
         ASSERT(!opening.empty());
         AnnotMove *move = game.mainline();
 
-        if (move != 0) {
+        if (move) {
             if (!variation.empty())
                 move->setPreAnnot(opening + " / " + variation);
             else

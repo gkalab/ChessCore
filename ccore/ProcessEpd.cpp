@@ -85,14 +85,15 @@ bool processEpd(const string &engineId) {
 
     for (j = first; j <= last && !g_quitFlag; j++) {
         Epd *epd = epdFile.epd(j);
-        ASSERT(epd != 0);
+        ASSERT(epd);
         const EpdOp *op = epd->findFirstOp("id");
 
-        if (op != 0)
+        if (op) {
             cout << "Processing " << g_optEpdFile << ":" << dec << epd->lineNum() << " '"
                  << op->operandString() << "'\n";
-        else
+        } else {
             cout << "Processing " << g_optEpdFile << ":" << dec << epd->lineNum() << "\n";
+        }
 
         cout << *epd << endl;
 
@@ -101,7 +102,7 @@ bool processEpd(const string &engineId) {
         //
         op = epd->findFirstOp("perft1");
 
-        if (op != 0) {
+        if (op) {
             if (engine.name().find("Chimp") != string::npos) {
                 depth = 1;
 
@@ -134,7 +135,7 @@ bool processEpd(const string &engineId) {
                         break;    // If this failed then the next will too
 
                     opname = Util::format("perft%d", ++depth);
-                } while (!g_quitFlag && (op = epd->findNextOp(opname)) != 0);
+                } while (!g_quitFlag && (op = epd->findNextOp(opname)));
             } else {
                 cerr << "Skipping perft tests as Chimp engine is not loaded" << endl;
             }
@@ -145,7 +146,7 @@ bool processEpd(const string &engineId) {
         //
         op = epd->findFirstOp("eval");
 
-        if (op != 0) {
+        if (op) {
             if (evalSlightAdv == 0)
                 evalSlightAdv = 75;
 
@@ -294,12 +295,12 @@ static bool getPerft(Engine &engine, const Position &pos, unsigned depth, int64_
                 EngineMessageInfoSearch *engineMessageInfoSearch = dynamic_cast<EngineMessageInfoSearch *>
                                                                    (message.get());
 
-                if ((engineMessageInfoSearch->have & EngineMessageInfoSearch::HAVE_NODES) != 0) {
+                if (engineMessageInfoSearch->have & EngineMessageInfoSearch::HAVE_NODES) {
                     nodes = engineMessageInfoSearch->nodes;
                     haveNodes = true;
                 }
 
-                if ((engineMessageInfoSearch->have & EngineMessageInfoSearch::HAVE_NPS) != 0) {
+                if (engineMessageInfoSearch->have & EngineMessageInfoSearch::HAVE_NPS) {
                     nps = engineMessageInfoSearch->nps;
                     haveNps = true;
                 }
@@ -394,10 +395,10 @@ static bool getEval(Engine &engine, const Position &pos, int32_t &score) {
                 EngineMessageInfoSearch *engineMessageInfoSearch = dynamic_cast<EngineMessageInfoSearch *>
                                                                    (message.get());
 
-                if ((engineMessageInfoSearch->have & EngineMessageInfoSearch::HAVE_MATESCORE) != 0) {
+                if (engineMessageInfoSearch->have & EngineMessageInfoSearch::HAVE_MATESCORE) {
                     score = engineMessageInfoSearch->mateScore > 0 ? 30000 : -30000;
                     haveScore = true;
-                } else if ((engineMessageInfoSearch->have & EngineMessageInfoSearch::HAVE_SCORE) != 0) {
+                } else if (engineMessageInfoSearch->have & EngineMessageInfoSearch::HAVE_SCORE) {
                     score = engineMessageInfoSearch->score;
                     haveScore = true;
                 }

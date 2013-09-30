@@ -164,7 +164,7 @@ bool funcMakeEpd() {
 
         pos = game.startPosition();
 
-        for (const AnnotMove *amove = game.mainline(); amove != 0; amove = amove->next()) {
+        for (const AnnotMove *amove = game.mainline(); amove; amove = amove->next()) {
             EpdOp::Eval eval;
             Nag nags[4];
             amove->nags(nags);
@@ -353,7 +353,7 @@ bool funcValidateDb() {
             // Write to logfile as well, for the benefit of test/scripts/dbtest.py
             LOGINF << "Database is valid. " << gameCount << " games in " << elapsed << "mS";
 
-            if (elapsed != 0)
+            if (elapsed)
                 cout << " (" << (gameCount * 1000) / elapsed << " games/s)";
 
             cout << endl;
@@ -496,7 +496,7 @@ bool funcCopyDb() {
             // Write to logfile as well, for the benefit of test/scripts/dbtest.py
             LOGINF << "Successfully copied database. " << gameCount << " games in " << elapsed << "mS";
 
-            if (elapsed != 0)
+            if (elapsed)
                 cout << " (" << (gameCount * 1000) / elapsed << " games/s)";
 
             cout << endl;
@@ -620,7 +620,7 @@ bool funcBuildOpeningTree() {
             unsigned elapsed = endTime - startTime;
             cout << "Opening Tree successfully built. " << gameCount << " games in " << elapsed << "mS";
 
-            if (elapsed != 0)
+            if (elapsed)
                 cout << " (" << (gameCount * 1000) / elapsed << " games/s)";
 
             cout << endl;
@@ -757,7 +757,7 @@ bool funcClassify() {
             unsigned elapsed = endTime - startTime;
             cout << "Classification succeeded. " << gameCount << " games in " << elapsed << "mS";
 
-            if (elapsed != 0)
+            if (elapsed)
                 cout << " (" << (gameCount * 1000) / elapsed << " games/s)";
 
             cout << endl;

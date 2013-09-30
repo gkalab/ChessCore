@@ -32,7 +32,7 @@ unsigned IoEvent::m_userIdents = 0;
 
 IoEvent::IoEvent() {
 	m_handle = CreateEvent(0, TRUE, FALSE, 0);
-	if (m_handle == NULL) {
+	if (!m_handle) {
 		throw ChessCoreException(string("Failed to create Event object: ") + Util::win32ErrorText(GetLastError()));
     }
 }
@@ -183,7 +183,7 @@ void IoEvent::reset() {
 void IoEvent::initEvent(int kqueue, struct kevent *kevent) {
     m_kqueue = kqueue;
 
-    if (kevent != 0) {
+    if (kevent) {
         logdbg("%p", this);
 
         if (m_type == IoEventTypeFile)

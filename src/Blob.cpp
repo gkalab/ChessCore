@@ -167,7 +167,7 @@ void Blob::free() {
 void Blob::toString(string &dest) const {
     stringstream oss;
 
-    if (m_data != 0 && m_length > 0) {
+    if (m_data && m_length) {
         const uint8_t *p = m_data;
         for (unsigned i = 0; i < m_length; i++)
             oss << Util::hexChar(*p++);

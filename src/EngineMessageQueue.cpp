@@ -36,7 +36,7 @@ void EngineMessageQueue::clear() {
 
     do
         message = dequeue();
-    while (message.get() != 0);
+    while (message);
 
     m_event.reset();
 }
@@ -76,7 +76,7 @@ std::shared_ptr<EngineMessage> EngineMessageQueue::dequeue() {
 
 std::shared_ptr<EngineMessage> EngineMessageQueue::dequeue(int timeout) {
     std::shared_ptr<EngineMessage> message(dequeue());
-    if (message.get() != 0)
+    if (message)
         return message; // Already something waiting
 
     IoEventWaiter waiter;

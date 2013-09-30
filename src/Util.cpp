@@ -186,7 +186,7 @@ string Util::formatData(const uint8_t *data, unsigned length) {
 
     ss << "length=" << length << " (0x" << hex << length << dec << ")" << endl;
 
-    if (data != 0) {
+    if (data) {
         unsigned i;
         const uint8_t *p = (const uint8_t *)data;
         const uint8_t *end = p + length;
@@ -513,10 +513,10 @@ bool Util::endsWith(string const &str, string const &ending, bool caseSensitive 
 string Util::getEnv(const char *name) {
     string value;
 
-    if (name != 0 && *name != '\0') {
+    if (name && *name) {
         char *temp = ::getenv(name);
 
-        if (temp != 0 && *temp != '\0')
+        if (temp && *temp)
             value.assign(temp);
     }
 
@@ -735,15 +735,15 @@ bool Util::copyFile(const std::string &srcFilename, const std::string &dstFilena
     struct stat statbuf;
 
     FILE *src = ::fopen(srcFilename.c_str(), "r");
-    if (src != 0) {
+    if (src) {
         if (::fstat(::fileno(src), &statbuf) == 0) {
             FILE *dst = ::fopen(dstFilename.c_str(), "w+");
-            if (dst != 0) {
+            if (dst) {
                 uint8_t buffer[4096];
                 int numRead;
                 off_t totalRead = 0;
                 do {
-                    if (callback != 0) {
+                    if (callback) {
                         float percentComplete = static_cast<float>((totalRead * 100) / (float)statbuf.st_size);
                         if (!callback(srcFilename, percentComplete, callbackContext)) {
                             LOGINF << "Copy operating cancelled by user";
@@ -806,7 +806,7 @@ bool Util::moveData(string &filename, uint64_t fromOffset, unsigned length, uint
         throw ChessCoreException("Failed to reserve buffer (size=%u)", bufferSize);
     
     FILE *fp = ::fopen(filename.c_str(), "r+");
-    if (fp != 0) {
+    if (fp) {
         if (::fseeko(fp, 0, SEEK_END) == 0)
         {
             eofOffset = ::ftello(fp);
@@ -816,8 +816,8 @@ bool Util::moveData(string &filename, uint64_t fromOffset, unsigned length, uint
                 toOffset = (toOffset + length) - bufferSize;
             }
 
-            while (length != 0 && retval) {
-                if (callback != 0) {
+            while (length && retval) {
+                if (callback) {
                     float percentComplete = static_cast<float>((totalMoved * 100) / originalLength);
                     if (!callback(filename, percentComplete, callbackContext)) {
                         LOGINF << "Move operation cancelled by user";
@@ -993,7 +993,7 @@ string Util::win32ErrorText(DWORD errorCode) {
         (LPSTR)&errorText,
         0,
         NULL);
-    if (errorText != 0)
+    if (errorText)
     {
         message = errorText;
         LocalFree(errorText);

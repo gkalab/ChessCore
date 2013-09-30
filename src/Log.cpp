@@ -134,16 +134,16 @@ void Log::log0(const char *classname, const char *methodname, Level level, Langu
     p = append(p, m_levelsText[level]);
 
 #ifndef WINDOWS    // Under Visual C++ __FUNCTION__ expands to namespace::class::function
-    if (classname != 0 && *classname != '\0')
+    if (classname && *classname)
         p = append(p, classname);
 #endif // !WINDOWS
 
-    if (methodname != 0 && *methodname != '\0') {
+    if (methodname && *methodname) {
 #ifndef WINDOWS
         if (language == LANG_CPP)
             p = append(p, "::");
         else if (language == LANG_OBJC) {
-            if (classname != 0 && *classname != '\0')
+            if (classname && *classname)
                 p = append(p, "  ");
         } else {
             p = append(p, ".");
@@ -163,7 +163,7 @@ void Log::log0(const char *classname, const char *methodname, Level level, Langu
     if (g_beingDebugged && m_fp != stderr)
         fwrite(afterDateTime, 1, p - afterDateTime, stderr);
 
-    if (message != 0 && *message != '\0') {
+    if (message && *message) {
         size_t len = strlen(message);
         fwrite(message, 1, len, m_fp);
 

@@ -58,27 +58,27 @@ const char *EngineMessage::typeDesc(EngineMessage::Type type) {
 string EngineMessageInfoSearch::format() const {
     ostringstream oss;
 
-    if ((have & HAVE_DEPTH) != 0) {
+    if (have & HAVE_DEPTH) {
         oss << dec << depth;
 
-        if ((have & HAVE_SELDEPTH) != 0)
+        if (have & HAVE_SELDEPTH)
             oss << "/" << dec << selectiveDepth;
 
         oss << ' ';
     }
 
-    if ((have & HAVE_TIME) != 0)
+    if (have & HAVE_TIME)
         oss << Util::formatElapsed(time) << "s ";
 
-    if ((have & HAVE_MATESCORE) != 0)
+    if (have & HAVE_MATESCORE)
         oss << '#' << dec << mateScore << ' ';
-    else if ((have & HAVE_SCORE) != 0)
+    else if (have & HAVE_SCORE)
         oss << Util::formatCenti(score) << ' ';
 
     if ((have & (HAVE_NODES | HAVE_NPS)) == (HAVE_NODES | HAVE_NPS))
         oss << dec << nodes << " (" << nps / 1000LL << "knps) ";
 
-    if ((have & HAVE_PV) != 0)
+    if (have & HAVE_PV)
         oss << pvStr;
 
     return oss.str();

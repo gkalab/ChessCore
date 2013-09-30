@@ -124,7 +124,7 @@ bool CfdbDatabase::open(const string &filename, bool readOnly) {
 }
 
 bool CfdbDatabase::close() {
-    if (m_db != 0) {
+    if (m_db) {
         sqlite3_close(m_db);
         m_db = 0;
     }
@@ -182,25 +182,25 @@ bool CfdbDatabase::readHeader(unsigned gameNum, GameHeader &gameHeader) {
             unsigned whiteElo = stmt.columnInt(10);
             unsigned blackElo = stmt.columnInt(11);
 
-            if (whitePlayerId != 0 &&
+            if (whitePlayerId &&
                 selectPlayer(whitePlayerId, player)) {
                 player.setElo(whiteElo);
                 gameHeader.setWhite(player);
             }
 
-            if (blackPlayerId != 0 &&
+            if (blackPlayerId &&
                 selectPlayer(blackPlayerId, player)) {
                 player.setElo(blackElo);
                 gameHeader.setBlack(player);
             }
 
-            if (eventId != 0) {
+            if (eventId) {
                 selectEvent(eventId, name);
 
                 if (name.length() > 0) gameHeader.setEvent(name);
             }
 
-            if (siteId != 0) {
+            if (siteId) {
                 selectSite(siteId, name);
 
                 if (name.length() > 0) gameHeader.setSite(name);
@@ -215,7 +215,7 @@ bool CfdbDatabase::readHeader(unsigned gameNum, GameHeader &gameHeader) {
 
             gameHeader.setResult((GameHeader::Result)result);
 
-            if (annotatorId != 0) {
+            if (annotatorId) {
                 selectAnnotator(annotatorId, name);
 
                 if (name.length() > 0) gameHeader.setAnnotator(name);
@@ -590,7 +590,7 @@ bool CfdbDatabase::buildOpeningTree(unsigned gameNum, unsigned depth, DATABASE_C
         }
 
         for (move = game.mainline(), count = 0;
-             move != 0 && count < depth;
+             move && count < depth;
              move = move->next(), count++) {
             entry.init();
             prevPos = pos;
@@ -621,7 +621,7 @@ bool CfdbDatabase::buildOpeningTree(unsigned gameNum, unsigned depth, DATABASE_C
                 if (rv == SQLITE_DONE) {
                     LOGDBG << "Inserted optree entry for game " << i << ", depth " << count;
 
-                    if (callback != 0) {
+                    if (callback) {
                         float complete = static_cast<float> ((i * 100) / last);
 
                         if (!callback(i, complete, contextInfo)) {
@@ -1323,8 +1323,8 @@ bool CfdbDatabase::checkSchema() {
 bool CfdbDatabase::decodeMoves(Game &game, const Blob &moves, const Blob &annotations) {
     clearErrorMsg();
 
-    ASSERT(moves.data() != 0);
-    ASSERT(moves.length() > 0);
+    ASSERT(moves.data());
+    ASSERT(moves.length());
 
     Bitstream moveBitstream(moves);
     const uint8_t *pannot = annotations.data();
@@ -1341,7 +1341,7 @@ bool CfdbDatabase::decodeMoves(Game &game, const Blob &moves, const Blob &annota
         if (encodedMove == ENCMOVE_TYPE_VARSTART) {
             if (!game.startVariation()) {
                 DBERROR << "Failed to start variation after move '" <<
-                    (lastMove != 0 ? lastMove->dump() : "none") << "'";
+                    (lastMove ? lastMove->dump() : "none") << "'";
                 return false;
             }
 
@@ -1349,7 +1349,7 @@ bool CfdbDatabase::decodeMoves(Game &game, const Blob &moves, const Blob &annota
         } else if (encodedMove == ENCMOVE_TYPE_VAREND) {
             if (!game.endVariation()) {
                 DBERROR << "Failed to end variation after move '" <<
-                    (lastMove != 0 ? lastMove->dump() : "none") << "'";
+                    (lastMove ? lastMove->dump() : "none") << "'";
                 return false;
             }
 
@@ -1375,20 +1375,20 @@ bool CfdbDatabase::decodeMoves(Game &game, const Blob &moves, const Blob &annota
             Game::GameOver gameOver = Game::GAMEOVER_NOT;
             lastMove = game.makeMove(encodedMove & ENCMOVE_MOVE_INDEX_MASK, 0, 0, false, &gameOver, 0);
 
-            if (lastMove != 0) {
-                if ((encodedMove & ENCMOVE_PRE_ANNOT_BIT) != 0) {
+            if (lastMove) {
+                if (encodedMove & ENCMOVE_PRE_ANNOT_BIT) {
                     ASSERT(pannot < annotations.end());
                     lastMove->setPreAnnot((const char *)pannot);
                     pannot += strlen((const char *)pannot) + 1;
                 }
 
-                if ((encodedMove & ENCMOVE_POST_ANNOT_BIT) != 0) {
+                if (encodedMove & ENCMOVE_POST_ANNOT_BIT) {
                     ASSERT(pannot < annotations.end());
                     lastMove->setPostAnnot((const char *)pannot);
                     pannot += strlen((const char *)pannot) + 1;
                 }
 
-                if ((encodedMove & ENCMOVE_NAGS_BIT) != 0) {
+                if (encodedMove & ENCMOVE_NAGS_BIT) {
                     ASSERT(pannot < annotations.end());
 
                     while (*pannot != NAG_NONE)
@@ -1449,15 +1449,15 @@ bool CfdbDatabase::encodeMoves(const Game &game, Blob &moves, Blob &annotations)
 bool CfdbDatabase::encodeMoves(const AnnotMove *amove, Bitstream &moveBitstream, Blob &annotations, bool isVariation) {
     Move moves[256];
 
-    ASSERT(amove != 0);
+    ASSERT(amove);
 
     // There must be a priorPosition available for this line
     const AnnotMove *m = amove;
 
-    while (m->mainline() != 0)
+    while (m->mainline())
         m = m->mainline();
 
-    ASSERT(m->priorPosition() != 0);
+    ASSERT(m->priorPosition());
     Position pos(m->priorPosition());
 
     if (isVariation)
@@ -1466,7 +1466,7 @@ bool CfdbDatabase::encodeMoves(const AnnotMove *amove, Bitstream &moveBitstream,
             return false;
         }
 
-    while (amove != 0) {
+    while (amove) {
         // Get the index of the move
         unsigned moveIndex;
         unsigned numMoves = pos.genMoves(moves);
@@ -1548,10 +1548,10 @@ bool CfdbDatabase::encodeMoves(const AnnotMove *amove, Bitstream &moveBitstream,
             return false;
         }
 
-        if (amove->variation() != 0)
+        if (amove->variation())
             if (amove->mainline() == 0)
                 // Top of variation tree
-                for (m = amove->variation(); m != 0; m = m->variation())
+                for (m = amove->variation(); m; m = m->variation())
                     if (!encodeMoves(m, moveBitstream, annotations, true)) return false;
 
 

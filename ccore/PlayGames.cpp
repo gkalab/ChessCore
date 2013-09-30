@@ -210,8 +210,8 @@ bool playGames(const string &engineId1, const string &engineId2) {
             break;
         }
 
-        if (outdb.get() != 0 && outdb->isOpen()) {
-            if (openingTree.get() != 0 && openingTree->isOpen())
+        if (outdb && outdb->isOpen()) {
+            if (openingTree && openingTree->isOpen())
                 openingTree->classify(tourney.game);
 
             if (!outdb->write(outdb->numGames() + 1, tourney.game))
@@ -462,7 +462,7 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
             score = "Lost on time";
             gameOverReason = Util::format("Black (%s) lost on time", tourney.black->id().c_str());
         } else {
-            if (lastMateScore != 0)
+            if (lastMateScore)
                 score = Util::format("#%d", lastMateScore);
             else
                 score = Util::formatCenti(lastScore);
@@ -540,10 +540,10 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
 static bool displayInfo(const shared_ptr<EngineMessage> &message, int &score, int &mateScore) {
     EngineMessageInfoSearch *info = dynamic_cast<EngineMessageInfoSearch *> (message.get());
 
-    if ((info->have & EngineMessageInfoSearch::HAVE_SCORE) != 0)
+    if (info->have & EngineMessageInfoSearch::HAVE_SCORE)
         score = info->score;
 
-    if ((info->have & EngineMessageInfoSearch::HAVE_MATESCORE) != 0)
+    if (info->have & EngineMessageInfoSearch::HAVE_MATESCORE)
         mateScore = info->mateScore;
 
     if ((info->have & EngineMessageInfoSearch::HAVE_PV) == 0)

@@ -27,7 +27,7 @@ TEST(GameTest, parseGame) {
         "Nc6", "d4",    0
     };
 
-    for (i = 0; moves[i] != 0; i++) {
+    for (i = 0; moves[i]; i++) {
         string movetext = moves[i];
 
         if (movetext == "(") {

@@ -205,10 +205,10 @@ int IoEventWaiter::wait(int timeout /*=-1*/) {
         for (i = 0; i < m_fds.size(); i++) {
             index = (m_index + i) % m_fds.size();
 
-            if ((m_fds[index].revents & (POLLERR | POLLHUP)) != 0) {
-                retval = (m_fds[index].revents & POLLERR) != 0 ? IO_EVENT_WAIT_ERROR : IO_EVENT_WAIT_HANGUP;
+            if (m_fds[index].revents & (POLLERR | POLLHUP)) {
+                retval = (m_fds[index].revents & POLLERR) ? IO_EVENT_WAIT_ERROR : IO_EVENT_WAIT_HANGUP;
                 break;
-            } else if ((m_fds[index].revents & POLLIN) != 0) {
+            } else if (m_fds[index].revents & POLLIN) {
                 retval = index; // index of signalled event
                 break;
             }
@@ -269,10 +269,10 @@ int IoEventWaiter::wait(int timeout /*=-1*/) {
         for (int i = 0; i < keventResult; i++) {
             index = (m_index + i) % keventResult;
 
-            if ((events[index].flags & EV_ERROR) != 0) {
+            if (events[index].flags & EV_ERROR) {
                 retval = IO_EVENT_WAIT_ERROR;
                 break;
-            } else if ((events[index].flags & EV_EOF) != 0) {
+            } else if (events[index].flags & EV_EOF) {
                 retval = IO_EVENT_WAIT_HANGUP;
                 break;
             } else {

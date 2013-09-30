@@ -316,7 +316,7 @@ bool CbhDatabase::gameExists(unsigned gameNum) {
         return false;
 
     // Record is a game and it's not deleted
-    return (cbhRecord.flags & 0x01) != 0 && (cbhRecord.flags & 0x08) == 0;
+    return (cbhRecord.flags & 0x01) && (cbhRecord.flags & 0x08) == 0;
 }
 
 // CBH header (external)

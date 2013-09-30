@@ -359,7 +359,7 @@ void Engine::entry() {
         sigset_t sigset;
         sigfillset(&sigset);
         int sigerr = pthread_sigmask(SIG_SETMASK, &sigset, NULL);
-        if (sigerr != 0)
+        if (sigerr)
         {
             LOGERR << "Failed to block thread signals: " << strerror(sigerr) << " (" << sigerr << ")";
             return;
@@ -420,7 +420,7 @@ void Engine::entry() {
             } else if (index == INDEX_FROM_GUI) {
                 message = m_toQueue.dequeue();
 
-                if (message.get() != 0) {
+                if (message) {
                     LOGVERBOSE << "Engine " << id() << ": Message from GUI: " << EngineMessage::typeDesc(message->type);
 
                     bool valid = false;
@@ -547,7 +547,7 @@ void Engine::entry() {
                                 string uci = fromMessage.str();
 
                                 shared_ptr<EngineMessage> message = engineMessageFromUCI(uci);
-                                if (message.get() != 0) {
+                                if (message) {
                                     if (message->type == EngineMessage::TYPE_BEST_MOVE) {
                                         if (!m_discardNextBestMove) {
                                             m_state = STATE_READY;
@@ -572,7 +572,7 @@ void Engine::entry() {
                                     m_fromQueue.enqueue(message);
                                 }
 
-                                if (m_uciDebugFunc != 0)
+                                if (m_uciDebugFunc)
                                     (m_uciDebugFunc)(m_uciDebugUserp, this, true, uci);
 
                                 fromMessage.str("");
@@ -1046,7 +1046,7 @@ bool Engine::writeToEngine(const string &message) {
 
     bool retval = true;
 
-    if (m_uciDebugFunc != 0)
+    if (m_uciDebugFunc)
         (m_uciDebugFunc)(m_uciDebugUserp, this, false, message);
 
     LOGVERBOSE << "Engine " << id() << ": writing '" << message << "'";

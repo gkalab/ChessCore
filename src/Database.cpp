@@ -98,11 +98,9 @@ bool Database::canOpenDatabase(const std::string &dbname) {
 shared_ptr<Database> Database::openDatabase(const string &dbname, bool readOnly) {
     shared_ptr<Database> instance;
     set<DATABASE_FACTORY_FUNC> &factories = _factories();
-    for (auto it = factories.cbegin(); it != factories.cend(); ++it) {
+    for (auto it = factories.cbegin(); it != factories.cend() && !instance; ++it) {
         DATABASE_FACTORY_FUNC factory = *it;
         instance = (factory)(dbname, readOnly);
-        if (instance.get() != 0)
-            break;
     }
     return instance;
 }

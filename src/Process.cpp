@@ -204,7 +204,7 @@ bool Process::load(const string &name, const string &exeFile, const string &work
     ::getcwd(currDir, sizeof(currDir));
 
     if (!workDir.empty()) {
-        if (::chdir(workDir.c_str()) != 0) {
+        if (::chdir(workDir.c_str())) {
             LOGERR << "Failed to change directory to '" << workDir << "': " <<
                 strerror(errno) << " (" << errno << ")";
             ::close(childStdin[0]);
@@ -246,7 +246,7 @@ bool Process::load(const string &name, const string &exeFile, const string &work
         ::chdir(currDir);
     }
 
-    if (spawnResult != 0) {
+    if (spawnResult) {
         LOGERR << "Failed to spawn process '" << exeFile <<
             "' from directory '" << workDir << "': " <<
             strerror(error) << " (" << error << ")";
@@ -409,8 +409,13 @@ bool Process::unload() {
                 LOGINF << "Process " << name() << " terminated with exit code " << m_exitCode;
             } else if (WIFSIGNALED(status)) {
                 signal = WTERMSIG(status);
-                terminated = true;
-                LOGINF << "Process " << name() << " terminated by signal " << signal;
+                if (signal < NSIG) {
+                    terminated = true;
+                    LOGINF << "Process " << name() << " terminated by signal " << signal;
+                } else {
+                    LOGWRN << "Process " << name() << " produced unusual signal " << signal
+                        << "; assuming it's not terminated";
+                }
             } else {
                 LOGWRN << "Process " << name() << " changed state but did not terminate.  status=0x" <<
                     hex << status;

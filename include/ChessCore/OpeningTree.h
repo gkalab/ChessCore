@@ -101,7 +101,7 @@ public:
     virtual ~OpeningTree();
 
     bool isOpen() const {
-        return m_db != 0 && m_db->isOpen();
+        return m_db && m_db->isOpen();
     }
 
     /**

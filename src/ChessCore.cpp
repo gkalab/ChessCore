@@ -127,7 +127,7 @@ bool init() {
         tempdir = "/tmp";
 #endif // WINDOWS
 
-    if (tempdir != 0)
+    if (tempdir)
         g_tempDir = tempdir;
 
     // Strip trailing slash

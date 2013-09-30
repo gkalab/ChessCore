@@ -168,7 +168,7 @@ int main(int argc, const char **argv) {
             char *base;
             g_optTime = (int)strtol(g_optTimeStr.c_str(), &base, 10);
 
-            if (base != 0) {
+            if (base) {
                 switch (*base) {
                 case 's':
                     break;
