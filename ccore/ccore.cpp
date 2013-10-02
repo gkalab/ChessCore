@@ -113,11 +113,7 @@ int main(int argc, const char **argv) {
         // Set-up signal handler
         struct sigaction sa;
         sa.sa_handler = signalHandler;
-#ifdef DONT_WAIT_FOR_CHILD
-        sa.sa_flags = SA_NOCLDSTOP | SA_RESTART | SA_NOCLDWAIT;
-#else
         sa.sa_flags = SA_NOCLDSTOP | SA_RESTART;
-#endif
         sigfillset(&sa.sa_mask);
         sigaction(SIGINT, &sa, 0);
         sigaction(SIGTERM, &sa, 0);
@@ -126,11 +122,7 @@ int main(int argc, const char **argv) {
         sigaction(SIGBUS, &sa, 0);
         sigaction(SIGILL, &sa, 0);
         sigaction(SIGFPE, &sa, 0);
-#ifdef DONT_WAIT_FOR_CHILD
-        signal(SIGCHLD, SIG_IGN);
-#else
         signal(SIGCHLD, SIG_DFL);
-#endif
         signal(SIGPIPE, SIG_IGN);
 #endif // WINDOWS
 
