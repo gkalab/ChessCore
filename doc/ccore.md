@@ -31,7 +31,7 @@ The following command line options are common to all functions:
  - `-l` (`--logfile`): Where to write the ChessLib logfile.  The default is `ccore.log` in the current directory.
  - `-D` (`--debuglog`): Turns on debug logging in the log file.
  - `-L` (`--logcomms`): Turns on logging of input/output to the UCI chess engines.  This logging is very verbose.
- - `-c` (`--cfgfile`):  Configuration file, which defines the location and settings for UCI engines.
+ - `-c` (`--cfgfile`):  Configuration file, which defines the location and settings for UCI engines.  Example files are in the `test/config` directory of the source distribution.
 
 The following command line options specify various settings, which vary depending on the function being
 performed:

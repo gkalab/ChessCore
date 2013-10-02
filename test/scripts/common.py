@@ -46,7 +46,7 @@ def init(filename):
         if sys.platform == "linux2":
             _checktool = "valgrind"
         elif sys.platform == "darwin":
-            _checktool="iprofiler -T 1000s -leaks -d {0}".format(_tmpdir)
+            _checktool="iprofiler -T 1000s -leaks -d '{0}'".format(_tmpdir)
             dtpsdir = _tmpdir + "/ccore.dtps"
             if os.path.exists(dtpsdir):
                 shutil.rmtree(dtpsdir)
@@ -55,7 +55,7 @@ def init(filename):
             return False
     elif _options.profile:
         if sys.platform == "darwin":
-            _checktool="iprofiler -T1000s -timeprofiler -d {0}".format(_tmpdir)
+            _checktool="iprofiler -T1000s -timeprofiler -d '{0}'".format(_tmpdir)
             dtpsdir = _tmpdir + "/ccore.dtps"
             if os.path.exists(dtpsdir):
                 shutil.rmtree(dtpsdir)
@@ -77,7 +77,7 @@ def init(filename):
 
     _ccore = _rootdir + "/bin/" + ccoreexe
     if not (os.path.isfile(_ccore) and os.access(_ccore, os.X_OK)):
-        print "{0}: Cannot find ccore executable".format(_progname)
+        print "{0}: Cannot find ccore executable '{1}'".format(_progname, _ccore)
         return False
 
     print "{0}: Using ccore binary '{1}'".format(_progname, _ccore)
@@ -85,24 +85,28 @@ def init(filename):
 
     # Configure ccore config file and default engines
     if sys.platform == "linux2":
-        _configfile = _testdir + "/config/linux.cfg"
+        config = "linux"
         _engine1 = "komodo"
         _engine2 = "stockfish231"
     elif sys.platform == "darwin":
-        _configfile = _testdir + "/config/macosx.cfg"
-        _engine1 = "komodo"
+        config = "macosx"
+        _engine1 = "critter"
         _engine2 = "stockfish4"
     elif sys.platform == "win32":
-        _configfile = _testdir + "/config/windows.cfg"
+        config = "windows"
         _engine1 = "komodo3"
         _engine2 = "stockfish3"
     else:
         print "{0}: No configuration for this platform".format(_progname)
         return False
 
-    if not os.path.exists(_configfile):
-        print "{0}: Configuration file '{1}' does not exist".format(_progname, _configfile)
-        return False
+    _configfile = _testdir + "/config/" + config + "_local.cfg"
+    if not os.path.isfile(_configfile):
+        _configfile = _testdir + "/config/" + config + ".cfg"
+        if not os.path.exists(_configfile):
+            print "{0}: Configuration file '{1}' does not exist".format(_progname, _configfile)
+            return False
+    print "{0}: Using configuration file '{1}'".format(_progname, _configfile)
 
     return True
 
