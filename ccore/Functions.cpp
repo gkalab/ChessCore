@@ -121,7 +121,7 @@ bool funcMakeEpd() {
     cout << "Generating EPD file '" << g_optEpdFile << "'" << endl;
 
     shared_ptr<Database> indb = Database::openDatabase(g_optInputDb, false);
-    if (indb.get() == 0) {
+    if (!indb) {
         cerr << "Don't know how to open database '" << g_optInputDb << "'" << endl;
         return false;
     } else if (!indb->isOpen()) {
@@ -275,7 +275,7 @@ bool funcValidateDb() {
     }
 
     shared_ptr<Database> indb = Database::openDatabase(g_optInputDb, false);
-    if (indb.get() == 0) {
+    if (!indb) {
         cerr << "Don't know how to open database '" << g_optInputDb << "'" << endl;
         return false;
     } else if (!indb->isOpen()) {
@@ -387,7 +387,7 @@ bool funcCopyDb() {
     }
 
     shared_ptr<Database> indb = Database::openDatabase(g_optInputDb, false);
-    if (indb.get() == 0) {
+    if (!indb) {
         cerr << "Don't know how to open database '" << g_optInputDb << "'" << endl;
         return false;
     } else if (!indb->isOpen()) {
@@ -407,7 +407,7 @@ bool funcCopyDb() {
     }
 
     shared_ptr<Database> outdb = Database::openDatabase(g_optOutputDb, false);
-    if (outdb.get() == 0) {
+    if (!outdb) {
         cerr << "Don't know how to create database '" << g_optOutputDb << "'" << endl;
         return false;
     } else if (!outdb->isOpen()) {
@@ -527,7 +527,7 @@ bool funcBuildOpeningTree() {
     }
 
     shared_ptr<Database> indb = Database::openDatabase(g_optInputDb, false);
-    if (indb.get() == 0) {
+    if (!indb) {
         cerr << "Don't know how to open database '" << g_optInputDb << "'" << endl;
         return false;
     } else if (!indb->isOpen()) {
@@ -656,7 +656,7 @@ bool funcClassify() {
     }
 
     shared_ptr<Database> indb = Database::openDatabase(g_optInputDb, false);
-    if (indb.get() == 0) {
+    if (!indb) {
         cerr << "Don't know how to open database '" << g_optInputDb << "'" << endl;
         return false;
     } else if (!indb->isOpen()) {
@@ -784,7 +784,7 @@ bool funcPgnIndex() {
     }
 
     shared_ptr<Database> indb = Database::openDatabase(g_optInputDb, false);
-    if (indb.get() == 0) {
+    if (!indb) {
         cerr << "Don't know how to open database '" << g_optInputDb << "'" << endl;
         return false;
     } else if (!indb->isOpen()) {
@@ -823,7 +823,9 @@ bool funcPgnIndex() {
         return false;
     }
 
+    PgnDatabase *pgnDb = dynamic_cast<PgnDatabase *>(indb.get());
     for (gameNum = firstGame; gameNum <= lastGame && retval && !g_quitFlag; gameNum++) {
+
         if (!indb->gameExists(gameNum)) {
             cout << "Game " << gameNum << " does not exist" << endl;
             continue;
@@ -831,12 +833,11 @@ bool funcPgnIndex() {
 
         uint64_t offset;
         uint32_t linenum;
-        PgnDatabase *pgnDb = dynamic_cast<PgnDatabase *> (indb.get());
 
-        if (pgnDb->readIndex(gameNum, offset, linenum))
+        if (pgnDb->readIndex(gameNum, offset, linenum)) {
             cout << "game " << dec << gameNum << " offset=0x" << hex << offset << " linenum=" << dec << linenum
                  << endl;
-        else {
+        } else {
             cerr << "Failed to get index info for game " << dec << gameNum << ": " << indb->errorMsg() << endl;
             retval = false;
             break;
@@ -860,7 +861,7 @@ bool funcSearchDb() {
     }
 
     shared_ptr<Database> indb = Database::openDatabase(g_optInputDb, false);
-    if (indb.get() == 0) {
+    if (!indb) {
         cerr << "Don't know how to open database '" << g_optInputDb << "'" << endl;
         return false;
     } else if (!indb->isOpen()) {

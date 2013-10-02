@@ -15,7 +15,7 @@ const char *OpeningTree::m_classname = "OpeningTree";
 
 OpeningTree::OpeningTree(const std::string &filename):m_longestLine(0) {
     m_db = Database::openDatabase(filename, false);
-    if (m_db.get() == 0) {
+    if (!m_db) {
         LOGERR << "Failed to open database '" << filename << "': " << m_db->errorMsg();
         return;
     }

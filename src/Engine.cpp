@@ -113,7 +113,7 @@ bool Engine::load(const string &exeFile, const string &workDir, unsigned startup
 
     // Wait for a TYPE_MAINLOOP_ALIVE message from the I/O thread
     message = m_fromQueue.dequeue(startupTimeout);
-    if (message.get() == 0) {
+    if (!message) {
         LOGERR << "Engine " << id() << ": I/O thread failed to start properly";
         unload();
         return false;
@@ -135,7 +135,7 @@ bool Engine::load(const string &exeFile, const string &workDir, unsigned startup
     // Get id and options from engine and most importantly the 'uciok' message
     while (m_threadRunning && !uciok) {
         message = m_fromQueue.dequeue(m_timeout);
-        if (message.get() == 0) {
+        if (!message) {
             if (first) {
                 LOGERR << "Engine " << id() << ": Timed-out getting message";
                 unload();
@@ -147,7 +147,7 @@ bool Engine::load(const string &exeFile, const string &workDir, unsigned startup
 
         switch (message->type) {
         case EngineMessage::TYPE_ID: {
-            EngineMessageId *engineMessageId = dynamic_cast<EngineMessageId *> (message.get());
+            EngineMessageId *engineMessageId = dynamic_cast<EngineMessageId *>(message.get());
 
             if (engineMessageId->name == "name")
                 m_name = engineMessageId->value;
@@ -171,20 +171,19 @@ bool Engine::load(const string &exeFile, const string &workDir, unsigned startup
         }
 
         case EngineMessage::TYPE_OPTION: {
-            EngineMessageOption *engineMessageOption = dynamic_cast<EngineMessageOption *> (message.get());
+            EngineMessageOption *engineMessageOption = dynamic_cast<EngineMessageOption *>(message.get());
             m_engineOptions[engineMessageOption->option.name()] = engineMessageOption->option;
             break;
         }
 
         case EngineMessage::TYPE_INFO_STRING: {
-            EngineMessageInfoString *engineMessageInfoString = dynamic_cast<EngineMessageInfoString *>
-                                                               (message.get());
+            EngineMessageInfoString *engineMessageInfoString = dynamic_cast<EngineMessageInfoString *>(message.get());
             LOGINF << "Engine " << id() << ": Engine info message '" << engineMessageInfoString->info << "'";
             break;
         }
 
         case EngineMessage::TYPE_ERROR: {
-            EngineMessageError *engineMessageError = dynamic_cast<EngineMessageError *> (message.get());
+            EngineMessageError *engineMessageError = dynamic_cast<EngineMessageError *>(message.get());
             LOGERR << "Engine " << id() << ": Engine error message '" << engineMessageError->error << "'";
             unload();
             return false;
@@ -608,8 +607,7 @@ bool Engine::isReady() {
         // All the time we are getting something back from the engine, then
         // keep the timeout value the same.
         message = m_fromQueue.dequeue(m_timeout);
-
-        if (message.get() == 0) {
+        if (!message) {
             LOGERR << "Engine " << id() << ": Did not become ready in time";
             return false;
         }
@@ -634,8 +632,7 @@ string Engine::uciFromEngineMessage(const shared_ptr<EngineMessage> engineMessag
     }
 
     case EngineMessage::TYPE_DEBUG: {
-        const EngineMessageDebug *engineMessageDebug = dynamic_cast<const EngineMessageDebug *>
-                                                       (engineMessage.get());
+        const EngineMessageDebug *engineMessageDebug = dynamic_cast<const EngineMessageDebug *>(engineMessage.get());
         uci = Util::format("debug %s", engineMessageDebug->debug ? "on" : "off");
         break;
     }
@@ -646,8 +643,7 @@ string Engine::uciFromEngineMessage(const shared_ptr<EngineMessage> engineMessag
     }
 
     case EngineMessage::TYPE_REGISTER: {
-        const EngineMessageRegister *engineMessageRegister = dynamic_cast<const EngineMessageRegister *>
-                                                             (engineMessage.get());
+        const EngineMessageRegister *engineMessageRegister = dynamic_cast<const EngineMessageRegister *>(engineMessage.get());
 
         if (!engineMessageRegister->name.empty()) {
             if (!engineMessageRegister->code.empty())
@@ -662,8 +658,7 @@ string Engine::uciFromEngineMessage(const shared_ptr<EngineMessage> engineMessag
     }
 
     case EngineMessage::TYPE_SET_OPTION: {
-        const EngineMessageSetOption *engineMessageSetOption = dynamic_cast<const EngineMessageSetOption *>
-                                                               (engineMessage.get());
+        const EngineMessageSetOption *engineMessageSetOption = dynamic_cast<const EngineMessageSetOption *>(engineMessage.get());
         uci = uciForSetOption(engineMessageSetOption->name, engineMessageSetOption->value);
         break;
     }
@@ -674,8 +669,7 @@ string Engine::uciFromEngineMessage(const shared_ptr<EngineMessage> engineMessag
     }
 
     case EngineMessage::TYPE_POSITION: {
-        const EngineMessagePosition *engineMessagePosition = dynamic_cast<const EngineMessagePosition *>
-                                                             (engineMessage.get());
+        const EngineMessagePosition *engineMessagePosition = dynamic_cast<const EngineMessagePosition *>(engineMessage.get());
         ostringstream oss;
 
         if (engineMessagePosition->startPosition.hashKey() == 0ULL &&
