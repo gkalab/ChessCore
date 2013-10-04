@@ -8,7 +8,7 @@
 using namespace std;
 using namespace ChessCore;
 
-TEST(MoveTest, basic) {
+TEST(MoveTest, size) {
 	EXPECT_EQ(sizeof(Move), 4);
 }
 
@@ -21,19 +21,19 @@ static testing::AssertionResult testMove(const Position &pos, const Move m) {
 	}
 
 	if (newm.from() != m.from()) {
-		return testing::AssertionFailure() << "Move \"" << san << "\" has different from: " << newm.from();
+		return testing::AssertionFailure() << "Move \"" << san << "\" has different 'from': " << newm.from();
 	}
 
 	if (newm.to() != m.to()) {
-		return testing::AssertionFailure() << "Move \"" << san << "\" has different to: " << newm.to();
+		return testing::AssertionFailure() << "Move \"" << san << "\" has different 'to': " << newm.to();
 	}
 
 	if (newm.prom() != m.prom()) {
-		return testing::AssertionFailure() << "Move \"" << san << "\" has different prom: " << newm.prom();
+		return testing::AssertionFailure() << "Move \"" << san << "\" has different 'prom': " << newm.prom();
 	}
 
 	if (newm.flags() != m.flags()) {
-		return testing::AssertionFailure() << "Move \"" << san << "\" has different flag: 0x" << hex << newm.from();
+		return testing::AssertionFailure() << "Move \"" << san << "\" has different 'flags': 0x" << hex << newm.from();
 	}
 
 	return testing::AssertionSuccess();

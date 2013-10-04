@@ -127,6 +127,7 @@
 		A157FFC617AA6CBF006EC9CC /* AppleUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = A157FFC517AA6CBF006EC9CC /* AppleUtil.mm */; };
 		A157FFC717AA6CBF006EC9CC /* AppleUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = A157FFC517AA6CBF006EC9CC /* AppleUtil.mm */; };
 		A17131DF160CD054003A8EE3 /* OpeningTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A17131DD160CD054003A8EE3 /* OpeningTree.cpp */; };
+		A182000717FED625007682DD /* Move_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A182000617FED625007682DD /* Move_unittest.cpp */; };
 		A1843A9217A2EEB700A0A219 /* gtest-all.cc in Sources */ = {isa = PBXBuildFile; fileRef = A1843A9117A2EEB700A0A219 /* gtest-all.cc */; };
 		A1843A9A17A2EEE100A0A219 /* Bitstream_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1843A9417A2EEE100A0A219 /* Bitstream_unittest.cpp */; };
 		A1843A9B17A2EEE100A0A219 /* Game_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1843A9517A2EEE100A0A219 /* Game_unittest.cpp */; };
@@ -301,6 +302,7 @@
 		A17131DD160CD054003A8EE3 /* OpeningTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpeningTree.cpp; path = src/OpeningTree.cpp; sourceTree = "<group>"; };
 		A17131E5160CD114003A8EE3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A181816216EB702B00CCBC24 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A182000617FED625007682DD /* Move_unittest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Move_unittest.cpp; path = test/unittests/Move_unittest.cpp; sourceTree = SOURCE_ROOT; };
 		A18438BF17A2EE5B00A0A219 /* unittests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = unittests; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1843A9117A2EEB700A0A219 /* gtest-all.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "gtest-all.cc"; path = "test/gtest/src/gtest-all.cc"; sourceTree = SOURCE_ROOT; };
 		A1843A9417A2EEE100A0A219 /* Bitstream_unittest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bitstream_unittest.cpp; path = test/unittests/Bitstream_unittest.cpp; sourceTree = SOURCE_ROOT; };
@@ -391,6 +393,7 @@
 		A18438C017A2EE5B00A0A219 /* unittests Source */ = {
 			isa = PBXGroup;
 			children = (
+				A182000617FED625007682DD /* Move_unittest.cpp */,
 				A10CCA1A17A70DB800B21641 /* Movegen_unittest.cpp */,
 				A1843A9417A2EEE100A0A219 /* Bitstream_unittest.cpp */,
 				A1843A9517A2EEE100A0A219 /* Game_unittest.cpp */,
@@ -830,6 +833,7 @@
 				A1843A9C17A2EEE100A0A219 /* Lowlevel_unittest.cpp in Sources */,
 				A1843A9D17A2EEE100A0A219 /* PackUtil_unittest.cpp in Sources */,
 				A1843A9E17A2EEE100A0A219 /* unittest_main.cpp in Sources */,
+				A182000717FED625007682DD /* Move_unittest.cpp in Sources */,
 				A1843A9F17A2EEE100A0A219 /* Util_unittest.cpp in Sources */,
 				A10CCA1B17A70DB800B21641 /* Movegen_unittest.cpp in Sources */,
 			);
