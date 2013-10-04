@@ -43,7 +43,6 @@ TEST(MoveTest, parse) {
 	Position pos;
 	Move m, moves[256];
 
-	Rand64::init();
 	pos.setStarting();
 	for (unsigned i = 0; i < 20; i++) {
 		unsigned numMoves = pos.genMoves(moves);
@@ -56,3 +55,4 @@ TEST(MoveTest, parse) {
 		ASSERT_TRUE(pos.makeMove(moves[moveNum], umi));
 	}
 }
+
