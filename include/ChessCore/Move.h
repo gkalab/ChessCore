@@ -35,14 +35,12 @@ public:
     };
 
 protected:
-    // |           |           |           |           |           |           |           |           |
     // +-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
     // |31|30|29|28|27|26|25|24|23|22|21|20|19|18|17|16|15|14|13|12|11|10|09|08|07|06|05|04|03|02|01|00|
     // +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
     // |           flags (FL_xxx)                | prom   | piece  |   from offset   |    to offset    |
     // |                 (14 bits)               |(3 bits)|(3 bits)|     (6 bits)    |     (6 bits)    |
     // +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-    // |           |           |           |           |           |           |           |           |
     uint32_t m_flags  : 14;
     uint32_t m_prom   : 3;
     uint32_t m_piece  : 3;
@@ -54,19 +52,39 @@ public:
         init();
     }
 
-    inline Move(const Move &other):m_flags(other.m_flags), m_prom(other.m_prom), m_piece(other.m_piece), m_from(
-            other.m_from), m_to(other.m_to) {
+    inline Move(const Move &other) :
+		m_flags(other.m_flags),
+		m_prom(other.m_prom),
+		m_piece(other.m_piece),
+		m_from(other.m_from), m_to(other.m_to)
+	{
     }
 
-    inline Move(const Move *other):m_flags(other->m_flags), m_prom(other->m_prom), m_piece(other->m_piece), m_from(
-            other->m_from), m_to(other->m_to) {
+    inline Move(const Move *other) :
+		m_flags(other->m_flags),
+		m_prom(other->m_prom),
+		m_piece(other->m_piece),
+		m_from(other->m_from),
+		m_to(other->m_to)
+	{
     }
 
-    inline Move(Piece piece, Square from, Square to):m_flags(0), m_prom(0), m_piece(piece), m_from(from), m_to(to) {
+    inline Move(Piece piece, Square from, Square to) :
+		m_flags(0),
+		m_prom(0),
+		m_piece(piece),
+		m_from(from),
+		m_to(to)
+	{
     }
 
-    inline Move(unsigned flags, Piece piece, Square from, Square to):m_flags(flags), m_prom(0), m_piece(piece), m_from(
-            from), m_to(to) {
+    inline Move(unsigned flags, Piece piece, Square from, Square to) :
+		m_flags(flags),
+		m_prom(0),
+		m_piece(piece),
+		m_from(from),
+		m_to(to)
+	{
     }
 
     inline Move(uint32_t intValue) {
@@ -242,6 +260,9 @@ public:
         return isSlidingPiece(piece());
     }
 
+	/**
+	 * Test if two moves are equal; ignoring flags.
+	 */
     inline bool equals(const Move &other) const {
         return
             m_from == other.m_from &&
