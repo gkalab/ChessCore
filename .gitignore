@@ -24,6 +24,7 @@ VisualStudio/ipch/*
 # Other files
 make.conf
 Million174.pgn
+test/config/*_local.cfg
 *.pgi
 .pydevproject
 *.swp
