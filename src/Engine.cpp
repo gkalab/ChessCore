@@ -802,7 +802,8 @@ shared_ptr<EngineMessage> Engine::engineMessageFromUCI(const string &uci) {
                 if (nextPos.makeMove(bestMove, umi)) {
                     bestMove = nextPos.lastMove();
 
-                    if (numParts >= 4 && parts[2] == "ponder" && parts[3] != "(none)") {
+                    if (numParts >= 4 && parts[2] == "ponder" &&
+                        (parts[3] != "(none)" && parts[3] != "0000")) {
                         if (ponderMove.parse(nextPos, parts[3])) {
                             if (nextPos.makeMove(ponderMove, umi))
                                 ponderMove = nextPos.lastMove();
