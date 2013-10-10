@@ -385,10 +385,16 @@ bool Process::unload() {
             int status, signal;
 
             if (retry >= 3) {
-                // Send a SIGINT on the 4th and 5th retry and a SIGKILL on the 6th retry
-                signal = (retry == 5) ? SIGKILL : SIGINT;
-                LOGINF << "Sending " << (signal == SIGKILL ? "SIGKILL" : "SIGINT") <<
-                    " to process " << name();
+                // Send a SIGINT on the 4th retry,
+                //      a SIGTERM on the 5th, and
+                //      a SIGKILL on the 6th retry
+                if (retry == 3)
+                    signal = SIGINT;
+                else if (retry == 4)
+                    signal = SIGTERM;
+                else
+                    signal = SIGKILL;
+                LOGINF << "Sending signal " << signal << " to process " << name();
                 kill(m_procId, signal);
                 Util::sleep(500);
             }
