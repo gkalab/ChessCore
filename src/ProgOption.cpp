@@ -18,31 +18,56 @@ using namespace ChessCore;
 
 const char *ProgOption::m_classname = "ProgOption";
 
-ProgOption::ProgOption():m_shortOption(0), m_longOption(), m_mandatory(false), m_type(POTYPE_NONE), m_pindicator(0) {
+ProgOption::ProgOption() :
+    m_shortOption(0),
+    m_longOption(),
+    m_mandatory(false),
+    m_type(POTYPE_NONE),
+    m_pindicator(0)
+{
 }
 
 ProgOption::ProgOption(char shortOption, const std::string &longOption, bool mandatory, std::string *pstring,
-                       bool *pindicator /*=0*/):m_shortOption(shortOption), m_longOption(longOption), m_mandatory(
-        mandatory), m_type(POTYPE_STRING), m_pindicator(pindicator) {
+                       bool *pindicator /*=0*/) :
+    m_shortOption(shortOption),
+    m_longOption(longOption),
+    m_mandatory(mandatory),
+    m_type(POTYPE_STRING),
+    m_pindicator(pindicator)
+{
     m_value.pstring = pstring;
 }
 
 ProgOption::ProgOption(char shortOption, const std::string &longOption, bool mandatory, int *pint,
-                       bool *pindicator /*=0*/):m_shortOption(shortOption), m_longOption(longOption), m_mandatory(
-        mandatory), m_type(POTYPE_INT), m_pindicator(pindicator) {
+                       bool *pindicator /*=0*/) :
+    m_shortOption(shortOption),
+    m_longOption(longOption),
+    m_mandatory(mandatory),
+    m_type(POTYPE_INT),
+    m_pindicator(pindicator)
+{
     m_value.pint = pint;
 }
 
 ProgOption::ProgOption(char shortOption, const std::string &longOption, bool mandatory, uint64_t *puint64,
-                       bool *pindicator /*=0*/):m_shortOption(shortOption), m_longOption(longOption), m_mandatory(
-        mandatory), m_type(POTYPE_UINT64), m_pindicator(pindicator) {
+                       bool *pindicator /*=0*/) :
+    m_shortOption(shortOption),
+    m_longOption(longOption),
+    m_mandatory(mandatory),
+    m_type(POTYPE_UINT64),
+    m_pindicator(pindicator)
+{
     m_value.puint64 = puint64;
 }
 
 ProgOption::ProgOption(char shortOption, const std::string &longOption, bool mandatory, bool *pbool,
-                       bool *pindicator /*=0*/):m_shortOption(shortOption), m_longOption(longOption), m_mandatory(
-        mandatory), m_type(
-        POTYPE_BOOL), m_pindicator(pindicator) {
+                       bool *pindicator /*=0*/) :
+    m_shortOption(shortOption),
+    m_longOption(longOption),
+    m_mandatory(mandatory),
+    m_type(POTYPE_BOOL),
+    m_pindicator(pindicator)
+{
     m_value.pbool = pbool;
 }
 
@@ -60,7 +85,6 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
     errorMsg.clear();
 
 #ifdef _DEBUG
-
     for (i = 0; i < argc; i++)
         LOGVERBOSE << "argv[" << i << "] = '" << argv[i] << "'";
 #endif // _DEBUG
@@ -74,10 +98,10 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
         progName.assign(argv[0]);
 
     for (i = 1; i < argc; i++) {
-        if (argv[i][0] != '-')
+        if (argv[i][0] != '-') {
             // Not an option
             break;
-        else if (argv[i][0] == '-' &&
+        } else if (argv[i][0] == '-' &&
                  argv[i][1] == '-' &&
                  argv[i][2] == '\0') {
             // -- means 'no more options'
@@ -91,12 +115,11 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
             if (*start == '-')
                 start++; // Allow --name as well as -name
 
-            for (p = start; *p != '\0' && *p != '='; p++) {
-            }
+            for (p = start; *p != '\0' && *p != '='; p++)
+                ;
 
             if (*p == '=') {
                 name.assign(start, p - start);
-
                 if (*(p + 1) != '\0')
                     value.assign(p + 1);
             } else {
@@ -107,9 +130,9 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
                 if (name.length() == 1) {
                     if (options[j].m_shortOption != '\0' && options[j].m_shortOption == name[0])
                         progOption = &options[j];
-                } else if (options[j].m_longOption == name)
+                } else if (options[j].m_longOption == name) {
                     progOption = &options[j];
-
+                }
             }
 
             if (progOption == 0) {
@@ -121,9 +144,8 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
             }
 
             // If the value wasn't specified in the form '--name=value' and the next command
-            // line option doesn't start with '-', then use that for the value.  Only do this
-            // for non-bool options.
-            if (value.empty() && progOption->m_type != POTYPE_BOOL &&
+            // line option doesn't start with '-', then use that for the value.
+            if (value.empty() &&
                 i < argc && argv[i + 1][0] != '-')
                 value = argv[++i];
 
@@ -141,7 +163,6 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
                 break;
 
             case POTYPE_INT:
-
                 if (!Util::parse(value, intvalue)) {
                     errorMsg = "Invalid value specified for option '" + option + "'";
                     return false;
@@ -151,7 +172,6 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
                 break;
 
             case POTYPE_UINT64:
-
                 if (!Util::parse(value, uint64value)) {
                     errorMsg = "Invalid value specified for option '" + option + "'";
                     return false;
@@ -161,7 +181,6 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
                 break;
 
             case POTYPE_BOOL:
-
                 if (!value.empty()) {
                     if (!Util::parse(value, boolvalue)) {
                         errorMsg = "Invalid value specified for option '" + option + "'";
