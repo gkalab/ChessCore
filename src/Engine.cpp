@@ -514,8 +514,7 @@ void Engine::entry() {
                                     // Record which side the engine is thinking as and the time
                                     // it started thinking
                                     m_thinkingAsWhite = (toColour(m_position.ply()) == BLACK);
-                                    LOGDBG << "m_thinkingAsWhite=" << boolalpha << m_thinkingAsWhite;
-                                    m_thinkStart = Util::getTickCount();
+                                    m_thinkStart = message->timestamp;
                                 }
 
                                 quit = !writeToEngine(toMessage);
@@ -555,19 +554,13 @@ void Engine::entry() {
                                         // TODO: Find a way to get rid of this horrible flag
                                         if (!m_discardNextBestMove) {
                                             m_state = STATE_READY;
-                                            unsigned thinkEnd = Util::getTickCount();
-                                            unsigned thinkTime = thinkEnd - m_thinkStart;
-
-                                            // Store the thinking time in the engine message
                                             EngineMessageBestMove *engineMessageBestMove = dynamic_cast<EngineMessageBestMove *>(message.get());
-                                            engineMessageBestMove->thinkingTime = thinkTime;
-
                                             if (m_thinkingAsWhite) {
                                                 if (m_whiteTimeTracker)
-                                                    m_whiteTimeTracker->update(thinkTime);
+                                                    m_whiteTimeTracker->update(engineMessageBestMove->thinkingTime);
                                             } else {
                                                 if (m_blackTimeTracker)
-                                                    m_blackTimeTracker->update(thinkTime);
+                                                    m_blackTimeTracker->update(engineMessageBestMove->thinkingTime);
                                             }
                                         } else {
                                             LOGDBG << "Discarded best move";
@@ -711,7 +704,6 @@ string Engine::uciFromEngineMessage(const shared_ptr<EngineMessage> engineMessag
     case EngineMessage::TYPE_GO: {
 
         bool wtm = (toColour(m_position.ply()) == BLACK);
-        LOGDBG << "wtm=" << boolalpha << wtm;
         ostringstream oss;
         if (m_whiteTimeTracker && m_blackTimeTracker) {
             unsigned winc = m_whiteTimeTracker->increment();
@@ -848,7 +840,7 @@ shared_ptr<EngineMessage> Engine::engineMessageFromUCI(const string &uci) {
                                                              parts[1].c_str(), id().c_str()));
             }
         }
-        return shared_ptr<EngineMessage> (new EngineMessageBestMove(bestMove, ponderMove));
+        return shared_ptr<EngineMessage> (new EngineMessageBestMove(bestMove, ponderMove, m_thinkStart));
     } else if (parts[0] == "info") {
         unsigned numParts = (unsigned)(parts.size());
         unsigned i = 1;

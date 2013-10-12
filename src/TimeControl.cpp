@@ -591,6 +591,7 @@ void TimeTracker::enterNewPeriod(const TimeControlPeriod *period) {
             break;
         case TimeControlPeriod::TYPE_MOVES_IN:
             m_movesLeft = 1;
+            break;
         default:
             ASSERT(false);
             break;

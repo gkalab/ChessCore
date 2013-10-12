@@ -64,10 +64,14 @@ protected:
 
 public:
     Type type;
+    unsigned timestamp;             // Set when EngineMessage created
 
     static const char *typeDesc(Type type);
 
-    EngineMessage(Type type):type(type) {
+    EngineMessage(Type type) :
+        type(type),
+        timestamp(Util::getTickCount())
+    {
     }
 
     virtual ~EngineMessage() {
@@ -78,7 +82,10 @@ class CHESSCORE_EXPORT EngineMessageDebug : public EngineMessage {
 public:
     bool debug;
 
-    EngineMessageDebug(bool debug):EngineMessage(TYPE_DEBUG), debug(debug) {
+    EngineMessageDebug(bool debug) :
+        EngineMessage(TYPE_DEBUG),
+        debug(debug)
+    {
     }
 
     virtual ~EngineMessageDebug() {
@@ -91,12 +98,20 @@ public:
     std::string code;
     bool later;
 
-    EngineMessageRegister(const std::string &name,
-                          const std::string &code):EngineMessage(TYPE_REGISTER), name(name), code(
-            code), later(false) {
+    EngineMessageRegister(const std::string &name, const std::string &code) :
+        EngineMessage(TYPE_REGISTER),
+        name(name),
+        code(code),
+        later(false)
+    {
     }
 
-    EngineMessageRegister(bool later):EngineMessage(TYPE_REGISTER), name(), code(), later(later) {
+    EngineMessageRegister(bool later) :
+        EngineMessage(TYPE_REGISTER),
+        name(),
+        code(),
+        later(later)
+    {
     }
 
     virtual ~EngineMessageRegister() {
@@ -108,8 +123,11 @@ public:
     std::string name;
     std::string value;
 
-    EngineMessageSetOption(const std::string &name,
-                           const std::string &value):EngineMessage(TYPE_SET_OPTION), name(name), value(value) {
+    EngineMessageSetOption(const std::string &name, const std::string &value) :
+        EngineMessage(TYPE_SET_OPTION),
+        name(name),
+        value(value)
+    {
     }
 
     virtual ~EngineMessageSetOption() {
@@ -123,13 +141,20 @@ public:
     std::vector<Move> moves;
 
     EngineMessagePosition(const Position &currentPosition, const Position &startPosition,
-                          const std::vector<Move> &moves):EngineMessage(TYPE_POSITION),
-        currentPosition(currentPosition), startPosition(
-            startPosition), moves(moves) {
+                          const std::vector<Move> &moves) :
+        EngineMessage(TYPE_POSITION),
+        currentPosition(currentPosition),
+        startPosition(startPosition),
+        moves(moves)
+    {
     }
 
-    EngineMessagePosition(const Position &currentPosition):EngineMessage(TYPE_POSITION),
-        currentPosition(currentPosition), startPosition(), moves() {
+    EngineMessagePosition(const Position &currentPosition) :
+        EngineMessage(TYPE_POSITION),
+        currentPosition(currentPosition),
+        startPosition(),
+        moves()
+    {
     }
 
     virtual ~EngineMessagePosition() {
@@ -141,8 +166,11 @@ public:
     std::string name;
     std::string value;
 
-    EngineMessageId(const std::string &name,
-                    const std::string &value):EngineMessage(TYPE_ID), name(name), value(value) {
+    EngineMessageId(const std::string &name, const std::string &value) :
+        EngineMessage(TYPE_ID),
+        name(name),
+        value(value)
+    {
     }
 
     virtual ~EngineMessageId() {
@@ -155,8 +183,12 @@ public:
     Move ponderMove;
     unsigned thinkingTime;
 
-    EngineMessageBestMove(Move bestMove, Move ponderMove):EngineMessage(TYPE_BEST_MOVE), bestMove(bestMove), ponderMove(
-            ponderMove) {
+    EngineMessageBestMove(Move bestMove, Move ponderMove, unsigned thinkingStart) :
+        EngineMessage(TYPE_BEST_MOVE),
+        bestMove(bestMove),
+        ponderMove(ponderMove),
+        thinkingTime(timestamp - thinkingStart)
+    {
     }
 
     virtual ~EngineMessageBestMove() {
@@ -188,8 +220,19 @@ public:
     std::vector<Move> pv;
     std::string pvStr;                  // String representation of 'pv'
 
-    EngineMessageInfoSearch():EngineMessage(TYPE_INFO_SEARCH), have(HAVE_NONE), score(0), mateScore(0), depth(0),
-        selectiveDepth(0), time(0), nodes(0), nps(0), pv(), pvStr() {
+    EngineMessageInfoSearch() :
+        EngineMessage(TYPE_INFO_SEARCH),
+        have(HAVE_NONE),
+        score(0),
+        mateScore(0),
+        depth(0),
+        selectiveDepth(0),
+        time(0),
+        nodes(0),
+        nps(0),
+        pv(),
+        pvStr()
+    {
     }
 
     virtual ~EngineMessageInfoSearch() {
@@ -202,7 +245,10 @@ class CHESSCORE_EXPORT EngineMessageInfoString : public EngineMessage {
 public:
     std::string info;
 
-    EngineMessageInfoString(const std::string &info):EngineMessage(TYPE_INFO_STRING), info(info) {
+    EngineMessageInfoString(const std::string &info) :
+        EngineMessage(TYPE_INFO_STRING),
+        info(info)
+    {
     }
 
     virtual ~EngineMessageInfoString() {
@@ -213,7 +259,10 @@ class CHESSCORE_EXPORT EngineMessageOption : public EngineMessage {
 public:
     UCIEngineOption option;
 
-    EngineMessageOption(const UCIEngineOption &option):EngineMessage(TYPE_OPTION), option(option) {
+    EngineMessageOption(const UCIEngineOption &option) :
+        EngineMessage(TYPE_OPTION),
+        option(option)
+    {
     }
 
     virtual ~EngineMessageOption() {
@@ -224,7 +273,10 @@ class CHESSCORE_EXPORT EngineMessageCustom : public EngineMessage {
 public:
     std::string uci;
 
-    EngineMessageCustom(const std::string &uci):EngineMessage(TYPE_CUSTOM), uci(uci) {
+    EngineMessageCustom(const std::string &uci) :
+        EngineMessage(TYPE_CUSTOM),
+        uci(uci)
+    {
     }
 
     virtual ~EngineMessageCustom() {
@@ -235,7 +287,10 @@ class CHESSCORE_EXPORT EngineMessageError : public EngineMessage {
 public:
     std::string error;
 
-    EngineMessageError(const std::string &error):EngineMessage(TYPE_ERROR), error(error) {
+    EngineMessageError(const std::string &error) :
+        EngineMessage(TYPE_ERROR),
+        error(error)
+    {
     }
 
     virtual ~EngineMessageError() {

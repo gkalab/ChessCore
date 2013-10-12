@@ -289,4 +289,17 @@ TEST(TimeControlTest, tracking_4_1_G1) {
     EXPECT_TRUE(timeTracker.isOutOfTime());
 }
 
+TEST(TimeControlTest, tracking_m10) {
+    TimeControl timeControl;
+    TimeTracker timeTracker(timeControl);
+    EXPECT_TRUE(timeControl.set("M/10", TimeControlPeriod::FORMAT_UNKNOWN));
+    EXPECT_TRUE(timeTracker.reset());
 
+    for (unsigned i = 1; i <= 1000; i++) {
+        EXPECT_TRUE(timeTracker.update(9999));
+        EXPECT_EQ(i, timeTracker.numMoves());
+        EXPECT_EQ(1, timeTracker.movesLeft());
+        EXPECT_EQ(10000, timeTracker.timeLeft());
+        EXPECT_FALSE(timeTracker.isOutOfTime());
+    }
+}

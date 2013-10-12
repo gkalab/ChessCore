@@ -239,15 +239,14 @@ public:
     /**
      * Get the time increment from the current time control period.
      *
-     * @return The time increment from the current time control period.
+     * @return The time increment from the current time control period, in milliseconds.
      */
     unsigned increment() const;
 
     /**
-     * Get the current time control period the tracker is currently using.
+     * Get the time control period currently being used.
      *
-     * @return the current time control period the tracker is currently using, or 0 if the
-     * time control is invalid.
+     * @return the time control period current being used, or 0 if the time control is invalid.
      */
     const TimeControlPeriod *currentPeriod() const;
 
@@ -261,7 +260,8 @@ public:
     }
 
     /**
-     * Reset the tracker values to the beginning of the time control.
+     * Reset the tracker to the first time control period, resetting numMoves to
+     * zero and initialising timeLeft and movesLeft.
      *
      * @return true if the tracker was successfully reset, else false.
      */

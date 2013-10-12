@@ -68,7 +68,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog --logcomms -o $(HOME)/tmp/games.pgn -E test/cfdb/eco.cfdb -c test/config/macosx_local.cfg -n 1 -t 40/10:10 tournament critter stockfish4"
+            argument = "--logfile $(HOME)/tmp/ccore.log --debuglog --logcomms -o $(HOME)/tmp/games.pgn -E test/cfdb/eco.cfdb -c test/config/macosx_local.cfg -n 1 -t M/10 tournament critter stockfish4"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
