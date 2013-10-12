@@ -42,5 +42,8 @@
     <ClCompile Include="..\test\unittests\Move_unittest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\test\unittests\TimeControl_unittest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
