@@ -246,6 +246,7 @@
     <ClCompile Include="..\src\Rand64.cpp" />
     <ClCompile Include="..\src\SqliteStatement.cpp" />
     <ClCompile Include="..\src\Thread.cpp" />
+    <ClCompile Include="..\src\TimeControl.cpp" />
     <ClCompile Include="..\src\UCIEngineOption.cpp" />
     <ClCompile Include="..\src\Util.cpp" />
     <ClCompile Include="..\src\Version.cpp" />
@@ -317,6 +318,7 @@
     <ClInclude Include="..\include\ChessCore\Rand64.h" />
     <ClInclude Include="..\include\ChessCore\SqliteStatement.h" />
     <ClInclude Include="..\include\ChessCore\Thread.h" />
+    <ClInclude Include="..\include\ChessCore\TimeControl.h" />
     <ClInclude Include="..\include\ChessCore\Types.h" />
     <ClInclude Include="..\include\ChessCore\UCIEngineOption.h" />
     <ClInclude Include="..\include\ChessCore\Util.h" />

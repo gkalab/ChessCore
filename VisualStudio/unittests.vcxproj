@@ -187,6 +187,7 @@
     <ClCompile Include="..\test\unittests\Movegen_unittest.cpp" />
     <ClCompile Include="..\test\unittests\Move_unittest.cpp" />
     <ClCompile Include="..\test\unittests\PackUtil_unittest.cpp" />
+    <ClCompile Include="..\test\unittests\TimeControl_unittest.cpp" />
     <ClCompile Include="..\test\unittests\unittest_main.cpp" />
     <ClCompile Include="..\test\unittests\Util_unittest.cpp" />
   </ItemGroup>
