@@ -22,7 +22,13 @@ const char *Game::m_classname = "Game";
 bool Game::m_relaxedMode = false;
 
 Game::Game() :
-    m_mainline(0) {
+    GameHeader(),
+    m_startPosition(),
+    m_position(),
+    m_mainline(0),
+    m_currentMove(0),
+    m_variationStart(false)
+{
     init();
 }
 
@@ -31,7 +37,8 @@ Game::Game(const Game &other) :
     m_startPosition(other.m_startPosition),
     m_position(other.m_startPosition),
     m_currentMove(0),
-    m_variationStart(false) {
+    m_variationStart(false)
+{
     m_mainline = AnnotMove::deepCopy(other.m_mainline);
 }
 

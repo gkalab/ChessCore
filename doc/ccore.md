@@ -38,7 +38,19 @@ performed:
 
  - `-n` (`--number1`): Number, sometimes the first number in a range.
  - `-N` (`--number2`): The second number in a range.
- - `-t` (`--time`): Time, followed by 's' (seconds), 'm' (minutes) or 'h' (hours).
+ - `-t` (`--timecontrol`): Time control.  This accepts *normal* and *PGN* format time controls which must end in a *game-in* or *moves-in* period.  Periods are connected together with the `;` character, which makes it difficult to use from the (UNIX) command line, as it needs to be escaped with `\`.  PGN-format is connected using the `:` character.
+ 
+ Normal examples:
+   - `40/120`: (rollover) 40 moves in 120 **minutes**.
+   - `20/30/10`: (rollver) 20 moves in 30 **minutes** with 10 **second** increment.
+   - `G/30`: (game-in) finish game in 30 **minutes**.
+   - `M/10`: (moves-in) 10 **seconds** per move (no time carry-over from previous move).
+ 
+ PGN examples:
+   - `40/7200`: (rollover) 40 moves in 7200 **seconds**
+   - `20/1800+10`: (rollover) 20 moves in 1800 **seconds** with 10 **second** increment.
+   - `1800`: (game-in) finish game in 1800 **seconds**.
+   - `*10`: (moves-in) 10 **seconds** per move (no time carry-over from   
  - `-d` (`--depth`): Depth.
 
 Functions
@@ -46,12 +58,12 @@ Functions
 
 Not all functions are documented here, as they are either pointless or not completely implemented.
 
- - `tournament`:  Play a tournament between two engines.  You must specify the configuration file (`-c`), containing the engine details, the time for each engine per game (for example `-t 5m` for a 10 minute game) and the number of games to play (for example `-n 5` for a 5-game tournament). You can also specify an output database (with `-o`), where the tournament games will be stored.  Each move in the game will contain the engine's 'score' (evaluation) of the current position.
+ - `tournament`:  Play a tournament between two engines.  You must specify the configuration file (`-c`), containing the engine details, the time for each engine per game (for example `-t G/10` for a 10 minute game) and the number of games to play (for example `-n 5` for a 5-game tournament). You can also specify an output database (with `-o`), where the tournament games will be stored.  Each move in the game will contain the engine's 'score' (evaluation) of the current position.
 
- -  `analyze`: Analyze a database of games using an engine.  You must specify the configuration file (`-c`), the input and output database, with the games written to the database containing the variations and score from the analysis engine.  You also need to specify how much the engine will analyze each move, using either time (`-t`) or depth (`-d`).
+ -  `analyze`: Analyze a database of games using an engine.  You must specify the configuration file (`-c`), the input and output database, with the games written to the database containing the variations and score from the analysis engine.  You also need to specify how much the engine will analyze each move, using either time (`-t`) or depth (`-d`).  If time is used then a single *moves-in* period must exist.
 
- - `processepd`:  Test a chess engine using a EPD file.  The EPD file contains positions and a set of *opcodes* that define various operations.  The most common is `bm` (best move) and the idea is that you can test your chess engine against known best moves in the given position. You must specify the configuration file (`-c`) and the EPD file to process (`-e`),  and optionally the range of EPD lines to process (`-n` and `-N`), if you don't want to process the whole file.
-
+ - `processepd`:  Test a chess engine using a EPD file.  The EPD file contains positions and a set of *opcodes* that define various operations.  The most common is `bm` (best move) and the idea is that you can test your chess engine against known best moves in the given position. You must specify the configuration file (`-c`) and the EPD file to process (`-e`),  and optionally the range of EPD lines to process (`-n` and `-N`), if you don't want to process the whole file. You also need to specify how much the engine will find best moves or evals, using either time (`-t`) or depth (`-d`).  If time is used then a single *moves-in* period must exist.
+ 
  - `copydb`:  Copies a database.  You must specify the input (`-i`) and output (`-o`) database files, and `ccore` will understand the format of each database by the file extension (`.pgn` or `.cfdb`).   You can also specify
 the range of games to copy (`-n` and `-N`) if you don't want to copy the whole database.
 

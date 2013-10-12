@@ -410,7 +410,7 @@ unsigned Util::splitLine(char *line, char **parts, unsigned maxParts) {
     return numParts;
 }
 
-unsigned Util::splitLine(const string &line, vector<string> &parts) {
+unsigned Util::splitLine(const string &line, vector<string> &parts, char delmiter /*=' '*/) {
     char inQuotes = '\0';
     const char *start, *end;
 
@@ -419,9 +419,6 @@ unsigned Util::splitLine(const string &line, vector<string> &parts) {
     start = end = line.c_str();
 
     while (*end != '\0') {
-        while (*start != '\0' && isspace(*start))
-            start++;
-
         if (*start == '\0')
             break;
 
@@ -436,7 +433,7 @@ unsigned Util::splitLine(const string &line, vector<string> &parts) {
 
             inQuotes = '\0';
         } else {
-            while (*end != '\0' && !isspace(*end))
+            while (*end != '\0' && *end != delmiter)
                 end++;
         }
 

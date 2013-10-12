@@ -8,6 +8,7 @@
 
 #include <ChessCore/ChessCore.h>
 #include <ChessCore/IoEvent.h>
+#include <CHessCore/TimeControl.h>
 #include "Config.h"
 
 //
@@ -33,7 +34,7 @@ extern bool g_optNumber2Ind;
 extern std::string g_optOutputDb;
 extern bool g_optQuiet;
 extern bool g_optRelaxed;
-extern int g_optTime;
+extern ChessCore::TimeControl g_optTimeControl;
 extern std::string g_optTimeStr;
 extern bool g_optVersion;
 

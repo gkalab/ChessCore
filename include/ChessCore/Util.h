@@ -238,14 +238,16 @@ public:
     static unsigned splitLine(char *line, char **parts, unsigned maxParts);
 
     /**
-     * Split a line of input into words.
+     * Split a line of input into parts
      *
      * @param line Line to parse.
      * @param parts A vector of strings containing each word found.
+     * @param delimiter The delimiting character to use to split the parts.
      *
      * @return The number of words found.
      */
-    static unsigned splitLine(const std::string &line, std::vector<std::string> &parts);
+    static unsigned splitLine(const std::string &line, std::vector<std::string> &parts,
+                              char delimiter = ' ');
 
     /**
      * Trim leading and trailing whitespace from a string.

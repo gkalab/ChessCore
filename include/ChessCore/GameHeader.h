@@ -8,6 +8,7 @@
 
 #include <ChessCore/ChessCore.h>
 #include <ChessCore/Player.h>
+#include <ChessCore/TimeControl.h>
 
 namespace ChessCore {
 class CHESSCORE_EXPORT GameHeader {
@@ -29,6 +30,7 @@ protected:
     unsigned m_roundMajor, m_roundMinor;
     Result m_result;
     std::string m_eco;
+    TimeControl m_timeControl;
     bool m_readFail;
 
 public:
@@ -180,6 +182,18 @@ public:
 
     inline void setEco(const std::string &eco) {
         m_eco = eco;
+    }
+
+    TimeControl &timeControl() {
+        return m_timeControl;
+    }
+
+    const TimeControl &timeControl() const {
+        return m_timeControl;
+    }
+
+    void setTimeControl(const TimeControl &timeControl) {
+        m_timeControl = timeControl;
     }
 
     inline bool readFail() const {

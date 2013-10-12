@@ -80,9 +80,18 @@ bool analyzeGames(const string &engineId) {
         return false;
     }
 
-    if (g_optTime == 0 && g_optDepth == 0) {
+    if (!g_optTimeControl.isValid() && g_optDepth == 0) {
         cerr << "No time or depth control specified" << endl;
         return false;
+    }
+
+    if (g_optTimeControl.isValid()) {
+        // Time control must has a single "moves in" period only
+        if (g_optTimeControl.periods().size() != 1 ||
+            g_optTimeControl.periods()[0].type() != TimeControlPeriod::TYPE_MOVES_IN) {
+            cerr << "Time controld must contain a single 'Moves In' period" << endl;
+            return false;
+        }
     }
 
     if (g_optNumber1 <= 0)
@@ -179,6 +188,7 @@ static bool analyzeGame(int gameNum, Game &game, Engine &engine) {
     IoEventWaiter waiter;
     IoEventList e(2);
     shared_ptr<EngineMessage> message;
+    TimeTracker whiteTimeTracker(g_optTimeControl), blackTimeTracker(g_optTimeControl);
     int lastScore, lastMateScore, waitResult;
     string str, str1, str2, score, formattedMove;
     ostringstream ss;
@@ -206,6 +216,16 @@ static bool analyzeGame(int gameNum, Game &game, Engine &engine) {
         return false;
     }
 
+    if (g_optTimeControl.isValid()) {
+        cout << "Engine using time control '" << g_optTimeControl.notation(TimeControlPeriod::FORMAT_PGN) << "'" << endl;
+        engine.setWhiteTimeTracker(&whiteTimeTracker);
+        engine.setBlackTimeTracker(&blackTimeTracker);
+        engine.resetTimeTrackers();
+    } else if (g_optDepth > 0) {
+        cout << "Engine using think depth " << g_optDepth << endl;
+        engine.setThinkDepth(g_optDepth);
+    }
+
     game.setCurrentMove(0);
     for (amove = game.mainline();
          amove && gameover == Game::GAMEOVER_NOT && !g_quitFlag;
@@ -223,15 +243,6 @@ static bool analyzeGame(int gameNum, Game &game, Engine &engine) {
         vector<Move> moves;
         game.moveList(amove->prev(), moves);
         engine.enqueueMessage(NEW_ENGINE_MESSAGE_POSITION(game.position(), game.startPosition(), moves));
-
-        engine.timeControl().clear();
-
-        if (g_optTime > 0)
-            engine.timeControl().moveTime = g_optTime * 1000;
-
-        if (g_optDepth > 0)
-            engine.timeControl().depth = g_optDepth;
-
         engine.enqueueMessage(NEW_ENGINE_MESSAGE(TYPE_GO));
 
         bestMove.init();

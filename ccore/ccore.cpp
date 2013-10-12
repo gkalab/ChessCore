@@ -51,7 +51,7 @@ bool g_optNumber2Ind = false;
 string g_optOutputDb;
 bool g_optQuiet = false;
 bool g_optRelaxed = false;
-int g_optTime = 0;
+TimeControl g_optTimeControl;
 string g_optTimeStr;
 bool g_optVersion = false;
 
@@ -73,7 +73,7 @@ static ProgOption g_options[] = {
     ProgOption('o', "outdb",        false,  &g_optOutputDb),
     ProgOption('r', "relaxed",      false,  &g_optRelaxed),
     ProgOption('q', "quiet",        false,  &g_optQuiet),
-    ProgOption('t', "time",         false,  &g_optTimeStr),
+    ProgOption('t', "timecontrol",  false,  &g_optTimeStr),
     ProgOption('v', "version",      false,  &g_optVersion),
     ProgOption()
 };
@@ -157,26 +157,9 @@ int main(int argc, const char **argv) {
             g_optDebugLog = true;
 
         if (!g_optTimeStr.empty()) {
-            char *base;
-            g_optTime = (int)strtol(g_optTimeStr.c_str(), &base, 10);
-
-            if (base) {
-                switch (*base) {
-                case 's':
-                    break;
-                case 'm':
-                    g_optTime *= 60;
-                    break;
-                case 'h':
-                    g_optTime *= 60 * 60;
-                    break;
-                default:
-                    cerr << "Invalid time " << g_optTimeStr << " specified" << endl;
-                    return 4;
-                }
-            } else {
-                cerr << "Invalid time " << g_optTimeStr << " specified" << endl;
-                return 5;
+            if (!g_optTimeControl.set(g_optTimeStr)) {
+                cerr << "Invalid time control '" << g_optTimeStr << "' specified" << endl;
+                return 4;
             }
         }
 
@@ -301,9 +284,9 @@ static void usage(ostream &stream) {
     stream << "-n, --number1=NUM          Integer variable #1.\n";
     stream << "-N, --number2=NUM          Integer variable #2.\n";
     stream << "-o, --outdb=FILE           Output database\n";
-    stream << "-q, --quiet                Don't print program info during start-up\n";
+    stream << "-q, --quiet                Don't print program info during start-up.\n";
     stream << "-r, --relaxed              Allow errors.\n";
-    stream << "-t, --time=TIME            Time variable. number[smh] (s=seconds, m=minutes, h=hours)\n";
+    stream << "-t, --timecontrol=TIME     Time control, for example \"40/120;G/20\" or \"300+10:1800\".\n";
     stream << "-v, --version              Write program version in machine-readable format.\n";
     stream << "\n";
     stream << "FUNCTION: tournament ENGINE ENGINE. -c, -t, -n=num games, [-o]\n";

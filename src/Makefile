@@ -26,7 +26,8 @@ SRCS := AnnotMove.cpp AsmX86.cpp Bitstream.cpp Blob.cpp CbhDatabase.cpp \
 	IndexManager.cpp IoEvent.cpp IoEventWaiter.cpp Log.cpp Lowlevel.cpp Move.cpp \
 	Mutex.cpp OpeningTree.cpp PgnDatabase.cpp PgnScanner.cpp Player.cpp \
 	Position.cpp PositionHash.cpp Process.cpp ProgOption.cpp Rand64.cpp \
-    SqliteStatement.cpp Thread.cpp UCIEngineOption.cpp Util.cpp Version.cpp
+    SqliteStatement.cpp Thread.cpp TimeControl.cpp UCIEngineOption.cpp \
+    Util.cpp Version.cpp
 
 ifeq ($(PLATFORM),Darwin)
 	SRCS += AppleUtil.mm

@@ -1226,7 +1226,7 @@ Position::Legal Position::setFromBlob(const Blob &blob) {
     // Board
     for (Square sq = 0; sq < 64; sq++) {
         if (!stream.read(b, 4)) {
-            LOGERR << "Error reading position bitstream";
+            LOGERR << "Failed to read position from bitstream";
             return ILLBLOB_DECODE_FAIL;
         }
 
@@ -1240,7 +1240,7 @@ Position::Legal Position::setFromBlob(const Blob &blob) {
 
     // To move
     if (!stream.read(b, 1)) {
-        LOGERR << "Error reading side-to-move from bitstream";
+        LOGERR << "Failed to read side-to-move from bitstream";
         return ILLBLOB_DECODE_FAIL;
     }
 
@@ -1248,7 +1248,7 @@ Position::Legal Position::setFromBlob(const Blob &blob) {
 
     // Castling rights
     if (!stream.read(b, 4)) {
-        LOGERR << "Error reading castling rights from bitstream";
+        LOGERR << "Failed to read castling rights from bitstream";
         return ILLBLOB_DECODE_FAIL;
     }
 

@@ -153,6 +153,7 @@ class CHESSCORE_EXPORT EngineMessageBestMove : public EngineMessage {
 public:
     Move bestMove;
     Move ponderMove;
+    unsigned thinkingTime;
 
     EngineMessageBestMove(Move bestMove, Move ponderMove):EngineMessage(TYPE_BEST_MOVE), bestMove(bestMove), ponderMove(
             ponderMove) {

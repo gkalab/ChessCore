@@ -61,6 +61,7 @@ x       [xX]
 "[BlackElo "[^\n\r]*"]"                 return A_PGN_BLACKELO;
 "[Opening "[^\n\r]*"]"                  return A_PGN_OPENING;
 "[Variation "[^\n\r]*"]"                return A_PGN_VARIATION;
+"[TimeControl "[^\n\r]*"]"              return A_PGN_TIMECONTROL;
 "["[^\n\r]*"]"                          return A_PGN_XXX;
 
 {value}"."?                             return A_WHITE_MOVENUM;

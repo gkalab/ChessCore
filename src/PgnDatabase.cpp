@@ -1127,7 +1127,6 @@ bool PgnDatabase::readRoster(PgnScannerContext &context, int token, GameHeader &
             break;
 
         case A_PGN_RESULT:
-
             if (data == "1-0") {
                 gameHeader.setResult(Game::WHITE_WIN);
             } else if (data == "0-1") {
@@ -1186,6 +1185,14 @@ bool PgnDatabase::readRoster(PgnScannerContext &context, int token, GameHeader &
             setOpening(gameHeader.black(), data);
             break;
 
+        case A_PGN_TIMECONTROL:
+            // Ignore any errors with time control
+            gameHeader.timeControl().set(data, TimeControlPeriod::FORMAT_PGN);
+            if (!gameHeader.timeControl().isValid()) {
+                LOGWRN << "Line: " << context.lineNumber() << ": Failed to parse time control '" << data << "'";
+            }
+            break;
+
         default:
             break;
         }
@@ -1232,43 +1239,46 @@ bool PgnDatabase::write(ostream &output, const Game &game, string &errorMsg) {
         break;
     }
 
-    output << Util::format("[Event \"%s\"]", formatTagString(game.event()).c_str()) << endl;
-    output << Util::format("[Site \"%s\"]", formatTagString(game.site()).c_str()) << endl;
-    output << Util::format("[Date \"%s\"]", date.c_str()) << endl;
+    output << Util::format("[Event \"%s\"]", formatTagString(game.event()).c_str()) << '\n';
+    output << Util::format("[Site \"%s\"]", formatTagString(game.site()).c_str()) << '\n';
+    output << Util::format("[Date \"%s\"]", date.c_str()) << '\n';
 
     if (game.roundMajor() && game.roundMinor())
-        output << Util::format("[Round \"%u.%u\"]", game.roundMajor(), game.roundMinor()) << endl;
+        output << Util::format("[Round \"%u.%u\"]", game.roundMajor(), game.roundMinor()) << '\n';
     else if (game.roundMajor() && game.roundMinor() == 0)
-        output << Util::format("[Round \"%u\"]", game.roundMajor()) << endl;
+        output << Util::format("[Round \"%u\"]", game.roundMajor()) << '\n';
     else if (game.roundMajor() == 0 && game.roundMinor())
-        output << Util::format("[Round \"?.%u\"]", game.roundMinor()) << endl;
+        output << Util::format("[Round \"?.%u\"]", game.roundMinor()) << '\n';
     else
-        output << "[Round \"?\"]" << endl;
+        output << "[Round \"?\"]" << '\n';
 
     output << Util::format("[White \"%s\"]",
-                           formatTagString(game.white().formattedName()).c_str()) << endl;
+                           formatTagString(game.white().formattedName()).c_str()) << '\n';
     output << Util::format("[Black \"%s\"]",
-                           formatTagString(game.black().formattedName()).c_str()) << endl;
+                           formatTagString(game.black().formattedName()).c_str()) << '\n';
 
     if (!game.startPosition().isStarting()) {
         output << "[SetUp \"1\"]" << endl;
-        output << Util::format("[FEN \"%s\"]", game.startPositionFen().c_str()) << endl;
+        output << Util::format("[FEN \"%s\"]", game.startPositionFen().c_str()) << '\n';
     }
 
-    output << Util::format("[Result \"%s\"]", result.c_str()) << endl;
+    output << Util::format("[Result \"%s\"]", result.c_str()) << '\n';
 
     if (!game.annotator().empty())
-        output << Util::format("[Annotator \"%s\"]", game.annotator().c_str()) << endl;
+        output << Util::format("[Annotator \"%s\"]", game.annotator().c_str()) << '\n';
 
     if (!game.eco().empty())
-        output << Util::format("[ECO \"%s\"]", game.eco().c_str()) << endl;
+        output << Util::format("[ECO \"%s\"]", game.eco().c_str()) << '\n';
 
     if (game.white().elo())
-        output << Util::format("[WhiteElo \"%u\"]", game.white().elo()) << endl;
+        output << Util::format("[WhiteElo \"%u\"]", game.white().elo()) << '\n';
 
     if (game.black().elo())
-        output << Util::format("[BlackElo \"%u\"]", game.black().elo()) << endl;
+        output << Util::format("[BlackElo \"%u\"]", game.black().elo()) << '\n';
 
+    if (game.timeControl().isValid()) {
+        output << "[TimeControl \"" << game.timeControl().notation(TimeControlPeriod::FORMAT_PGN) << "\"\n";
+    }
     output << endl;
 
     if (output.bad() || output.fail()) {

@@ -8,6 +8,7 @@
 #include <ChessCore/Database.h>
 #include <ChessCore/PgnDatabase.h>
 #include <ChessCore/Engine.h>
+#include <ChessCore/TimeControl.h>
 #include <ChessCore/Log.h>
 #include <ChessCore/IoEventWaiter.h>
 #include <ChessCore/OpeningTree.h>
@@ -28,7 +29,6 @@ const int ENGINE_WAIT_TIMEOUT = 180 * 1000;
 // Tournament data
 struct Tournament {
     unsigned numRounds;
-    unsigned timeControl;
     unsigned gameNum;
     Engine *white;
     Engine *black;
@@ -36,7 +36,6 @@ struct Tournament {
 
     Tournament() :
         numRounds(0),
-        timeControl(0),
         gameNum(0),
         white(0),
         black(0),
@@ -97,11 +96,6 @@ bool playGames(const string &engineId1, const string &engineId2) {
         }
     }
 
-    if (g_optTime == 0) {
-        cerr << "No time control specified" << endl;
-        return false;
-    }
-
     const shared_ptr<Config> config1 = Config::config(engineId1);
     if (config1.get() == 0) {
         cerr << "Engine '" << engineId1 << "' is not configured" << endl;
@@ -112,6 +106,7 @@ bool playGames(const string &engineId1, const string &engineId2) {
     if (config2.get() == 0) {
         cerr << "Engine '" << engineId2 << "' is not configured" << endl;
         return false;
+        
     }
 
     engines[0].setId(engineId1);
@@ -140,8 +135,7 @@ bool playGames(const string &engineId1, const string &engineId2) {
     for (auto it = config2->options().begin(); it != config2->options().end(); ++it)
         engines[1].enqueueMessage(NEW_ENGINE_MESSAGE_SET_OPTION(it->first, it->second));
 
-    cout << dec << g_optNumber1 << " round tournament at " << dec << g_optTime
-         << " second time control" << endl;
+    cout << dec << g_optNumber1 << " round tournament at " << dec << g_optTimeControl.notation() << " time control";
 
     Tournament tourney;
     EngineScore engine1Score, engine2Score;
@@ -149,7 +143,7 @@ bool playGames(const string &engineId1, const string &engineId2) {
     unsigned dotFileIndex = 1;
 
     tourney.numRounds = g_optNumber1;
-    tourney.timeControl = g_optTime * 1000; // seconds -> milliseconds
+    tourney.game.setTimeControl(g_optTimeControl);
 
     for (tourney.gameNum = 1; tourney.gameNum <= tourney.numRounds && !g_quitFlag; tourney.gameNum++) {
         EngineScore *whiteScore, *blackScore;
@@ -259,9 +253,10 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
     IoEventList e(EventSize);
     IoEventWaiter waiter;
     shared_ptr<EngineMessage> message;
+    TimeTracker whiteTimeTracker(g_optTimeControl), blackTimeTracker(g_optTimeControl);
     bool whiteToPlay, haveMove, whiteTimedOut = false, blackTimedOut = false;
-    int waitResult;
-    int lastScore, lastMateScore;
+    int waitResult, lastScore, lastMateScore;
+    unsigned thinkingTime;
     ostringstream ss;
     string score, formattedMove;
     Move move;
@@ -293,9 +288,21 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
         return false;
     }
 
-    tourney.white->timeControl().whiteTime = tourney.timeControl;
-    tourney.white->timeControl().blackTime = tourney.timeControl;
-    tourney.black->setTimeControl(tourney.white->timeControl());
+    if (g_optTimeControl.isValid()) {
+        cout << "Engines using time control '" << g_optTimeControl.notation(TimeControlPeriod::FORMAT_PGN) << "'" << endl;
+        tourney.white->setWhiteTimeTracker(&whiteTimeTracker);
+        tourney.white->setBlackTimeTracker(&blackTimeTracker);
+        tourney.white->resetTimeTrackers();
+        tourney.black->setWhiteTimeTracker(&whiteTimeTracker);
+        tourney.black->setBlackTimeTracker(&blackTimeTracker);
+        tourney.black->resetTimeTrackers();
+    } else if (g_optDepth > 0) {
+        cout << "Engines using think depth " << g_optDepth << endl;
+        tourney.white->setThinkDepth(g_optDepth);
+        tourney.black->setThinkDepth(g_optDepth);
+    } else {
+        cerr << "Neither time control nor depth specified; the engines will think for 1 second per move" << endl;
+    }
 
     whiteToPlay = true;
 
@@ -325,14 +332,22 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
         // Start the engine thinking
         toMove->enqueueMessage(NEW_ENGINE_MESSAGE(TYPE_GO));
 
-        if (whiteToPlay)
-            cout << "White (" << toMove->id() << ") to play [" <<
-                Util::formatElapsed(toMove->timeControl().whiteTime) << "] " <<
-                Util::formatElapsed(toMove->timeControl().blackTime) << endl;
-        else
-            cout << "Black (" << toMove->id() << ") to play " <<
-                Util::formatElapsed(toMove->timeControl().whiteTime) << " [" <<
-                Util::formatElapsed(toMove->timeControl().blackTime) << "]" << endl;
+        if (toMove->validTimeTrackers()) {
+            if (whiteToPlay) {
+                cout << "White (" << toMove->id() << ") to play [" <<
+                    Util::formatElapsed(toMove->whiteTimeTracker()->timeLeft()) << "] " <<
+                    Util::formatElapsed(toMove->blackTimeTracker()->timeLeft()) << endl;
+            } else {
+                cout << "Black (" << toMove->id() << ") to play " <<
+                    Util::formatElapsed(toMove->whiteTimeTracker()->timeLeft()) << " [" <<
+                    Util::formatElapsed(toMove->blackTimeTracker()->timeLeft()) << "]" << endl;
+            }
+        } else {
+            if (whiteToPlay)
+                cout << "White (" << toMove->id() << ") to play" << endl;
+            else
+                cout << "Black (" << toMove->id() << ") to play" << endl;
+        }
 
         haveMove = false;
 
@@ -383,6 +398,7 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
                     EngineMessageBestMove *engineMessageBestMove =
                         dynamic_cast<EngineMessageBestMove *> (message.get());
                     move = engineMessageBestMove->bestMove;
+                    thinkingTime = engineMessageBestMove->thinkingTime;
 
                     // Check we got the best move from the correct engine
                     if ((whiteToPlay && waitResult != EventIndexWhiteEngine) ||
@@ -399,17 +415,6 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
                     }
 
                     haveMove = true;
-
-                    //cout << "Thinking as white: " << (toMove->thinkingAsWhite() ? "yes" : "no") <<
-                    //    ", whiteTime=" << toMove->timeControl().whiteTime <<
-                    //    ", blackTime=" << toMove->timeControl().blackTime << endl;
-
-                    // Switch over the time controls
-                    if (whiteToPlay)
-                        tourney.black->setTimeControl(tourney.white->timeControl());
-                    else
-                        tourney.white->setTimeControl(tourney.black->timeControl());
-
                     break;
                 }
                 case EngineMessage::TYPE_INFO_SEARCH: {
@@ -451,16 +456,18 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
 
         // Manage time
         // (use the score from engine as the move annotation, by default)
-        if (toMove->thinkingAsWhite() && toMove->timeControl().whiteTime <= 0) {
-            whiteTimedOut = true;
-            tourney.game.setResult(Game::BLACK_WIN);
-            score = "Lost on time";
-            gameOverReason = Util::format("White (%s) lost on time", tourney.white->id().c_str());
-        } else if (!toMove->thinkingAsWhite() && toMove->timeControl().blackTime <= 0) {
-            blackTimedOut = true;
-            tourney.game.setResult(Game::WHITE_WIN);
-            score = "Lost on time";
-            gameOverReason = Util::format("Black (%s) lost on time", tourney.black->id().c_str());
+        if (toMove->validTimeTrackers()) {
+            if (toMove->thinkingAsWhite() && toMove->whiteTimeTracker()->isOutOfTime()) {
+                whiteTimedOut = true;
+                tourney.game.setResult(Game::BLACK_WIN);
+                score = "Lost on time";
+                gameOverReason = Util::format("White (%s) lost on time", tourney.white->id().c_str());
+            } else if (!toMove->thinkingAsWhite() && toMove->blackTimeTracker()->isOutOfTime()) {
+                blackTimedOut = true;
+                tourney.game.setResult(Game::WHITE_WIN);
+                score = "Lost on time";
+                gameOverReason = Util::format("Black (%s) lost on time", tourney.black->id().c_str());
+            }
         } else {
             if (lastMateScore)
                 score = Util::format("#%d", lastMateScore);
@@ -518,7 +525,7 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
         }
 
         // Print out move
-        string formattedTime = Util::formatElapsed(toMove->timeControl().elapsed);
+        string formattedTime = Util::formatElapsed(thinkingTime);
         cout << (whiteToPlay ? "White" : "Black") << " (" << toMove->id() << ") moved "
              << formattedMove << " time: " << formattedTime << " score: "
              << score << endl << tourney.game.position() << endl;

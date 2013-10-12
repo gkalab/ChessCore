@@ -10,6 +10,7 @@
 #include <ChessCore/Thread.h>
 #include <ChessCore/Process.h>
 #include <ChessCore/Move.h>
+#include <ChessCore/TimeControl.h>
 #include <ChessCore/EngineMessage.h>
 #include <ChessCore/EngineMessageQueue.h>
 #include <ChessCore/UCIEngineOption.h>
@@ -37,57 +38,6 @@ typedef void (*ENGINE_UCI_DEBUG)(void *userp, const Engine *engine, bool fromEng
 }
 
 typedef std::unordered_map<std::string, UCIEngineOption> StringOptionMap;
-
-struct CHESSCORE_EXPORT EngineTimeControl {
-    unsigned startTime;
-    unsigned endTime;
-    unsigned elapsed;
-    int whiteTime;
-    int blackTime;
-    int whiteInc;
-    int blackInc;
-    int moveTime;
-    int depth;
-    bool infinite;
-
-    EngineTimeControl() :
-		startTime(0),
-		endTime(0),
-		elapsed(0),
-		whiteTime(0),
-		blackTime(0),
-		whiteInc(0),
-		blackInc(0),
-        moveTime(0),
-		depth(0),
-		infinite(false) {
-    }
-
-    EngineTimeControl &operator=(const EngineTimeControl &other) {
-        startTime = other.startTime;
-        endTime = other.endTime;
-        elapsed = other.elapsed;
-        whiteTime = other.whiteTime;
-        blackTime = other.blackTime;
-        whiteInc = other.whiteInc;
-        blackInc = other.blackInc;
-        moveTime = other.moveTime;
-        depth = other.depth;
-        infinite = other.infinite;
-        return *this;
-    }
-
-    void clear() {
-        whiteTime = 0;
-        blackTime = 0;
-        elapsed = 0;
-        whiteInc = 0;
-        blackInc = 0;
-        moveTime = 0;
-        depth = 0;
-        infinite = 0;
-    }
-};
 
 class CHESSCORE_EXPORT Engine : public Thread {
 private:
@@ -126,7 +76,10 @@ protected:
 #endif // WINDOWS
     Position m_position;            // Last position sent to the engine
     std::string m_positionString;   // Last position string sent to the engine
-    EngineTimeControl m_timeControl; // Time controls
+    TimeTracker *m_whiteTimeTracker;// White's time
+    TimeTracker *m_blackTimeTracker;// Black's time
+    unsigned m_thinkDepth;          // Don't use time controls; think to set depth
+    unsigned m_thinkStart;          // When the engine starting thinking
     bool m_thinkingAsWhite;         // True then engine thinking as white, else thinking as black
     bool m_discardNextBestMove;     // True if we will discard the next 'bestmove' from the engine
 
@@ -294,12 +247,44 @@ public:
         return !m_positionString.empty();
     }
 
-    EngineTimeControl &timeControl() {
-        return m_timeControl;
+    TimeTracker *whiteTimeTracker() {
+        return m_whiteTimeTracker;
     }
 
-    void setTimeControl(const EngineTimeControl timeControl) {
-        m_timeControl = timeControl;
+    void setWhiteTimeTracker(TimeTracker *timeTracker) {
+        m_whiteTimeTracker = timeTracker;
+    }
+
+    TimeTracker *blackTimeTracker() {
+        return m_blackTimeTracker;
+    }
+
+    void setBlackTimeTracker(TimeTracker *timeTracker) {
+        m_blackTimeTracker = timeTracker;
+    }
+
+    bool validTimeTrackers() const {
+        return m_whiteTimeTracker && m_whiteTimeTracker->isValid() &&
+               m_blackTimeTracker && m_blackTimeTracker->isValid();
+    }
+
+    bool resetTimeTrackers() {
+        if (validTimeTrackers()) {
+            return m_whiteTimeTracker->reset() && m_blackTimeTracker->reset();
+        }
+        return false;
+    }
+
+    unsigned thinkDepth() const {
+        return m_thinkDepth;
+    }
+
+    void setThinkDepth(unsigned thinkDepth) {
+        m_thinkDepth = thinkDepth;
+    }
+
+    unsigned thinkStart() const {
+        return m_thinkStart;
     }
 
     bool thinkingAsWhite() const {

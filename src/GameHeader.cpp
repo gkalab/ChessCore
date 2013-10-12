@@ -35,6 +35,7 @@ void GameHeader::initHeader() {
     m_day = m_month = m_year = 0;
     m_roundMajor = m_roundMinor = 0;
     m_result = UNFINISHED;
+    m_timeControl.clear();
     m_eco.clear();
     m_readFail = false;
 }
@@ -51,6 +52,7 @@ void GameHeader::setHeader(const GameHeader &other) {
     m_roundMajor = other.m_roundMajor;
     m_roundMinor = other.m_roundMinor;
     m_result = other.m_result;
+    m_timeControl = other.m_timeControl;
     m_eco = other.m_eco;
     m_readFail = other.m_readFail;
 }
@@ -70,6 +72,7 @@ void GameHeader::setHeader(const GameHeader *other) {
     m_roundMajor = other->m_roundMajor;
     m_roundMinor = other->m_roundMinor;
     m_result = other->m_result;
+    m_timeControl = other->m_timeControl;
     m_eco = other->m_eco;
     m_readFail = other->m_readFail;
 }

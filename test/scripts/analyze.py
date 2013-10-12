@@ -12,7 +12,7 @@ def usage():
     print "    --outdb=database        Output database"
     print "    --firstgame=number      The first game in the input database to analyze."
     print "    --lastgame=number       The last game in the input database to analyze"
-    print "    --timelimit=time        The time to analyze each move"
+    print "    --timecontrol=time      The time to analyze each move"
     print "    --depth=depth           The depth to analyze each move"
     print "    --engine=engine         The engine to use to analyze"
     exit(1)
@@ -20,7 +20,7 @@ def usage():
 def main():
     common.parser().add_option("--indb", dest = "indb", help = "Input database")
     common.parser().add_option("--outdb", dest = "outdb", help = "Output database")
-    common.parser().add_option("--timelimit", dest="timelimit", help = "Time limit per move")
+    common.parser().add_option("--timecontrol", dest="timecontrol", help = "Time control")
     common.parser().add_option("--depth", dest="depth", help = "Depth limit")
     common.parser().add_option("--firstgame", dest="firstgame", help = "First game in input database to analyze")
     common.parser().add_option("--lastgame", dest="lastgame",help = "First game in input database to analyze")
@@ -40,12 +40,12 @@ def main():
     outdb = common.options().outdb
     if not outdb:
         usage()
-    timelimit = common.options().timelimit;
+    timecontrol = common.options().timecontrol
     depth = common.options().depth
-    if not timelimit and not depth:
-        timelimit = "10s"
-    elif timelimit and depth:
-        print "Both timelimit and depth specified; ignoring depth option"
+    if not timecontrol and not depth:
+        timecontrol = "M/10"
+    elif timecontrol and depth:
+        print "Both timecontrol and depth specified; ignoring depth option"
         unset(depth)
     firstgame = common.options().firstgame
     lastgame = common.options().lastgame
@@ -62,7 +62,7 @@ def main():
     if logcomms:
         cmdline += " --logcomms"
     if timelimit:
-        cmdline += " -t {0}".format(timelimit)
+        cmdline += " -t {0}".format(timecontrol)
     if depth:
         cmdline += " -d {0}".format(depth)
     if firstgame:

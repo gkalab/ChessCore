@@ -160,7 +160,7 @@ bool CfdbDatabase::readHeader(unsigned gameNum, GameHeader &gameHeader) {
     int rv;
 
     if (stmt.prepare("SELECT white_player_id, black_player_id, event_id, site_id, "
-                     "date, round_major, round_minor, result, annotator_id, eco, white_elo, black_elo "
+                     "date, round_major, round_minor, result, annotator_id, eco, white_elo, black_elo, time_control "
                      "FROM game WHERE game_id = ?") &&
         stmt.bind(1, (int)gameNum)) {
         rv = stmt.step();
@@ -168,6 +168,7 @@ bool CfdbDatabase::readHeader(unsigned gameNum, GameHeader &gameHeader) {
         if (rv == SQLITE_ROW) {
             Player player;
             string eco, name;
+            Blob timeControl;
 
             unsigned whitePlayerId = stmt.columnInt(0);
             unsigned blackPlayerId = stmt.columnInt(1);
@@ -181,6 +182,7 @@ bool CfdbDatabase::readHeader(unsigned gameNum, GameHeader &gameHeader) {
             stmt.columnString(9, eco);
             unsigned whiteElo = stmt.columnInt(10);
             unsigned blackElo = stmt.columnInt(11);
+            stmt.columnBlob(12, timeControl);
 
             if (whitePlayerId &&
                 selectPlayer(whitePlayerId, player)) {
@@ -196,14 +198,14 @@ bool CfdbDatabase::readHeader(unsigned gameNum, GameHeader &gameHeader) {
 
             if (eventId) {
                 selectEvent(eventId, name);
-
-                if (name.length() > 0) gameHeader.setEvent(name);
+                if (name.length() > 0)
+                    gameHeader.setEvent(name);
             }
 
             if (siteId) {
                 selectSite(siteId, name);
-
-                if (name.length() > 0) gameHeader.setSite(name);
+                if (name.length() > 0)
+                    gameHeader.setSite(name);
             }
 
             gameHeader.setDay(date % 100);
@@ -217,17 +219,25 @@ bool CfdbDatabase::readHeader(unsigned gameNum, GameHeader &gameHeader) {
 
             if (annotatorId) {
                 selectAnnotator(annotatorId, name);
-
-                if (name.length() > 0) gameHeader.setAnnotator(name);
+                if (name.length() > 0)
+                    gameHeader.setAnnotator(name);
             }
 
-            if (eco.length() > 0) gameHeader.setEco(eco);
+            if (eco.length() > 0)
+                gameHeader.setEco(eco);
+
+            gameHeader.timeControl().setFromBlob(timeControl);
 
             retval = true;
             //LOGDBG << "Read game " << gameNum << " header";
-        } else if (rv == SQLITE_DONE) LOGDBG << "Game " << gameNum << " does not exist";
-        else setDbErrorMsg("Failed to select game %u", gameNum);
-    } else setDbErrorMsg("Failed to prepare game select statement");
+        } else if (rv == SQLITE_DONE) {
+            LOGDBG << "Game " << gameNum << " does not exist";
+        } else {
+            setDbErrorMsg("Failed to select game %u", gameNum);
+        }
+    } else {
+        setDbErrorMsg("Failed to prepare game select statement");
+    }
 
     gameHeader.setReadFail(!retval);
     return retval;
@@ -320,14 +330,21 @@ bool CfdbDatabase::write(unsigned gameNum, const Game &game) {
     }
 
     bool inserting = gameNum == 0 || !gameExists(gameNum);
-    Blob partial, moves, annotations;
+    Blob timeControl, partial, moves, annotations;
+
+    if (game.timeControl().isValid())
+        if (!game.timeControl().blob(timeControl))
+            return false;
 
     if (game.isPartialGame())
-        if (!game.startPosition().blob(partial)) return false;
+        if (!game.startPosition().blob(partial))
+            return false;
 
-    if (!encodeMoves(game, moves, annotations)) return false;
+    if (!encodeMoves(game, moves, annotations))
+        return false;
 
 #if DEBUG_BLOBS
+    LOGDBG << "timeControl " << timeControl;
     LOGDBG << "partial " << partial;
     LOGDBG << "moves " << moves;
     LOGDBG << "annotations " << annotations;
@@ -417,8 +434,8 @@ bool CfdbDatabase::write(unsigned gameNum, const Game &game) {
         if (stmt.prepare(
                 "INSERT INTO game (game_id, white_player_id, black_player_id, event_id, site_id, "
                 "date, round_major, round_minor, result, annotator_id, eco, white_elo, black_elo, "
-                "halfmoves, partial, moves, annotations) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)") &&
+                "time_control, halfmoves, partial, moves, annotations) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)") &&
             stmt.bind(1, (int)gameNum) &&
             stmt.bind(2, (int)whitePlayerId) &&
             stmt.bind(3, (int)blackPlayerId) &&
@@ -432,10 +449,11 @@ bool CfdbDatabase::write(unsigned gameNum, const Game &game) {
             stmt.bind(11, game.eco()) &&
             stmt.bind(12, (int)game.white().elo()) &&
             stmt.bind(13, (int)game.black().elo()) &&
-            stmt.bind(14, (int)game.countMainline()) &&
-            stmt.bind(15, partial) &&
-            stmt.bind(16, moves) &&
-            stmt.bind(17, annotations)) {
+            stmt.bind(14, timeControl) &&
+            stmt.bind(15, (int)game.countMainline()) &&
+            stmt.bind(16, partial) &&
+            stmt.bind(17, moves) &&
+            stmt.bind(18, annotations)) {
             rv = stmt.step();
 
             if (rv == SQLITE_DONE) retval = true;
@@ -446,7 +464,7 @@ bool CfdbDatabase::write(unsigned gameNum, const Game &game) {
         if (stmt.prepare(
                 "UPDATE game SET white_player_id = ?, black_player_id = ?, event_id = ?, "
                 "site_id = ?, date = ?, round_major = ?, round_minor = ?, result = ?, annotator_id = ?, "
-                "eco = ?, white_elo = ?, black_elo = ?, halfmoves = ?, partial = ?, moves = ?, annotations = ? "
+                "eco = ?, white_elo = ?, black_elo = ?, time_control = ?, halfmoves = ?, partial = ?, moves = ?, annotations = ? "
                 "WHERE game_id = ?") &&
             stmt.bind(1, (int)whitePlayerId) &&
             stmt.bind(2, (int)blackPlayerId) &&
@@ -460,11 +478,12 @@ bool CfdbDatabase::write(unsigned gameNum, const Game &game) {
             stmt.bind(10, game.eco()) &&
             stmt.bind(11, (int)game.white().elo()) &&
             stmt.bind(12, (int)game.black().elo()) &&
-            stmt.bind(13, (int)game.countMainline()) &&
-            stmt.bind(14, partial) &&
-            stmt.bind(15, moves) &&
-            stmt.bind(16, annotations) &&
-            stmt.bind(17, (int)gameNum)) {
+            stmt.bind(13, timeControl) &&
+            stmt.bind(14, (int)game.countMainline()) &&
+            stmt.bind(15, partial) &&
+            stmt.bind(16, moves) &&
+            stmt.bind(17, annotations) &&
+            stmt.bind(18, (int)gameNum)) {
             rv = stmt.step();
 
             if (rv == SQLITE_DONE) {
@@ -1127,6 +1146,7 @@ bool CfdbDatabase::createSchema() {
             "eco TEXT, "
             "white_elo INTEGER, "
             "black_elo INTEGER, "
+            "time_control BLOB, "
             "halfmoves INTEGER, "
             "partial BLOB, "
             "moves BLOB, "

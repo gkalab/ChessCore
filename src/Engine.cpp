@@ -60,7 +60,10 @@ Engine::Engine() :
 #endif // WINDOWS
 	m_position(),
 	m_positionString(),
-	m_timeControl(),
+    m_whiteTimeTracker(0),
+    m_blackTimeTracker(0),
+    m_thinkDepth(0),
+    m_thinkStart(0),
     m_thinkingAsWhite(false),
 	m_discardNextBestMove(false) {
 
@@ -511,7 +514,8 @@ void Engine::entry() {
                                     // Record which side the engine is thinking as and the time
                                     // it started thinking
                                     m_thinkingAsWhite = (toColour(m_position.ply()) == BLACK);
-                                    m_timeControl.startTime = Util::getTickCount();
+                                    LOGDBG << "m_thinkingAsWhite=" << boolalpha << m_thinkingAsWhite;
+                                    m_thinkStart = Util::getTickCount();
                                 }
 
                                 quit = !writeToEngine(toMessage);
@@ -548,18 +552,25 @@ void Engine::entry() {
                                 shared_ptr<EngineMessage> message = engineMessageFromUCI(uci);
                                 if (message) {
                                     if (message->type == EngineMessage::TYPE_BEST_MOVE) {
+                                        // TODO: Find a way to get rid of this horrible flag
                                         if (!m_discardNextBestMove) {
                                             m_state = STATE_READY;
-                                            m_timeControl.endTime = Util::getTickCount();
-                                            m_timeControl.elapsed = m_timeControl.endTime - m_timeControl.startTime;
+                                            unsigned thinkEnd = Util::getTickCount();
+                                            unsigned thinkTime = thinkEnd - m_thinkStart;
 
-                                            if (m_thinkingAsWhite && m_timeControl.whiteTime > 0)
-                                                m_timeControl.whiteTime -= m_timeControl.elapsed;
-                                            else if (!m_thinkingAsWhite && m_timeControl.blackTime > 0)
-                                                m_timeControl.blackTime -= m_timeControl.elapsed;
-                                            else if (m_timeControl.moveTime > 0)
-                                                m_timeControl.moveTime -= m_timeControl.elapsed;
+                                            // Store the thinking time in the engine message
+                                            EngineMessageBestMove *engineMessageBestMove = dynamic_cast<EngineMessageBestMove *>(message.get());
+                                            engineMessageBestMove->thinkingTime = thinkTime;
+
+                                            if (m_thinkingAsWhite) {
+                                                if (m_whiteTimeTracker)
+                                                    m_whiteTimeTracker->update(thinkTime);
+                                            } else {
+                                                if (m_blackTimeTracker)
+                                                    m_blackTimeTracker->update(thinkTime);
+                                            }
                                         } else {
+                                            LOGDBG << "Discarded best move";
                                             m_discardNextBestMove = false;
                                         }
 
@@ -698,19 +709,34 @@ string Engine::uciFromEngineMessage(const shared_ptr<EngineMessage> engineMessag
     }
 
     case EngineMessage::TYPE_GO: {
-        if (m_timeControl.infinite)
-            uci = "go infinite";
-        else if (m_timeControl.whiteTime > 0 && m_timeControl.blackTime > 0)
-            uci = Util::format("go wtime %u btime %u winc %u binc %u",
-                               m_timeControl.whiteTime, m_timeControl.blackTime,
-                               m_timeControl.whiteInc, m_timeControl.blackInc);
-        else if (m_timeControl.depth > 0)
-            uci = Util::format("go depth %u", m_timeControl.depth);
-        else if (m_timeControl.moveTime > 0)
-            uci = Util::format("go movetime %u", m_timeControl.moveTime);
-        else
-            LOGWRN << "Engine " << id() << ": No viable time control value to use";
 
+        bool wtm = (toColour(m_position.ply()) == BLACK);
+        LOGDBG << "wtm=" << boolalpha << wtm;
+        ostringstream oss;
+        if (m_whiteTimeTracker && m_blackTimeTracker) {
+            unsigned winc = m_whiteTimeTracker->increment();
+            unsigned binc = m_blackTimeTracker->increment();
+            unsigned wmovestogo = m_whiteTimeTracker->movesLeft();
+            unsigned bmovestogo = m_blackTimeTracker->movesLeft();
+
+            oss << "go wtime " << m_whiteTimeTracker->timeLeft();
+            if (winc)
+                oss << " winc " << winc;
+            oss << " btime " << m_blackTimeTracker->timeLeft();
+            if (binc)
+                oss << " binc " << binc;
+            if (wtm && wmovestogo)
+                oss << " movestogo " << wmovestogo;
+            else if (!wtm && bmovestogo)
+                oss << " movestogo " << bmovestogo;
+        } else if (m_thinkDepth) {
+            oss << "go depth " << m_thinkDepth;
+        } else {
+            LOGWRN << "Engine " << id() << ": No time control and no depth specified";
+            oss << "go movetime 1000";
+        }
+
+        uci = oss.str();
         break;
     }
 
@@ -780,16 +806,16 @@ shared_ptr<EngineMessage> Engine::engineMessageFromUCI(const string &uci) {
     if (parts[0] == "id") {
         if (numParts >= 3)
             return NEW_ENGINE_MESSAGE_ID(parts[1], Util::concat(parts, 2, numParts));
-    } else if (parts[0] == "uciok")
+    } else if (parts[0] == "uciok") {
         return NEW_ENGINE_MESSAGE(TYPE_UCI_OK);
-    else if (parts[0] == "registration") {
+    } else if (parts[0] == "registration") {
         if (numParts == 2)
             if (parts[1] == "error")
                 return NEW_ENGINE_MESSAGE(TYPE_REGISTRATION_ERROR);
 
-    } else if (parts[0] == "readyok")
+    } else if (parts[0] == "readyok") {
         return NEW_ENGINE_MESSAGE(TYPE_READY_OK);
-    else if (parts[0] == "bestmove") {
+    } else if (parts[0] == "bestmove") {
         // We not only parse the moves, but also make the moves in the current position in order
         // to get the position.lastMove() which contains additional move flags (check/mate).
         Move bestMove, ponderMove;
@@ -822,7 +848,6 @@ shared_ptr<EngineMessage> Engine::engineMessageFromUCI(const string &uci) {
                                                              parts[1].c_str(), id().c_str()));
             }
         }
-
         return shared_ptr<EngineMessage> (new EngineMessageBestMove(bestMove, ponderMove));
     } else if (parts[0] == "info") {
         unsigned numParts = (unsigned)(parts.size());

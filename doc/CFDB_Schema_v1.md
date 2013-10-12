@@ -54,6 +54,7 @@ The `metadata` table holds information about the database itself.  The following
        eco TEXT,
        white_elo INTEGER,
        black_elo INTEGER,
+       time_control BLOB,
        halfmoves INTEGER,
        partial BLOB,
        moves BLOB,
@@ -183,6 +184,29 @@ With the upper bit in the nibble defining the piece colour:
 
 The `halfmove-clock` is the number of half moves since a pawn was moved or a piece was captured.  This is used to help calculate if the game is drawn by the "50-move rule".
 
+### TimeControl Encoding
+
+Timecontrols are encoded within `BLOB` objects using the following format:
+
+    num periods: 4-bits.
+    period #1 type: 4-bits.
+    period #1 moves: 8-bits.
+    period #1 time (secs): 16-bits
+    period #1 increment (secs): 4-bits.
+    ...
+    period #n type: 4-bits.
+    period #n moves: 8-bits.
+    period #n time (secs): 16-bits
+    period #n increment (secs): 4-bits.
+    
+    Total size: (32-bits * num periods) + 4-bits.
+
+Time Control Period Types:
+
+ - 0: None (invalid)
+ - 1: Rollover
+ - 2: Game In
+ - 3: Moves In
 
 ### Moves Encoding
 

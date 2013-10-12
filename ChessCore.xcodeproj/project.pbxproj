@@ -80,6 +80,11 @@
 		A101DAC917B268CD00DA28DE /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DAC817B268CD00DA28DE /* Version.h */; };
 		A101DACA17B268CD00DA28DE /* Version.h in Headers */ = {isa = PBXBuildFile; fileRef = A101DAC817B268CD00DA28DE /* Version.h */; };
 		A10CCA1B17A70DB800B21641 /* Movegen_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A10CCA1A17A70DB800B21641 /* Movegen_unittest.cpp */; };
+		A113BA951807EEE600AEFBDE /* TimeControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A113BA941807EEE600AEFBDE /* TimeControl.h */; };
+		A113BA961807EEE600AEFBDE /* TimeControl.h in Headers */ = {isa = PBXBuildFile; fileRef = A113BA941807EEE600AEFBDE /* TimeControl.h */; };
+		A113BA991807F28B00AEFBDE /* TimeControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A113BA971807F28B00AEFBDE /* TimeControl.cpp */; };
+		A113BA9A1807F28B00AEFBDE /* TimeControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A113BA971807F28B00AEFBDE /* TimeControl.cpp */; };
+		A113BA9F180845E500AEFBDE /* TimeControl_unittest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A113BA9D180845E500AEFBDE /* TimeControl_unittest.cpp */; };
 		A12CEF961639B46F00750519 /* IoEventWaiter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A12CEF941639B46F00750519 /* IoEventWaiter.cpp */; };
 		A133505315E7E0EA00343649 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A133505115E7E0EA00343649 /* Player.cpp */; };
 		A13571271656ACED00FF8931 /* AnalyzeGames.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A135711D1656ACED00FF8931 /* AnalyzeGames.cpp */; };
@@ -262,6 +267,9 @@
 		A101DA7F17B266EE00DA28DE /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Util.h; path = include/ChessCore/Util.h; sourceTree = "<group>"; };
 		A101DAC817B268CD00DA28DE /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Version.h; path = include/ChessCore/Version.h; sourceTree = "<group>"; };
 		A10CCA1A17A70DB800B21641 /* Movegen_unittest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Movegen_unittest.cpp; path = test/unittests/Movegen_unittest.cpp; sourceTree = SOURCE_ROOT; };
+		A113BA941807EEE600AEFBDE /* TimeControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeControl.h; path = include/ChessCore/TimeControl.h; sourceTree = "<group>"; };
+		A113BA971807F28B00AEFBDE /* TimeControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimeControl.cpp; path = src/TimeControl.cpp; sourceTree = "<group>"; };
+		A113BA9D180845E500AEFBDE /* TimeControl_unittest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TimeControl_unittest.cpp; path = test/unittests/TimeControl_unittest.cpp; sourceTree = SOURCE_ROOT; };
 		A121451215753AE700F1226B /* AnnotMove.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotMove.cpp; path = src/AnnotMove.cpp; sourceTree = "<group>"; };
 		A121451615753AE700F1226B /* Blob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Blob.cpp; path = src/Blob.cpp; sourceTree = "<group>"; };
 		A121451A15753AE700F1226B /* CbhDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CbhDatabase.cpp; path = src/CbhDatabase.cpp; sourceTree = "<group>"; };
@@ -393,15 +401,16 @@
 		A18438C017A2EE5B00A0A219 /* unittests Source */ = {
 			isa = PBXGroup;
 			children = (
-				A182000617FED625007682DD /* Move_unittest.cpp */,
-				A10CCA1A17A70DB800B21641 /* Movegen_unittest.cpp */,
 				A1843A9417A2EEE100A0A219 /* Bitstream_unittest.cpp */,
 				A1843A9517A2EEE100A0A219 /* Game_unittest.cpp */,
+				A1843A9117A2EEB700A0A219 /* gtest-all.cc */,
 				A1843A9617A2EEE100A0A219 /* Lowlevel_unittest.cpp */,
+				A182000617FED625007682DD /* Move_unittest.cpp */,
+				A10CCA1A17A70DB800B21641 /* Movegen_unittest.cpp */,
 				A1843A9717A2EEE100A0A219 /* PackUtil_unittest.cpp */,
+				A113BA9D180845E500AEFBDE /* TimeControl_unittest.cpp */,
 				A1843A9817A2EEE100A0A219 /* unittest_main.cpp */,
 				A1843A9917A2EEE100A0A219 /* Util_unittest.cpp */,
-				A1843A9117A2EEB700A0A219 /* gtest-all.cc */,
 			);
 			name = "unittests Source";
 			path = unittests;
@@ -476,6 +485,8 @@
 				A101DA7B17B266EE00DA28DE /* SqliteStatement.h */,
 				A1C1F84217AC0E9100D6CFE3 /* Thread.cpp */,
 				A101DA7C17B266EE00DA28DE /* Thread.h */,
+				A113BA971807F28B00AEFBDE /* TimeControl.cpp */,
+				A113BA941807EEE600AEFBDE /* TimeControl.h */,
 				A101DA7D17B266EE00DA28DE /* Types.h */,
 				A1D89F3E1644423200C1DD2A /* UCIEngineOption.cpp */,
 				A101DA7E17B266EE00DA28DE /* UCIEngineOption.h */,
@@ -534,6 +545,7 @@
 				A101DAC417B266EE00DA28DE /* UCIEngineOption.h in Headers */,
 				A101DAA417B266EE00DA28DE /* IoEventWaiter.h in Headers */,
 				A101DAAA17B266EE00DA28DE /* Move.h in Headers */,
+				A113BA951807EEE600AEFBDE /* TimeControl.h in Headers */,
 				A101DABE17B266EE00DA28DE /* SqliteStatement.h in Headers */,
 				A101DA9C17B266EE00DA28DE /* Game.h in Headers */,
 				A101DA8C17B266EE00DA28DE /* CfdbDatabase.h in Headers */,
@@ -577,6 +589,7 @@
 				A101DAC517B266EE00DA28DE /* UCIEngineOption.h in Headers */,
 				A101DAA517B266EE00DA28DE /* IoEventWaiter.h in Headers */,
 				A101DAAB17B266EE00DA28DE /* Move.h in Headers */,
+				A113BA961807EEE600AEFBDE /* TimeControl.h in Headers */,
 				A101DABF17B266EE00DA28DE /* SqliteStatement.h in Headers */,
 				A101DA9D17B266EE00DA28DE /* Game.h in Headers */,
 				A101DA8D17B266EE00DA28DE /* CfdbDatabase.h in Headers */,
@@ -797,6 +810,7 @@
 				A1AA7C0517B0EAD2009B3792 /* PositionHash.cpp in Sources */,
 				A13A6F1D16559F9800F341C7 /* EngineMessage.cpp in Sources */,
 				A13A6F1F16559F9800F341C7 /* EngineMessageQueue.cpp in Sources */,
+				A113BA991807F28B00AEFBDE /* TimeControl.cpp in Sources */,
 				A13A6F2116559F9800F341C7 /* Epd.cpp in Sources */,
 				A13A6F2316559F9800F341C7 /* Game.cpp in Sources */,
 				A13A6F2516559F9800F341C7 /* GameHeader.cpp in Sources */,
@@ -835,6 +849,7 @@
 				A1843A9E17A2EEE100A0A219 /* unittest_main.cpp in Sources */,
 				A182000717FED625007682DD /* Move_unittest.cpp in Sources */,
 				A1843A9F17A2EEE100A0A219 /* Util_unittest.cpp in Sources */,
+				A113BA9F180845E500AEFBDE /* TimeControl_unittest.cpp in Sources */,
 				A10CCA1B17A70DB800B21641 /* Movegen_unittest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -884,6 +899,7 @@
 				A133505315E7E0EA00343649 /* Player.cpp in Sources */,
 				A1C68B6F1601000200126B8B /* Bitstream.cpp in Sources */,
 				A17131DF160CD054003A8EE3 /* OpeningTree.cpp in Sources */,
+				A113BA9A1807F28B00AEFBDE /* TimeControl.cpp in Sources */,
 				A12CEF961639B46F00750519 /* IoEventWaiter.cpp in Sources */,
 				A1D89F401644423200C1DD2A /* EngineMessage.cpp in Sources */,
 				A1AA7C0617B0EAD2009B3792 /* PositionHash.cpp in Sources */,
