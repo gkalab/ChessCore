@@ -29,7 +29,7 @@ def run(runcycle, indb, outdb):
     print "{0}: Copying {1} to {2}".format(progname, indb, outdb);
 
     cmdline = common.ccore()
-    cmdline += " -l {0} -i {1} -o {2} --debuglog -q copydb".format(logfile1, indb, outdb)
+    cmdline += " -l {0} -i {1} -o {2} --quiet=true --debuglog=true copydb".format(logfile1, indb, outdb)
     if not common.runccore(cmdline):
         return False
 
@@ -52,7 +52,7 @@ def run(runcycle, indb, outdb):
     print "{0}: Validating {1}".format(progname, outdb);
 
     cmdline = common.ccore()
-    cmdline += " -l {0} -i {1} --debuglog -q validatedb".format(logfile2, outdb)
+    cmdline += " -l {0} -i {1} --quiet true --debuglog true validatedb".format(logfile2, outdb)
     if not common.runccore(cmdline):
         return False
 

@@ -60,19 +60,21 @@ CfdbDatabase::CfdbDatabase() :
         m_sqliteVersion = (unsigned)sqlite3_libversion_number();
         LOGINF << "sqlite version: " << m_sqliteVersion;
 
-        if (sqlite3_threadsafe() == 0) LOGERR << "sqlite3 database is not thread-safe";
+        if (sqlite3_threadsafe() == 0) {
+            LOGERR << "sqlite3 database is not thread-safe";
+        }
     }
 }
 
 CfdbDatabase::CfdbDatabase(const string &filename, bool readOnly) :
     Database(),
     m_filename(),
-    m_db(0) {
+    m_db(0)
+{
     if (m_sqliteVersion == 0) {
         m_sqliteVersion = (unsigned)sqlite3_libversion_number();
         LOGINF << "sqlite version: " << m_sqliteVersion;
     }
-
     open(filename, readOnly);
 }
 
@@ -83,7 +85,8 @@ CfdbDatabase::~CfdbDatabase() {
 bool CfdbDatabase::open(const string &filename, bool readOnly) {
     clearErrorMsg();
 
-    if (m_isOpen) close();
+    if (m_isOpen)
+        close();
 
     bool exists = Util::fileExists(filename);
 
@@ -94,25 +97,38 @@ bool CfdbDatabase::open(const string &filename, bool readOnly) {
 
     unsigned flags = SQLITE_OPEN_FULLMUTEX;
 
-    if (readOnly) flags |= SQLITE_OPEN_READONLY;
-    else flags |= SQLITE_OPEN_READWRITE;
+    if (readOnly)
+        flags |= SQLITE_OPEN_READONLY;
+    else
+        flags |= SQLITE_OPEN_READWRITE;
 
-    if (!exists) flags |= SQLITE_OPEN_CREATE;
+    if (!exists)
+        flags |= SQLITE_OPEN_CREATE;
 
-    if (sqlite3_open_v2(filename.c_str(), &m_db, flags, 0) == SQLITE_OK) m_isOpen = true;
-    else DBERROR << "Failed to create ChessFront database '" << filename << "'";
+    if (sqlite3_open_v2(filename.c_str(), &m_db, flags, 0) == SQLITE_OK) {
+        m_isOpen = true;
+    } else {
+        DBERROR << "Failed to create ChessFront database '" << filename << "'";
+    }
 
     if (m_isOpen) {
         SqliteStatement stmt(m_db);
 
-        if (!stmt.setSynchronous(false)) LOGWRN << "Failed to turn off synchronous mode: " << sqlite3_errmsg(m_db);
+        if (!stmt.setSynchronous(false)) {
+            LOGWRN << "Failed to turn off synchronous mode: " << sqlite3_errmsg(m_db);
+        }
 
-        if (!stmt.setJournalMode("MEMORY")) LOGWRN << "Failed to set journal_mode to MEMORY: " << sqlite3_errmsg(m_db);
+        if (!stmt.setJournalMode("MEMORY")) {
+            LOGWRN << "Failed to set journal_mode to MEMORY: " << sqlite3_errmsg(m_db);
+        }
 
         if (!exists) {
             // Create the schema
-            if (!createSchema()) close();
-        } else if (!checkSchema()) close();
+            if (!createSchema())
+                close();
+        } else if (!checkSchema()) {
+            close();
+        }
 
         if (m_isOpen) {
             m_filename = filename;
@@ -226,7 +242,8 @@ bool CfdbDatabase::readHeader(unsigned gameNum, GameHeader &gameHeader) {
             if (eco.length() > 0)
                 gameHeader.setEco(eco);
 
-            gameHeader.timeControl().setFromBlob(timeControl);
+            if (timeControl.length() > 0)
+                gameHeader.timeControl().setFromBlob(timeControl);
 
             retval = true;
             //LOGDBG << "Read game " << gameNum << " header";
@@ -260,7 +277,8 @@ bool CfdbDatabase::read(unsigned gameNum, Game &game) {
 
     game.init();
 
-    if (!readHeader(gameNum, game)) return false;
+    if (!readHeader(gameNum, game))
+        return false;
 
     game.setReadFail(true);
 
@@ -285,7 +303,6 @@ bool CfdbDatabase::read(unsigned gameNum, Game &game) {
 
             if (partial.length() > 0) {
                 Position pos;
-
                 if (pos.setFromBlob(partial) == Position::LEGAL) game.setStartPosition(pos);
                 else {
                     LOGERR << "Invalid starting position in binary object";
@@ -429,7 +446,8 @@ bool CfdbDatabase::write(unsigned gameNum, const Game &game) {
 
     if (inserting) {
         // Insert
-        if (gameNum == 0) gameNum = lastGameNum() + 1;
+        if (gameNum == 0)
+            gameNum = lastGameNum() + 1;
 
         if (stmt.prepare(
                 "INSERT INTO game (game_id, white_player_id, black_player_id, event_id, site_id, "
@@ -456,10 +474,15 @@ bool CfdbDatabase::write(unsigned gameNum, const Game &game) {
             stmt.bind(18, annotations)) {
             rv = stmt.step();
 
-            if (rv == SQLITE_DONE) retval = true;
-            //LOGDBG << "Inserted game " << gameNum;
-            else setDbErrorMsg("Failed to insert game %u", gameNum);
-        } else setDbErrorMsg("Failed to prepare game insert statement");
+            if (rv == SQLITE_DONE) {
+                retval = true;
+                //LOGDBG << "Inserted game " << gameNum;
+            } else {
+                setDbErrorMsg("Failed to insert game %u", gameNum);
+            }
+        } else {
+            setDbErrorMsg("Failed to prepare game insert statement");
+        }
     } else { // !inserting
         if (stmt.prepare(
                 "UPDATE game SET white_player_id = ?, black_player_id = ?, event_id = ?, "
@@ -489,8 +512,12 @@ bool CfdbDatabase::write(unsigned gameNum, const Game &game) {
             if (rv == SQLITE_DONE) {
                 retval = true;
                 LOGDBG << "Updated game " << gameNum;
-            } else setDbErrorMsg("Failed to insert game %u", gameNum);
-        } else setDbErrorMsg("Failed to prepare game update statement");
+            } else {
+                setDbErrorMsg("Failed to insert game %u", gameNum);
+            }
+        } else {
+            setDbErrorMsg("Failed to prepare game update statement");
+        }
     }
 
     if (retval) {
@@ -680,7 +707,8 @@ bool CfdbDatabase::searchOpeningTree(uint64_t hashKey, bool lastMoveOnly, vector
     int rv;
     string sql = "SELECT move, score, last_move, game_id FROM optree WHERE pos = ?";
 
-    if (lastMoveOnly) sql += " AND last_move <> 0";
+    if (lastMoveOnly)
+        sql += " AND last_move <> 0";
 
     SqliteStatement stmt(m_db);
 
@@ -826,8 +854,7 @@ bool CfdbDatabase::search(const DatabaseSearchCriteria &searchCriteria, const Da
             break;
 
         case DATABASE_FIELD_PLAYER:
-            where <<
-                " (" <<
+            where << " (" <<
                 (caseInsensitive ? "UPPER(whiteplayer.last_name)" : "whiteplayer.last_name") <<
                 comparisonString(descriptor.comparison) << " OR " <<
                 (caseInsensitive ? "UPPER(blackplayer.last_name)" : "blackplayer.last_name") <<
@@ -890,8 +917,9 @@ bool CfdbDatabase::search(const DatabaseSearchCriteria &searchCriteria, const Da
         }
     }
 
-    if (sortCriteria.empty()) orderBy << "game.game_id ASC";
-    else
+    if (sortCriteria.empty()) {
+        orderBy << "game.game_id ASC";
+    } else {
         for (auto it = sortCriteria.begin(); it != sortCriteria.end(); ++it) {
             const DatabaseSortDescriptor &descriptor = *it;
 
@@ -944,6 +972,7 @@ bool CfdbDatabase::search(const DatabaseSearchCriteria &searchCriteria, const Da
                 return false;
             }
         }
+    }
 
     query << "SELECT game.game_id FROM game";
 
@@ -972,16 +1001,20 @@ bool CfdbDatabase::search(const DatabaseSearchCriteria &searchCriteria, const Da
         } else ASSERT(false);
     }
 
-    if (!whereEmpty && joins.size() > 0) where << ")";
+    if (!whereEmpty && joins.size() > 0)
+        where << ")";
 
-    if (where.tellp() > 0) query << " WHERE" << where.str();
+    if (where.tellp() > 0)
+        query << " WHERE" << where.str();
 
     query << " GROUP BY game.game_id";
     query << " ORDER BY " << orderBy.str();
 
-    if (limit > 0) query << " LIMIT " << limit;
+    if (limit > 0)
+        query << " LIMIT " << limit;
 
-    if (offset > 0) query << " OFFSET " << offset - 1;
+    if (offset > 0)
+        query << " OFFSET " << offset - 1;
 
     LOGDBG << "Query: " << query.str();
 
@@ -1036,13 +1069,18 @@ unsigned CfdbDatabase::numGames() {
 
     if (stmt.prepare("SELECT COUNT(*) FROM game")) {
         rv = stmt.step();
-
         if (rv == SQLITE_ROW) {
             count = (unsigned)stmt.columnInt(0);
             LOGDBG << "Database '" << m_filename << "' contains " << count << " games";
-        } else if (rv == SQLITE_DONE) DBERROR << "Failed to count games";
-        else setDbErrorMsg("Failed to count games");
-    } else setDbErrorMsg("Failed to prepare SELECT COUNT statement");
+        } else if (rv == SQLITE_DONE) {
+            DBERROR << "Failed to count games";
+        }
+        else {
+            setDbErrorMsg("Failed to count games");
+        }
+    } else {
+        setDbErrorMsg("Failed to prepare SELECT COUNT statement");
+    }
 
     return count;
 }
@@ -1061,10 +1099,13 @@ unsigned CfdbDatabase::firstGameNum() {
 
     if (stmt.prepare("SELECT MIN(game_id) FROM game")) {
         rv = stmt.step();
-
-        if (rv == SQLITE_ROW) gameNum = (unsigned)stmt.columnInt(0);
-        else setDbErrorMsg("Failed to get first game number");
-    } else setDbErrorMsg("Failed to prepare SELECT MIN statement");
+        if (rv == SQLITE_ROW)
+            gameNum = (unsigned)stmt.columnInt(0);
+        else
+            setDbErrorMsg("Failed to get first game number");
+    } else {
+        setDbErrorMsg("Failed to prepare SELECT MIN statement");
+    }
 
     return gameNum;
 }
@@ -1083,10 +1124,13 @@ unsigned CfdbDatabase::lastGameNum() {
 
     if (stmt.prepare("SELECT MAX(game_id) FROM game")) {
         rv = stmt.step();
-
-        if (rv == SQLITE_ROW) gameNum = (unsigned)stmt.columnInt(0);
-        else setDbErrorMsg("Failed to get last game number");
-    } else setDbErrorMsg("Failed to prepare SELECT MAX statement");
+        if (rv == SQLITE_ROW)
+            gameNum = (unsigned)stmt.columnInt(0);
+        else
+            setDbErrorMsg("Failed to get last game number");
+    } else {
+        setDbErrorMsg("Failed to prepare SELECT MAX statement");
+    }
 
     return gameNum;
 }
@@ -1106,10 +1150,13 @@ bool CfdbDatabase::gameExists(unsigned gameNum) {
     if (stmt.prepare("SELECT COUNT(*) FROM game WHERE game_id = ?") &&
         stmt.bind(1, (int)gameNum)) {
         rv = stmt.step();
-
-        if (rv == SQLITE_ROW) count = (unsigned)stmt.columnInt(0);
-        else DBERROR << "Failed to count game where game_id=" << gameNum;
-    } else setDbErrorMsg("Failed to prepare game exists statement");
+        if (rv == SQLITE_ROW)
+            count = (unsigned)stmt.columnInt(0);
+        else
+            setDbErrorMsg("Failed to count game where game_id=%u", gameNum);
+    } else {
+        setDbErrorMsg("Failed to prepare game exists statement");
+    }
 
     return count == 1;
 }
@@ -1322,7 +1369,7 @@ bool CfdbDatabase::checkSchema() {
         !stmt.bind(1, "schema_version") ||
         (stepval = stmt.step()) != SQLITE_ROW) {
         if (stepval == SQLITE_DONE)
-            DBERROR << "Schema version is not set in the database";
+            setDbErrorMsg("Schema version is not set in the database");
         else
             setDbErrorMsg("Failed to select schema_version");
 
@@ -1364,7 +1411,6 @@ bool CfdbDatabase::decodeMoves(Game &game, const Blob &moves, const Blob &annota
                     (lastMove ? lastMove->dump() : "none") << "'";
                 return false;
             }
-
             lastMove = 0;
         } else if (encodedMove == ENCMOVE_TYPE_VAREND) {
             if (!game.endVariation()) {
@@ -1372,12 +1418,12 @@ bool CfdbDatabase::decodeMoves(Game &game, const Blob &moves, const Blob &annota
                     (lastMove ? lastMove->dump() : "none") << "'";
                 return false;
             }
-
             lastMove = 0;
         } else { // Move
             unsigned bitcount;
 
-            if (encodedMove == ENCMOVE_TYPE_MOVE) bitcount = ENCMOVE_MOVE_BITSIZE;
+            if (encodedMove == ENCMOVE_TYPE_MOVE)
+                bitcount = ENCMOVE_MOVE_BITSIZE;
             else // encodedMove == ENCMOVE_TYPE_ANNOTMOVE
                 bitcount = ENCMOVE_ANNOTMOVE_BITSIZE;
 
@@ -1480,11 +1526,12 @@ bool CfdbDatabase::encodeMoves(const AnnotMove *amove, Bitstream &moveBitstream,
     ASSERT(m->priorPosition());
     Position pos(m->priorPosition());
 
-    if (isVariation)
+    if (isVariation) {
         if (!moveBitstream.write(ENCMOVE_TYPE_VARSTART, ENCMOVE_TYPE_BITSIZE)) {
             DBERROR << "Failed to write to move bitstream at offset " << moveBitstream.writeOffset();
             return false;
         }
+    }
 
     while (amove) {
         // Get the index of the move
@@ -1568,21 +1615,23 @@ bool CfdbDatabase::encodeMoves(const AnnotMove *amove, Bitstream &moveBitstream,
             return false;
         }
 
-        if (amove->variation())
-            if (amove->mainline() == 0)
+        if (amove->variation()) {
+            if (amove->mainline() == 0) {
                 // Top of variation tree
                 for (m = amove->variation(); m; m = m->variation())
                     if (!encodeMoves(m, moveBitstream, annotations, true)) return false;
-
+            }
+        }
 
         amove = amove->next();
     }
 
-    if (isVariation)
+    if (isVariation) {
         if (!moveBitstream.write(ENCMOVE_TYPE_VAREND, ENCMOVE_TYPE_BITSIZE)) {
             DBERROR << "Failed to write to move bitstream at offset " << moveBitstream.writeOffset();
             return false;
         }
+    }
 
     return true;
 }
@@ -1630,11 +1679,14 @@ unsigned CfdbDatabase::selectPlayer(const Player &player) {
 
     bool bindOK = true;
 
-    if (lastNameBind > 0) bindOK = bindOK && stmt.bind(lastNameBind, player.lastName());
+    if (lastNameBind > 0)
+        bindOK = bindOK && stmt.bind(lastNameBind, player.lastName());
 
-    if (firstNamesBind > 0) bindOK = bindOK && stmt.bind(firstNamesBind, player.firstNames());
+    if (firstNamesBind > 0)
+        bindOK = bindOK && stmt.bind(firstNamesBind, player.firstNames());
 
-    if (countryCodeBind > 0) bindOK = bindOK && stmt.bind(countryCodeBind, player.countryCode());
+    if (countryCodeBind > 0)
+        bindOK = bindOK && stmt.bind(countryCodeBind, player.countryCode());
 
     if (!bindOK) {
         setDbErrorMsg("Failed to bind select player parameters");
@@ -1646,8 +1698,12 @@ unsigned CfdbDatabase::selectPlayer(const Player &player) {
     if (rv == SQLITE_ROW) {
         playerId = (unsigned)stmt.columnInt(0);
         LOGVERBOSE << "Player '" << player << "' has player_id " << playerId;
-    } else if (rv == SQLITE_DONE) LOGVERBOSE << "Player '" << player << "' does not exist";
-    else setDbErrorMsg("Failed to select player '%s'", player.formattedName().c_str());
+    } else if (rv == SQLITE_DONE) {
+        LOGVERBOSE << "Player '" << player << "' does not exist";
+    }
+    else {
+        setDbErrorMsg("Failed to select player '%s'", player.formattedName().c_str());
+    }
 
     return playerId;
 }
@@ -1671,9 +1727,15 @@ bool CfdbDatabase::selectPlayer(unsigned id, Player &player) {
             player.setCountryCode(stmt.columnString(2));
             retval = true;
             LOGVERBOSE << "Player " << id << " is '" << player << "'";
-        } else if (rv == SQLITE_DONE) LOGVERBOSE << "Player " << id << " does not exist";
-        else setDbErrorMsg("Failed to select player %u", id);
-    } else setDbErrorMsg("Failed to prepare player select statement");
+        } else if (rv == SQLITE_DONE) {
+            LOGVERBOSE << "Player " << id << " does not exist";
+        }
+        else {
+            setDbErrorMsg("Failed to select player %u", id);
+        }
+    } else {
+        setDbErrorMsg("Failed to prepare player select statement");
+    }
 
     return retval;
 }
@@ -1694,8 +1756,12 @@ unsigned CfdbDatabase::insertPlayer(const Player &player) {
         if (rv == SQLITE_DONE) {
             playerId = stmt.lastInsertId();
             LOGVERBOSE << "Player '" << player << "' has player_id " << playerId;
-        } else setDbErrorMsg("Failed to insert player '%s'", player.formattedName().c_str());
-    } else setDbErrorMsg("Failed to prepare player insert statement");
+        } else {
+            setDbErrorMsg("Failed to insert player '%s'", player.formattedName().c_str());
+        }
+    } else {
+        setDbErrorMsg("Failed to prepare player insert statement");
+    }
 
     return playerId;
 }
@@ -1715,9 +1781,13 @@ bool CfdbDatabase::updatePlayer(unsigned id, const Player &player) {
         stmt.bind(4, (int)id)) {
         rv = stmt.step();
 
-        if (rv == SQLITE_DONE) retval = true;
-        else setDbErrorMsg("Failed to update player '%s' (%u)", player.formattedName().c_str(), id);
-    } else setDbErrorMsg("Failed to prepare player update statement");
+        if (rv == SQLITE_DONE)
+            retval = true;
+        else
+            setDbErrorMsg("Failed to update player '%s' (%u)", player.formattedName().c_str(), id);
+    } else {
+        setDbErrorMsg("Failed to prepare player update statement");
+    }
 
     return retval;
 }
@@ -1745,10 +1815,12 @@ unsigned CfdbDatabase::selectEvent(const string &name) {
     if (rv == SQLITE_ROW) {
         eventId = (unsigned)stmt.columnInt(0);
         LOGVERBOSE << "Event '" << name << "' has event_id " << eventId;
-    } else if (rv == SQLITE_DONE) LOGVERBOSE << "Event '" << name << "' does not exist";
-    else
+    } else if (rv == SQLITE_DONE) {
+        LOGVERBOSE << "Event '" << name << "' does not exist";
+    } else {
         setDbErrorMsg("Failed to select event name='%s'",
                       name.c_str());
+    }
 
     return eventId;
 }
@@ -1770,9 +1842,15 @@ bool CfdbDatabase::selectEvent(unsigned id, string &name) {
             stmt.columnString(0, name);
             retval = true;
             LOGVERBOSE << "Event " << id << " is '" << name << "'";
-        } else if (rv == SQLITE_DONE) LOGVERBOSE << "Event " << id << " does not exist";
-        else setDbErrorMsg("Failed to select event %u", id);
-    } else setDbErrorMsg("Failed to prepare event select statement");
+        } else if (rv == SQLITE_DONE) {
+            LOGVERBOSE << "Event " << id << " does not exist";
+        }
+        else {
+            setDbErrorMsg("Failed to select event %u", id);
+        }
+    } else {
+        setDbErrorMsg("Failed to prepare event select statement");
+    }
 
     return retval;
 }
@@ -1791,8 +1869,12 @@ unsigned CfdbDatabase::insertEvent(const string &name) {
         if (rv == SQLITE_DONE) {
             eventId = stmt.lastInsertId();
             LOGVERBOSE << "Event '" << name << "' has event_id " << eventId;
-        } else setDbErrorMsg("Failed to insert event '%s'", name.c_str());
-    } else setDbErrorMsg("Failed to prepare event insert statement");
+        } else {
+            setDbErrorMsg("Failed to insert event '%s'", name.c_str());
+        }
+    } else {
+        setDbErrorMsg("Failed to prepare event insert statement");
+    }
 
     return eventId;
 }
@@ -1809,9 +1891,13 @@ bool CfdbDatabase::updateEvent(unsigned id, const string &name) {
         stmt.bind(2, (int)id)) {
         rv = stmt.step();
 
-        if (rv == SQLITE_DONE) retval = true;
-        else setDbErrorMsg("Failed to update event %u", id);
-    } else setDbErrorMsg("Failed to prepare event update statement");
+        if (rv == SQLITE_DONE)
+            retval = true;
+        else
+            setDbErrorMsg("Failed to update event %u", id);
+    } else {
+        setDbErrorMsg("Failed to prepare event update statement");
+    }
 
     return retval;
 }
@@ -1839,10 +1925,12 @@ unsigned CfdbDatabase::selectSite(const string &name) {
     if (rv == SQLITE_ROW) {
         siteId = (unsigned)stmt.columnInt(0);
         LOGVERBOSE << "Site '" << name << "' has site_id " << siteId;
-    } else if (rv == SQLITE_DONE) LOGVERBOSE << "Site '" << name << "' does not exist";
-    else
+    } else if (rv == SQLITE_DONE) {
+        LOGVERBOSE << "Site '" << name << "' does not exist";
+    } else {
         setDbErrorMsg("Failed to select site name='%s'",
                       name.c_str());
+    }
 
     return siteId;
 }
@@ -1864,9 +1952,15 @@ bool CfdbDatabase::selectSite(unsigned id, string &name) {
             stmt.columnString(0, name);
             retval = true;
             LOGVERBOSE << "Site " << id << " is '" << name << "'";
-        } else if (rv == SQLITE_DONE) LOGVERBOSE << "Site " << id << " does not exist";
-        else setDbErrorMsg("Failed to select site %u", id);
-    } else setDbErrorMsg("Failed to prepare site select statement");
+        } else if (rv == SQLITE_DONE) {
+            LOGVERBOSE << "Site " << id << " does not exist";
+        }
+        else {
+            setDbErrorMsg("Failed to select site %u", id);
+        }
+    } else {
+        setDbErrorMsg("Failed to prepare site select statement");
+    }
 
     return retval;
 }
@@ -1885,8 +1979,12 @@ unsigned CfdbDatabase::insertSite(const string &name) {
         if (rv == SQLITE_DONE) {
             siteId = stmt.lastInsertId();
             LOGVERBOSE << "Site '" << name << "' has site_id " << siteId;
-        } else setDbErrorMsg("Failed to insert site '%s'", name.c_str());
-    } else setDbErrorMsg("Failed to prepare site insert statement");
+        } else {
+            setDbErrorMsg("Failed to insert site '%s'", name.c_str());
+        }
+    } else {
+        setDbErrorMsg("Failed to prepare site insert statement");
+    }
 
     return siteId;
 }
@@ -1903,9 +2001,13 @@ bool CfdbDatabase::updateSite(unsigned id, const string &name) {
         stmt.bind(2, (int)id)) {
         rv = stmt.step();
 
-        if (rv == SQLITE_DONE) retval = true;
-        else setDbErrorMsg("Failed to update site %u", id);
-    } else setDbErrorMsg("Failed to prepare site update statement");
+        if (rv == SQLITE_DONE)
+            retval = true;
+        else
+            setDbErrorMsg("Failed to update site %u", id);
+    } else {
+        setDbErrorMsg("Failed to prepare site update statement");
+    }
 
     return retval;
 }
@@ -1933,10 +2035,12 @@ unsigned CfdbDatabase::selectAnnotator(const string &name) {
     if (rv == SQLITE_ROW) {
         annotatorId = (unsigned)stmt.columnInt(0);
         LOGVERBOSE << "Annotator '" << name << "' has annotator_id " << annotatorId;
-    } else if (rv == SQLITE_DONE) LOGVERBOSE << "Annotator '" << name << "' does not exist";
-    else
+    } else if (rv == SQLITE_DONE) {
+        LOGVERBOSE << "Annotator '" << name << "' does not exist";
+    } else {
         setDbErrorMsg("Failed to select annotator name='%s'",
                       name.c_str());
+    }
 
     return annotatorId;
 }
@@ -1958,9 +2062,15 @@ bool CfdbDatabase::selectAnnotator(unsigned id, string &name) {
             stmt.columnString(0, name);
             retval = true;
             LOGVERBOSE << "Annotator " << id << " is '" << name << "'";
-        } else if (rv == SQLITE_DONE) LOGVERBOSE << "Annotator " << id << " does not exist";
-        else setDbErrorMsg("Failed to select annotator %u", id);
-    } else setDbErrorMsg("Failed to prepare annotator select statement");
+        } else if (rv == SQLITE_DONE) {
+            LOGVERBOSE << "Annotator " << id << " does not exist";
+        }
+        else {
+            setDbErrorMsg("Failed to select annotator %u", id);
+        }
+    } else {
+        setDbErrorMsg("Failed to prepare annotator select statement");
+    }
 
     return retval;
 }
@@ -1979,8 +2089,12 @@ unsigned CfdbDatabase::insertAnnotator(const string &name) {
         if (rv == SQLITE_DONE) {
             annotatorId = stmt.lastInsertId();
             LOGVERBOSE << "Annotator '" << name << "' has annotator_id " << annotatorId;
-        } else setDbErrorMsg("Failed to insert annotator '%s'", name.c_str());
-    } else setDbErrorMsg("Failed to prepare annotator insert statement");
+        } else {
+            setDbErrorMsg("Failed to insert annotator '%s'", name.c_str());
+        }
+    } else {
+        setDbErrorMsg("Failed to prepare annotator insert statement");
+    }
 
     return annotatorId;
 }
@@ -1997,9 +2111,13 @@ bool CfdbDatabase::updateAnnotator(unsigned id, const string &name) {
         stmt.bind(2, (int)id)) {
         rv = stmt.step();
 
-        if (rv == SQLITE_DONE) retval = true;
-        else setDbErrorMsg("Failed to update annotator %u", id);
-    } else setDbErrorMsg("Failed to prepare annotator update statement");
+        if (rv == SQLITE_DONE)
+            retval = true;
+        else
+            setDbErrorMsg("Failed to update annotator %u", id);
+    } else {
+        setDbErrorMsg("Failed to prepare annotator update statement");
+    }
 
     return retval;
 }

@@ -53,9 +53,9 @@ def main():
     # Take a copy of the database
     cmdline = common.ccore()
     if debuglog:
-        cmdline += " --debuglog"
+        cmdline += " --debuglog true"
     if logcomms:
-        cmdline += " --logcomms"
+        cmdline += " --logcomms true"
     if firstgame:
         cmdline += " -n {0}".format(firstgame)
     if lastgame:
@@ -67,9 +67,9 @@ def main():
         # And then classify the copy
         cmdline = common.ccore()
         if debuglog:
-            cmdline += " --debuglog"
+            cmdline += " --debuglog true"
         if logcomms:
-            cmdline += " --logcomms"
+            cmdline += " --logcomms true"
         cmdline += " -l {0} -i {1} -E {2} classify".format(logfile2, outdb, ecofile)
         if common.runccore(cmdline):
             common.checkLogfile(logfile2)

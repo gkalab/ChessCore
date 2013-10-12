@@ -58,9 +58,9 @@ def main():
 
     cmdline = common.ccore()
     if debuglog:
-        cmdline += " --debuglog"
+        cmdline += " --debuglog true"
     if logcomms:
-        cmdline += " --logcomms"
+        cmdline += " --logcomms true"
     if timelimit:
         cmdline += " -t {0}".format(timecontrol)
     if depth:

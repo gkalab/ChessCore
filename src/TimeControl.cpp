@@ -369,6 +369,9 @@ bool TimeControl::blob(Blob &blob) const {
 
     blob.free();
 
+    if (!isValid())
+        return true;            // Leave it empty
+
     if (!blob.reserve(1)) {
         LOGERR << "Failed to reserve space for position in blob";
         return false;

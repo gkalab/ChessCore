@@ -40,9 +40,9 @@ def main():
     # Take a copy of the database
     cmdline = common.ccore()
     if debuglog:
-        cmdline += " --debuglog"
+        cmdline += " --debuglog true"
     if logcomms:
-        cmdline += " --logcomms"
+        cmdline += " --logcomms true"
     cmdline += " -c {0} -l {1} -e {2} -t {3} processepd {4}".format(configfile, logfile, epdfile, timecontrol, engine);
     if common.runccore(cmdline):
         common.checkLogfile(logfile)

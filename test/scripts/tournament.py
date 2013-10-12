@@ -41,9 +41,9 @@ def main():
 
     cmdline = common.ccore()
     if debuglog:
-        cmdline += " --debuglog"
+        cmdline += " --debuglog true"
     if logcomms:
-        cmdline += " --logcomms"
+        cmdline += " --logcomms true"
     cmdline += " -c {0} -l {1} -o {2} -E {3} -n {4} -t {5} tournament {6} {7}".format(configfile, logfile, pgnfile, ecofile, numgames, timecontrol, engine1, engine2)
     if common.runccore(cmdline):
         common.checkLogfile(logfile)

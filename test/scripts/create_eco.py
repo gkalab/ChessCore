@@ -40,7 +40,7 @@ def main():
     # Copy the database
     cmdline = common.ccore()
     if debuglog:
-        cmdline += " --debuglog"
+        cmdline += " --debuglog true"
 
     cmdline += " -l {0} -i {1} -o {2} copydb".format(logfile1, indb, outdb)
     if common.runccore(cmdline):
@@ -49,7 +49,7 @@ def main():
         # Create the opening tree in the output database
         cmdline = common.ccore()
         if debuglog:
-            cmdline += " --debuglog"
+            cmdline += " --debuglog true"
         cmdline += " -l {0} -i {1} -d 100 buildoptree".format(logfile2, outdb)
         if common.runccore(cmdline):
             common.checkLogfile(logfile2)

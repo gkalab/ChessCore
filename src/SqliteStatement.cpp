@@ -64,15 +64,15 @@ inline const char *resultCode(int resultCode) {
 }
 
 #define CALLFUNC(x) \
-    do {rv = (x); logdbg(#x " returned %s", resultCode(rv)); } while (false)
+    do { rv = (x); logdbg(#x " returned %s", resultCode(rv)); } while (false)
 #define CALLPREPARE(x) \
-    do {rv = (x); logdbg("'%s' returned %s", sql.c_str(), resultCode(rv)); } while (false)
+    do { rv = (x); logdbg("'%s' returned %s", sql.c_str(), resultCode(rv)); } while (false)
 #define CALLBIND(x) \
-    do {rv = (x); logdbg("bind index %u returned %s", index, resultCode(rv)); } while (false)
+    do { rv = (x); logdbg("bind index %u returned %s", index, resultCode(rv)); } while (false)
 #define CALLBINDCP(x) \
-    do {rv = (x); logdbg("bind '%s' to index %u returned %s", s, index, resultCode(rv)); } while (false)
+    do { rv = (x); logdbg("bind '%s' to index %u returned %s", s, index, resultCode(rv)); } while (false)
 #define CALLBINDSTR(x) \
-    do {rv = (x); logdbg("bind '%s' to index %u returned %s", s.c_str(), index, resultCode(rv)); } while (false)
+    do { rv = (x); logdbg("bind '%s' to index %u returned %s", s.c_str(), index, resultCode(rv)); } while (false)
 
 #else // !DEBUG_STATEMENTS
 #define CALLFUNC(x)    rv = (x)
@@ -114,33 +114,28 @@ bool SqliteStatement::rollback() {
 
 bool SqliteStatement::setSynchronous(bool synchronous) {
     string sql = Util::format("PRAGMA synchronous = %s", synchronous ? "ON" : "OFF");
-
     return prepare(sql) && step() == SQLITE_DONE;
 }
 
 bool SqliteStatement::setJournalMode(const string &mode) {
     string sql = Util::format("PRAGMA journal_mode = %s", mode.c_str());
-
     return prepare(sql) && step() == SQLITE_ROW;
 }
 
 bool SqliteStatement::prepare(const string &sql) {
-    finalize();
-
     int rv;
+    finalize();
     CALLPREPARE(sqlite3_prepare_v2(m_db, sql.c_str(), (int)sql.length(), &m_stmt, 0));
     return rv == SQLITE_OK;
 }
 
 void SqliteStatement::clearBindings() {
     int rv;
-
     CALLFUNC(sqlite3_clear_bindings(m_stmt));
 }
 
 void SqliteStatement::reset() {
     int rv;
-
     CALLFUNC(sqlite3_reset(m_stmt));
 }
 
@@ -154,73 +149,60 @@ void SqliteStatement::finalize() {
 
 bool SqliteStatement::bind(unsigned index, const Blob &blob) {
     int rv;
-
     if (blob.data() && blob.length())
         CALLBIND(sqlite3_bind_blob(m_stmt, (int)index, blob.data(), (int)blob.length(), SQLITE_STATIC));
     else
         CALLBIND(sqlite3_bind_null(m_stmt, (int)index));
-
     return rv == SQLITE_OK;
 }
 
 bool SqliteStatement::bind(unsigned index, double d) {
     int rv;
-
     CALLBIND(sqlite3_bind_double(m_stmt, (int)index, d));
     return rv == SQLITE_OK;
 }
 
 bool SqliteStatement::bind(unsigned index, int i) {
     int rv;
-
     CALLBIND(sqlite3_bind_int(m_stmt, (int)index, i));
     return rv == SQLITE_OK;
 }
 
 bool SqliteStatement::bind(unsigned index, int64_t i64) {
     int rv;
-
     CALLBIND(sqlite3_bind_int64(m_stmt, (int)index, i64));
     return rv == SQLITE_OK;
 }
 
 bool SqliteStatement::bind(unsigned index) {
     int rv;
-
     CALLBIND(sqlite3_bind_null(m_stmt, (int)index));
     return rv == SQLITE_OK;
 }
 
 bool SqliteStatement::bind(unsigned index, const char *s) {
     int rv;
-
     if (s && *s)
         CALLBINDCP(sqlite3_bind_text(m_stmt, (int)index, s, (int)strlen(s), SQLITE_STATIC));
     else
         CALLBIND(sqlite3_bind_null(m_stmt, (int)index));
-
     return rv == SQLITE_OK;
 }
 
 bool SqliteStatement::bind(unsigned index, const string &s) {
     int rv;
-
     if (!s.empty())
         CALLBINDSTR(sqlite3_bind_text(m_stmt, (int)index, s.c_str(), (int)s.length(), SQLITE_STATIC));
     else
         CALLBIND(sqlite3_bind_null(m_stmt, (int)index));
-
     return rv == SQLITE_OK;
 }
 
 int SqliteStatement::step() {
     int rv;
-
     CALLFUNC(sqlite3_step(m_stmt));
-
     if (rv != SQLITE_ROW && CfdbDatabase::sqliteVersion() <= 3006023)
         sqlite3_reset(m_stmt);  // Done automatically in v3.6.23+
-
     return rv;
 }
 
@@ -265,7 +247,6 @@ bool SqliteStatement::columnString(unsigned index, string &s) {
 
 string SqliteStatement::columnString(unsigned index) {
     string str;
-
     columnString(index, str);
     return str;
 }
@@ -273,4 +254,5 @@ string SqliteStatement::columnString(unsigned index) {
 unsigned SqliteStatement::lastInsertId() {
     return (unsigned)sqlite3_last_insert_rowid(m_db);
 }
+
 }   // namespace ChessCore
