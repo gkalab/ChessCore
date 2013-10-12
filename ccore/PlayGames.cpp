@@ -135,15 +135,12 @@ bool playGames(const string &engineId1, const string &engineId2) {
     for (auto it = config2->options().begin(); it != config2->options().end(); ++it)
         engines[1].enqueueMessage(NEW_ENGINE_MESSAGE_SET_OPTION(it->first, it->second));
 
-    cout << dec << g_optNumber1 << " round tournament at " << dec << g_optTimeControl.notation() << " time control";
-
     Tournament tourney;
     EngineScore engine1Score, engine2Score;
     string gameOverReason;
     unsigned dotFileIndex = 1;
 
     tourney.numRounds = g_optNumber1;
-    tourney.game.setTimeControl(g_optTimeControl);
 
     for (tourney.gameNum = 1; tourney.gameNum <= tourney.numRounds && !g_quitFlag; tourney.gameNum++) {
         EngineScore *whiteScore, *blackScore;
@@ -168,6 +165,7 @@ bool playGames(const string &engineId1, const string &engineId2) {
         tourney.game.setDateNow();
         tourney.game.setRoundMajor(tourney.gameNum);
         tourney.game.setRoundMinor(0);
+        tourney.game.setTimeControl(g_optTimeControl);
 
         cout << "**********************************************************************" << endl;
         cout << "game " << dec << tourney.gameNum << ": " << tourney.white->id() << " vs. "
@@ -289,7 +287,7 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
     }
 
     if (g_optTimeControl.isValid()) {
-        cout << "Engines using time control '" << g_optTimeControl.notation(TimeControlPeriod::FORMAT_PGN) << "'" << endl;
+        cout << "Engines using time control '" << g_optTimeControl.notation() << "'" << endl;
         tourney.white->setWhiteTimeTracker(&whiteTimeTracker);
         tourney.white->setBlackTimeTracker(&blackTimeTracker);
         tourney.white->resetTimeTrackers();

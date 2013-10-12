@@ -190,12 +190,13 @@ public:
     /**
      * Create the notation of the periods.
      *
-     * @param format The format of the notation.  If this is FORMAT_UNKNOWN then FORMAT_NORMAL
-     * is used.
+     * @param format The format of the notation.  If this is FORMAT_UNKNOWN then the most
+     * appropriate format will be used (i.e. FORMAT_PGN if any of the time periods have a time
+     * value of < 1 minute, which cannot be represented properly in normal format).
      *
      * @return The periods notation.
      */
-    std::string notation(TimeControlPeriod::Format format = TimeControlPeriod::FORMAT_NORMAL) const;
+    std::string notation(TimeControlPeriod::Format format = TimeControlPeriod::FORMAT_UNKNOWN) const;
 
     /**
      * Dump the contents of the object to a string.

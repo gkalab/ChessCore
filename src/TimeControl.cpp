@@ -434,8 +434,15 @@ bool TimeControl::isValid() const {
 }
 
 string TimeControl::notation(TimeControlPeriod::Format format /*=TimeControlPeriod::FORMAT_NORMAL*/) const {
-    if (format == TimeControlPeriod::FORMAT_UNKNOWN)
-        format = TimeControlPeriod::FORMAT_NORMAL;
+
+    if (format == TimeControlPeriod::FORMAT_UNKNOWN) {
+        bool usePgn = false;
+        for (auto it = m_periods.begin(); it != m_periods.end() && !usePgn; ++it) {
+            usePgn = (it->time() < 60);
+        }
+        format = usePgn ? TimeControlPeriod::FORMAT_PGN : TimeControlPeriod::FORMAT_NORMAL;
+    }
+
     ostringstream oss;
     for (size_t index = 0; index < m_periods.size(); index++) {
         if (index > 0) {
