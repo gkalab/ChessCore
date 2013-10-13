@@ -30,60 +30,69 @@ namespace ChessCore {
 const char *EpdOp::m_classname = "EpdOp";
 
 struct Epd::EpdOpType Epd::m_epdOpTypes[] = {
-    {"acn",         EpdOp::OP_INTEGER},
-    {"acs",         EpdOp::OP_INTEGER},
-    {"am",          EpdOp::OP_MOVE},
-    {"bm",          EpdOp::OP_MOVE},
-    {"c0",          EpdOp::OP_STRING},
-    {"c1",          EpdOp::OP_STRING},
-    {"c2",          EpdOp::OP_STRING},
-    {"c3",          EpdOp::OP_STRING},
-    {"c4",          EpdOp::OP_STRING},
-    {"c5",          EpdOp::OP_STRING},
-    {"c6",          EpdOp::OP_STRING},
-    {"c7",          EpdOp::OP_STRING},
-    {"c8",          EpdOp::OP_STRING},
-    {"c9",          EpdOp::OP_STRING},
-    {"ce",          EpdOp::OP_INTEGER},
-    {"dm",          EpdOp::OP_INTEGER},
-    {"draw_accept", EpdOp::OP_NONE},
-    {"draw_claim",  EpdOp::OP_NONE},
-    {"draw_offer",  EpdOp::OP_NONE},
-    {"draw_reject", EpdOp::OP_NONE},
-    {"eco",         EpdOp::OP_STRING},
-    {"eval",        EpdOp::OP_EVAL},               // Non-standard eval test
-    {"fmvn",        EpdOp::OP_INTEGER},
-    {"hmvc",        EpdOp::OP_INTEGER},
-    {"id",          EpdOp::OP_STRING},
-    {"nic",         EpdOp::OP_STRING},
-    {"noop",        EpdOp::OP_NONE},
-    {"perft1",      EpdOp::OP_INTEGER},            // Non-standard perft test, depth = 1
-    {"perft2",      EpdOp::OP_INTEGER},            // Non-standard perft test, depth = 2
-    {"perft3",      EpdOp::OP_INTEGER},            // Non-standard perft test, depth = 3
-    {"perft4",      EpdOp::OP_INTEGER},            // Non-standard perft test, depth = 4
-    {"perft5",      EpdOp::OP_INTEGER},            // Non-standard perft test, depth = 5
-    {"perft6",      EpdOp::OP_INTEGER},            // Non-standard perft test, depth = 6
-    {"perft7",      EpdOp::OP_INTEGER},            // Non-standard perft test, depth = 7
-    {"perft8",      EpdOp::OP_INTEGER},            // Non-standard perft test, depth = 8
-    {"perft9",      EpdOp::OP_INTEGER},            // Non-standard perft test, depth = 9
-    {"pm",          EpdOp::OP_MOVE},
-    {"pv",          EpdOp::OP_MOVE},
-    {"rc",          EpdOp::OP_INTEGER},
-    {"resign",      EpdOp::OP_NONE},
-    {"sm",          EpdOp::OP_MOVE},
-    {"tcgs",        EpdOp::OP_STRING},
-    {"tcri",        EpdOp::OP_STRING},
-    {"tcsi",        EpdOp::OP_STRING},
-    {"v0",          EpdOp::OP_STRING},
-    {"v1",          EpdOp::OP_STRING},
-    {"v2",          EpdOp::OP_STRING},
-    {"v3",          EpdOp::OP_STRING},
-    {"v4",          EpdOp::OP_STRING},
-    {"v5",          EpdOp::OP_STRING},
-    {"v6",          EpdOp::OP_STRING},
-    {"v7",          EpdOp::OP_STRING},
-    {"v8",          EpdOp::OP_STRING},
-    {"v9",          EpdOp::OP_STRING}
+    {   "acn",          EpdOp::OP_INTEGER   },
+    {   "acs",          EpdOp::OP_INTEGER   },
+    {   "am",           EpdOp::OP_MOVE      },
+    {   "bm",           EpdOp::OP_MOVE      },
+    {   "c0",           EpdOp::OP_STRING    },
+    {   "c1",           EpdOp::OP_STRING    },
+    {   "c2",           EpdOp::OP_STRING    },
+    {   "c3",           EpdOp::OP_STRING    },
+    {   "c4",           EpdOp::OP_STRING    },
+    {   "c5",           EpdOp::OP_STRING    },
+    {   "c6",           EpdOp::OP_STRING    },
+    {   "c7",           EpdOp::OP_STRING    },
+    {   "c8",           EpdOp::OP_STRING    },
+    {   "c9",           EpdOp::OP_STRING    },
+    {   "ce",           EpdOp::OP_INTEGER   },
+    {   "d1",           EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 1
+    {   "d2",           EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 2
+    {   "d3",           EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 3
+    {   "d4",           EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 4
+    {   "d5",           EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 5
+    {   "d6",           EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 6
+    {   "d7",           EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 7
+    {   "d8",           EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 8
+    {   "d9",           EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 9
+    {   "dm",           EpdOp::OP_INTEGER   },
+    {   "draw_accept",  EpdOp::OP_NONE      },
+    {   "draw_claim",   EpdOp::OP_NONE      },
+    {   "draw_offer",   EpdOp::OP_NONE      },
+    {   "draw_reject",  EpdOp::OP_NONE      },
+    {   "eco",          EpdOp::OP_STRING    },
+    {   "eval",         EpdOp::OP_EVAL      },          // Non-standard eval test
+    {   "fmvn",         EpdOp::OP_INTEGER   },
+    {   "hmvc",         EpdOp::OP_INTEGER   },
+    {   "id",           EpdOp::OP_STRING    },
+    {   "nic",          EpdOp::OP_STRING    },
+    {   "noop",         EpdOp::OP_NONE      },
+    {   "perft1",       EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 1
+    {   "perft2",       EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 2
+    {   "perft3",       EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 3
+    {   "perft4",       EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 4
+    {   "perft5",       EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 5
+    {   "perft6",       EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 6
+    {   "perft7",       EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 7
+    {   "perft8",       EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 8
+    {   "perft9",       EpdOp::OP_INTEGER   },          // Non-standard perft test, depth = 9
+    {   "pm",           EpdOp::OP_MOVE      },
+    {   "pv",           EpdOp::OP_MOVE      },
+    {   "rc",           EpdOp::OP_INTEGER   },
+    {   "resign",       EpdOp::OP_NONE      },
+    {   "sm",           EpdOp::OP_MOVE      },
+    {   "tcgs",         EpdOp::OP_STRING    },
+    {   "tcri",         EpdOp::OP_STRING    },
+    {   "tcsi",         EpdOp::OP_STRING    },
+    {   "v0",           EpdOp::OP_STRING    },
+    {   "v1",           EpdOp::OP_STRING    },
+    {   "v2",           EpdOp::OP_STRING    },
+    {   "v3",           EpdOp::OP_STRING    },
+    {   "v4",           EpdOp::OP_STRING    },
+    {   "v5",           EpdOp::OP_STRING    },
+    {   "v6",           EpdOp::OP_STRING    },
+    {   "v7",           EpdOp::OP_STRING    },
+    {   "v8",           EpdOp::OP_STRING    },
+    {   "v9",           EpdOp::OP_STRING    }
 };
 
 size_t Epd::m_numEpdOpTypes = sizeof(Epd::m_epdOpTypes) / sizeof(Epd::m_epdOpTypes[0]);
@@ -481,24 +490,32 @@ void EpdFile::freeEpds() {
     m_epds.clear();
 }
 
-bool EpdFile::read(const string &filename) {
-    ifstream epdfile(filename.c_str());
+bool EpdFile::readFromFile(const string &filename) {
+    ifstream filestream(filename.c_str());
 
-    if (!epdfile.is_open()) {
+    if (!filestream.is_open()) {
         LOGERR << "Failed to open EPD file '" << filename <<
             "': " << strerror(errno) << " (" << errno << ")";
         return false;
     }
+    return read(filestream);
+}
 
+bool EpdFile::readFromString(const string &data) {
+    istringstream iss(data);
+    return read(iss);
+}
+
+bool EpdFile::read(istream &stream) {
     bool retval = true;
     string buffer;
     unsigned lineNum = 0;
 
     do {
-        getline(epdfile, buffer);
+        getline(stream, buffer);
 
-        if (epdfile.bad() || epdfile.fail()) {
-            epdfile.clear();
+        if (stream.bad() || stream.fail()) {
+            stream.clear();
             break;
         }
 
@@ -514,15 +531,14 @@ bool EpdFile::read(const string &filename) {
             retval = false;
             break;
         }
-
+        
         m_epds.push_back(e);
     } while (retval);
-
-    epdfile.close();
-
+    
     if (!retval)
         freeEpds();
-
+    
     return retval;
 }
+
 }   // namespace ChessCore

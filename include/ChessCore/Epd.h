@@ -8,6 +8,7 @@
 
 #include <ChessCore/ChessCore.h>
 #include <ChessCore/Position.h>
+#include <istream>
 
 namespace ChessCore {
 class CHESSCORE_EXPORT EpdOp {
@@ -16,7 +17,11 @@ private:
 
 public:
     enum Type {
-        OP_NONE = 0, OP_STRING = 1, OP_INTEGER = 2, OP_MOVE = 3, OP_EVAL = 4
+        OP_NONE = 0,
+        OP_STRING = 1,
+        OP_INTEGER = 2,
+        OP_MOVE = 3,
+        OP_EVAL = 4
     };
 
     enum Eval {
@@ -269,6 +274,15 @@ public:
     //
     // Read EPD entries from a file.
     //
-    bool read(const std::string &filename);
+    bool readFromFile(const std::string &filename);
+
+    //
+    // Read EPD entries from a string.
+    //
+    bool readFromString(const std::string &data);
+
+private:
+    bool read(std::istream &stream);
+
 };
 } // namespace ChessCore

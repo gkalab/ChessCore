@@ -18,7 +18,8 @@ const char *EngineMessageQueue::m_classname = "EngineMessageQueue";
 EngineMessageQueue::EngineMessageQueue() :
     m_mutex(),
     m_event(),
-    m_queue() {
+    m_queue()
+{
 }
 
 EngineMessageQueue::~EngineMessageQueue() {

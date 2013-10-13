@@ -757,8 +757,8 @@ bool PgnDatabase::write(unsigned gameNum, const Game &game) {
 }
 
 bool PgnDatabase::readFromString(const string &input, Game &game) {
-    istringstream inss(input);
-    PgnScannerContext context(inss);
+    istringstream iss(input);
+    PgnScannerContext context(iss);
     string errorMsg;
     bool retval = read(context, game, errorMsg);
 
@@ -770,8 +770,8 @@ bool PgnDatabase::readFromString(const string &input, Game &game) {
 
 unsigned PgnDatabase::readMultiFromString(const std::string &input, std::vector<Game *> &games,
                                           DATABASE_CALLBACK_FUNC callback, void *contextInfo) {
-    istringstream inss(input);
-    PgnScannerContext context(inss);
+    istringstream iss(input);
+    PgnScannerContext context(iss);
 
     string errorMsg;
     size_t totalSize = input.size();
@@ -788,7 +788,7 @@ unsigned PgnDatabase::readMultiFromString(const std::string &input, std::vector<
             games.push_back(game);
             game = 0;
             numGames++;
-            unsigned offset = (unsigned)inss.tellg();
+            unsigned offset = (unsigned)iss.tellg();
 
             if (callback) {
                 float complete = static_cast<float>((offset * 100) / totalSize);

@@ -59,7 +59,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--gtest_filter=TimeControlTest.*"
+            argument = "--gtest_filter=*.*"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

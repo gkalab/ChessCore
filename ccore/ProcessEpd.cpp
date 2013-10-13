@@ -53,7 +53,7 @@ bool processEpd(const string &engineId) {
 
     EpdFile epdFile;
 
-    if (!epdFile.read(g_optEpdFile)) {
+    if (!epdFile.readFromFile(g_optEpdFile)) {
         cerr << "Failed to open file EPD file '" << g_optEpdFile << "'" << endl;
         return false;
     }
