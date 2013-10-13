@@ -42,6 +42,12 @@ public:
     TimeControlPeriod(Type type, unsigned moves, unsigned time, int increment);
     TimeControlPeriod(const std::string &notation, Format format = FORMAT_UNKNOWN);
 
+    TimeControlPeriod &operator=(const TimeControlPeriod &other);
+    bool operator==(const TimeControlPeriod &other) const;
+    bool operator!=(const TimeControlPeriod &other) const {
+        return !operator==(other);
+    }
+
     Type type() const {
         return m_type;
     }
@@ -135,6 +141,7 @@ public:
     TimeControl(const Blob &blob);
 
     TimeControl &operator=(const TimeControl &other);
+    bool operator==(const TimeControl &other) const;
 
     std::vector<TimeControlPeriod> &periods() {
         return m_periods;

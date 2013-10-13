@@ -54,6 +54,22 @@ TimeControlPeriod::TimeControlPeriod(const string &notation, Format format /*=FO
     set(notation, format);
 }
 
+TimeControlPeriod &TimeControlPeriod::operator=(const TimeControlPeriod &other) {
+    m_type = other.m_type;
+    m_moves = other.m_moves;
+    m_time = other.m_time;
+    m_increment = other.m_increment;
+    return *this;
+}
+
+bool TimeControlPeriod::operator==(const TimeControlPeriod &other) const {
+    return
+        m_type == other.m_type &&
+        m_moves == other.m_moves &&
+        m_time == other.m_time &&
+        m_increment == other.m_increment;
+}
+
 void TimeControlPeriod::clear() {
     m_type = TYPE_NONE;
     m_moves = 0;
@@ -254,7 +270,8 @@ TimeControl::TimeControl(const vector<TimeControlPeriod> &periods) :
 {
 }
 
-TimeControl::TimeControl(const string &notation, TimeControlPeriod::Format format /*=TimeControlPeriod::FORMAT_UNKNOWN*/) :
+TimeControl::TimeControl(const string &notation,
+                         TimeControlPeriod::Format format /*=TimeControlPeriod::FORMAT_UNKNOWN*/) :
     m_periods()
 {
     set(notation, format);
@@ -263,6 +280,15 @@ TimeControl::TimeControl(const string &notation, TimeControlPeriod::Format forma
 TimeControl &TimeControl::operator=(const TimeControl &other) {
     m_periods = other.m_periods;
     return *this;
+}
+
+bool TimeControl::operator==(const TimeControl &other) const {
+    if (m_periods.size() != other.m_periods.size())
+        return false;
+    for (size_t i = 0; i < m_periods.size(); i++)
+        if (m_periods[i] != other.m_periods[i])
+            return false;
+    return true;
 }
 
 void TimeControl::clear() {
