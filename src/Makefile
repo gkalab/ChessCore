@@ -61,7 +61,7 @@ $(BINDIR)/libChessCore.so: $(BINDIR)/libChessCore.so.$(VERSION)
 	../tools/create_so_links.sh $(BINDIR)/libChessCore.so.$(VERSION)
 	
 # Build the versioned .so file (Linux/FreeBSD)
-$(BINDIR)/libChessCore.so.$(BINDIR): $(OBJS)
+$(BINDIR)/libChessCore.so.$(MAJOR_VERSION): $(OBJS)
 	$(CXX) -shared -Wl,-soname,libChessCore.so.$(MAJOR_VERSION) \
 		$(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
@@ -78,7 +78,7 @@ Version.cpp:
 FORCE:
 
 clean:
-	rm -f $(BUILDDIR)/libChessCore.* $(OBJS) $(BINDIR)/libChessCore.*
+	rm -f $(BINDIR)/libChessCore.* $(OBJS)
 	rm -f *.bak
 
 depend:
@@ -118,9 +118,10 @@ print-%:
 ../build/CbhDatabase.o: ../include/ChessCore/Mutex.h
 ../build/CbhDatabase.o: ../include/ChessCore/GameHeader.h
 ../build/CbhDatabase.o: ../include/ChessCore/Player.h
+../build/CbhDatabase.o: ../include/ChessCore/TimeControl.h
+../build/CbhDatabase.o: ../include/ChessCore/Blob.h
 ../build/CbhDatabase.o: ../include/ChessCore/Position.h
 ../build/CbhDatabase.o: ../include/ChessCore/Move.h
-../build/CbhDatabase.o: ../include/ChessCore/Blob.h
 ../build/CbhDatabase.o: ../include/ChessCore/Lowlevel.h
 ../build/CbhDatabase.o: ../include/ChessCore/Util.h
 ../build/CbhDatabase.o: ../include/ChessCore/Data.h
@@ -134,9 +135,10 @@ print-%:
 ../build/CfdbDatabase.o: ../include/ChessCore/Mutex.h
 ../build/CfdbDatabase.o: ../include/ChessCore/GameHeader.h
 ../build/CfdbDatabase.o: ../include/ChessCore/Player.h
+../build/CfdbDatabase.o: ../include/ChessCore/TimeControl.h
+../build/CfdbDatabase.o: ../include/ChessCore/Blob.h
 ../build/CfdbDatabase.o: ../include/ChessCore/Position.h
 ../build/CfdbDatabase.o: ../include/ChessCore/Move.h
-../build/CfdbDatabase.o: ../include/ChessCore/Blob.h
 ../build/CfdbDatabase.o: ../include/ChessCore/Lowlevel.h
 ../build/CfdbDatabase.o: ../include/ChessCore/Util.h
 ../build/CfdbDatabase.o: ../include/ChessCore/Data.h
@@ -162,25 +164,22 @@ print-%:
 ../build/Database.o: ../include/ChessCore/Mutex.h
 ../build/Database.o: ../include/ChessCore/GameHeader.h
 ../build/Database.o: ../include/ChessCore/Player.h
+../build/Database.o: ../include/ChessCore/TimeControl.h
+../build/Database.o: ../include/ChessCore/Blob.h
 ../build/Database.o: ../include/ChessCore/Position.h
-../build/Database.o: ../include/ChessCore/Move.h ../include/ChessCore/Blob.h
+../build/Database.o: ../include/ChessCore/Move.h
 ../build/Database.o: ../include/ChessCore/Lowlevel.h
 ../build/Database.o: ../include/ChessCore/Util.h ../include/ChessCore/Data.h
 ../build/Database.o: ../include/ChessCore/AnnotMove.h
-../build/Database.o: ../include/ChessCore/PgnDatabase.h
-../build/Database.o: ../include/ChessCore/PgnScanner.h
-../build/Database.o: ../include/ChessCore/IndexManager.h
-../build/Database.o: ../include/ChessCore/CfdbDatabase.h
-../build/Database.o: ../include/ChessCore/Bitstream.h
-../build/Database.o: ../include/ChessCore/CbhDatabase.h
 ../build/Database.o: ../include/ChessCore/Log.h
 ../build/Engine.o: ../include/ChessCore/Engine.h
 ../build/Engine.o: ../include/ChessCore/ChessCore.h
 ../build/Engine.o: ../include/ChessCore/Types.h ../include/ChessCore/Thread.h
 ../build/Engine.o: ../include/ChessCore/Process.h ../include/ChessCore/Move.h
+../build/Engine.o: ../include/ChessCore/TimeControl.h
+../build/Engine.o: ../include/ChessCore/Blob.h
 ../build/Engine.o: ../include/ChessCore/EngineMessage.h
 ../build/Engine.o: ../include/ChessCore/Position.h
-../build/Engine.o: ../include/ChessCore/Blob.h
 ../build/Engine.o: ../include/ChessCore/Lowlevel.h
 ../build/Engine.o: ../include/ChessCore/Util.h ../include/ChessCore/Data.h
 ../build/Engine.o: ../include/ChessCore/UCIEngineOption.h
@@ -223,6 +222,8 @@ print-%:
 ../build/GameHeader.o: ../include/ChessCore/ChessCore.h
 ../build/GameHeader.o: ../include/ChessCore/Types.h
 ../build/GameHeader.o: ../include/ChessCore/Player.h
+../build/GameHeader.o: ../include/ChessCore/TimeControl.h
+../build/GameHeader.o: ../include/ChessCore/Blob.h
 ../build/GameHeader.o: ../include/ChessCore/Util.h
 ../build/GameHeader.o: ../include/ChessCore/Lowlevel.h
 ../build/GameHeader.o: ../include/ChessCore/Data.h
@@ -230,8 +231,9 @@ print-%:
 ../build/Game.o: ../include/ChessCore/Types.h ../include/ChessCore/Mutex.h
 ../build/Game.o: ../include/ChessCore/GameHeader.h
 ../build/Game.o: ../include/ChessCore/Player.h
-../build/Game.o: ../include/ChessCore/Position.h ../include/ChessCore/Move.h
-../build/Game.o: ../include/ChessCore/Blob.h ../include/ChessCore/Lowlevel.h
+../build/Game.o: ../include/ChessCore/TimeControl.h
+../build/Game.o: ../include/ChessCore/Blob.h ../include/ChessCore/Position.h
+../build/Game.o: ../include/ChessCore/Move.h ../include/ChessCore/Lowlevel.h
 ../build/Game.o: ../include/ChessCore/Util.h ../include/ChessCore/Data.h
 ../build/Game.o: ../include/ChessCore/AnnotMove.h
 ../build/Game.o: ../include/ChessCore/PgnDatabase.h
@@ -267,6 +269,7 @@ print-%:
 ../build/Log.o: ../include/ChessCore/Types.h ../include/ChessCore/Mutex.h
 ../build/Log.o: ../include/ChessCore/Util.h ../include/ChessCore/Lowlevel.h
 ../build/Log.o: ../include/ChessCore/Data.h ../include/ChessCore/Thread.h
+../build/Log.o: ../include/ChessCore/Blob.h
 ../build/Lowlevel.o: ../include/ChessCore/Lowlevel.h
 ../build/Lowlevel.o: ../include/ChessCore/ChessCore.h
 ../build/Lowlevel.o: ../include/ChessCore/Types.h
@@ -279,6 +282,7 @@ print-%:
 ../build/Mutex.o: ../include/ChessCore/ChessCore.h
 ../build/Mutex.o: ../include/ChessCore/Types.h ../include/ChessCore/Util.h
 ../build/Mutex.o: ../include/ChessCore/Lowlevel.h ../include/ChessCore/Data.h
+../build/Mutex.o: ../include/ChessCore/Log.h
 ../build/OpeningTree.o: ../include/ChessCore/OpeningTree.h
 ../build/OpeningTree.o: ../include/ChessCore/ChessCore.h
 ../build/OpeningTree.o: ../include/ChessCore/Types.h
@@ -288,8 +292,9 @@ print-%:
 ../build/OpeningTree.o: ../include/ChessCore/Mutex.h
 ../build/OpeningTree.o: ../include/ChessCore/GameHeader.h
 ../build/OpeningTree.o: ../include/ChessCore/Player.h
-../build/OpeningTree.o: ../include/ChessCore/Position.h
+../build/OpeningTree.o: ../include/ChessCore/TimeControl.h
 ../build/OpeningTree.o: ../include/ChessCore/Blob.h
+../build/OpeningTree.o: ../include/ChessCore/Position.h
 ../build/OpeningTree.o: ../include/ChessCore/Lowlevel.h
 ../build/OpeningTree.o: ../include/ChessCore/Util.h
 ../build/OpeningTree.o: ../include/ChessCore/Data.h
@@ -304,9 +309,10 @@ print-%:
 ../build/PgnDatabase.o: ../include/ChessCore/Mutex.h
 ../build/PgnDatabase.o: ../include/ChessCore/GameHeader.h
 ../build/PgnDatabase.o: ../include/ChessCore/Player.h
+../build/PgnDatabase.o: ../include/ChessCore/TimeControl.h
+../build/PgnDatabase.o: ../include/ChessCore/Blob.h
 ../build/PgnDatabase.o: ../include/ChessCore/Position.h
 ../build/PgnDatabase.o: ../include/ChessCore/Move.h
-../build/PgnDatabase.o: ../include/ChessCore/Blob.h
 ../build/PgnDatabase.o: ../include/ChessCore/Lowlevel.h
 ../build/PgnDatabase.o: ../include/ChessCore/Util.h
 ../build/PgnDatabase.o: ../include/ChessCore/Data.h
@@ -368,6 +374,7 @@ print-%:
 ../build/SqliteStatement.o: ../include/ChessCore/Mutex.h
 ../build/SqliteStatement.o: ../include/ChessCore/GameHeader.h
 ../build/SqliteStatement.o: ../include/ChessCore/Player.h
+../build/SqliteStatement.o: ../include/ChessCore/TimeControl.h
 ../build/SqliteStatement.o: ../include/ChessCore/Position.h
 ../build/SqliteStatement.o: ../include/ChessCore/Move.h
 ../build/SqliteStatement.o: ../include/ChessCore/Lowlevel.h
@@ -379,6 +386,16 @@ print-%:
 ../build/Thread.o: ../include/ChessCore/ChessCore.h
 ../build/Thread.o: ../include/ChessCore/Types.h ../include/ChessCore/Log.h
 ../build/Thread.o: ../include/ChessCore/Mutex.h
+../build/TimeControl.o: ../include/ChessCore/TimeControl.h
+../build/TimeControl.o: ../include/ChessCore/ChessCore.h
+../build/TimeControl.o: ../include/ChessCore/Types.h
+../build/TimeControl.o: ../include/ChessCore/Blob.h
+../build/TimeControl.o: ../include/ChessCore/Bitstream.h
+../build/TimeControl.o: ../include/ChessCore/Log.h
+../build/TimeControl.o: ../include/ChessCore/Mutex.h
+../build/TimeControl.o: ../include/ChessCore/Util.h
+../build/TimeControl.o: ../include/ChessCore/Lowlevel.h
+../build/TimeControl.o: ../include/ChessCore/Data.h
 ../build/UCIEngineOption.o: ../include/ChessCore/UCIEngineOption.h
 ../build/UCIEngineOption.o: ../include/ChessCore/ChessCore.h
 ../build/UCIEngineOption.o: ../include/ChessCore/Types.h
@@ -390,8 +407,8 @@ print-%:
 ../build/UCIEngineOption.o: ../include/ChessCore/Data.h
 ../build/Util.o: ../include/ChessCore/Util.h ../include/ChessCore/ChessCore.h
 ../build/Util.o: ../include/ChessCore/Types.h ../include/ChessCore/Lowlevel.h
-../build/Util.o: ../include/ChessCore/Data.h ../include/ChessCore/Log.h
-../build/Util.o: ../include/ChessCore/Mutex.h
+../build/Util.o: ../include/ChessCore/Data.h ../include/ChessCore/Blob.h
+../build/Util.o: ../include/ChessCore/Log.h ../include/ChessCore/Mutex.h
 ../build/Version.o: ../include/ChessCore/Version.h
 ../build/Version.o: ../include/ChessCore/ChessCore.h
 ../build/Version.o: ../include/ChessCore/Types.h

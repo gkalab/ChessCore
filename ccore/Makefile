@@ -57,14 +57,16 @@ format:
 ../build/AnalyzeGames.o: ccore.h ../include/ChessCore/ChessCore.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Types.h
 ../build/AnalyzeGames.o: ../include/ChessCore/IoEvent.h
-../build/AnalyzeGames.o: ../include/ChessCore/Mutex.h Config.h
+../build/AnalyzeGames.o: ../include/ChessCore/Mutex.h
+../build/AnalyzeGames.o: ../include/CHessCore/TimeControl.h
+../build/AnalyzeGames.o: ../include/ChessCore/Blob.h Config.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Engine.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Thread.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Process.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Move.h
+../build/AnalyzeGames.o: ../include/ChessCore/TimeControl.h
 ../build/AnalyzeGames.o: ../include/ChessCore/EngineMessage.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Position.h
-../build/AnalyzeGames.o: ../include/ChessCore/Blob.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Lowlevel.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Util.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Data.h
@@ -83,13 +85,15 @@ format:
 ../build/Config.o: ccore.h ../include/ChessCore/ChessCore.h
 ../build/Config.o: ../include/ChessCore/Types.h
 ../build/Config.o: ../include/ChessCore/IoEvent.h
-../build/Config.o: ../include/ChessCore/Mutex.h Config.h
+../build/Config.o: ../include/ChessCore/Mutex.h
+../build/Config.o: ../include/CHessCore/TimeControl.h
+../build/Config.o: ../include/ChessCore/Blob.h Config.h
 ../build/Config.o: ../include/ChessCore/Engine.h
 ../build/Config.o: ../include/ChessCore/Thread.h
 ../build/Config.o: ../include/ChessCore/Process.h ../include/ChessCore/Move.h
+../build/Config.o: ../include/ChessCore/TimeControl.h
 ../build/Config.o: ../include/ChessCore/EngineMessage.h
 ../build/Config.o: ../include/ChessCore/Position.h
-../build/Config.o: ../include/ChessCore/Blob.h
 ../build/Config.o: ../include/ChessCore/Lowlevel.h
 ../build/Config.o: ../include/ChessCore/Util.h ../include/ChessCore/Data.h
 ../build/Config.o: ../include/ChessCore/UCIEngineOption.h
@@ -98,11 +102,14 @@ format:
 ../build/Config.o: ../include/ChessCore/Log.h
 ../build/ccore.o: ccore.h ../include/ChessCore/ChessCore.h
 ../build/ccore.o: ../include/ChessCore/Types.h ../include/ChessCore/IoEvent.h
-../build/ccore.o: ../include/ChessCore/Mutex.h Config.h
+../build/ccore.o: ../include/ChessCore/Mutex.h
+../build/ccore.o: ../include/CHessCore/TimeControl.h
+../build/ccore.o: ../include/ChessCore/Blob.h Config.h
 ../build/ccore.o: ../include/ChessCore/Engine.h ../include/ChessCore/Thread.h
 ../build/ccore.o: ../include/ChessCore/Process.h ../include/ChessCore/Move.h
+../build/ccore.o: ../include/ChessCore/TimeControl.h
 ../build/ccore.o: ../include/ChessCore/EngineMessage.h
-../build/ccore.o: ../include/ChessCore/Position.h ../include/ChessCore/Blob.h
+../build/ccore.o: ../include/ChessCore/Position.h
 ../build/ccore.o: ../include/ChessCore/Lowlevel.h ../include/ChessCore/Util.h
 ../build/ccore.o: ../include/ChessCore/Data.h
 ../build/ccore.o: ../include/ChessCore/UCIEngineOption.h
@@ -118,14 +125,16 @@ format:
 ../build/Functions.o: ccore.h ../include/ChessCore/ChessCore.h
 ../build/Functions.o: ../include/ChessCore/Types.h
 ../build/Functions.o: ../include/ChessCore/IoEvent.h
-../build/Functions.o: ../include/ChessCore/Mutex.h Config.h
+../build/Functions.o: ../include/ChessCore/Mutex.h
+../build/Functions.o: ../include/CHessCore/TimeControl.h
+../build/Functions.o: ../include/ChessCore/Blob.h Config.h
 ../build/Functions.o: ../include/ChessCore/Engine.h
 ../build/Functions.o: ../include/ChessCore/Thread.h
 ../build/Functions.o: ../include/ChessCore/Process.h
 ../build/Functions.o: ../include/ChessCore/Move.h
+../build/Functions.o: ../include/ChessCore/TimeControl.h
 ../build/Functions.o: ../include/ChessCore/EngineMessage.h
 ../build/Functions.o: ../include/ChessCore/Position.h
-../build/Functions.o: ../include/ChessCore/Blob.h
 ../build/Functions.o: ../include/ChessCore/Lowlevel.h
 ../build/Functions.o: ../include/ChessCore/Util.h ../include/ChessCore/Data.h
 ../build/Functions.o: ../include/ChessCore/UCIEngineOption.h
@@ -145,14 +154,16 @@ format:
 ../build/PlayGames.o: ccore.h ../include/ChessCore/ChessCore.h
 ../build/PlayGames.o: ../include/ChessCore/Types.h
 ../build/PlayGames.o: ../include/ChessCore/IoEvent.h
-../build/PlayGames.o: ../include/ChessCore/Mutex.h Config.h
+../build/PlayGames.o: ../include/ChessCore/Mutex.h
+../build/PlayGames.o: ../include/CHessCore/TimeControl.h
+../build/PlayGames.o: ../include/ChessCore/Blob.h Config.h
 ../build/PlayGames.o: ../include/ChessCore/Engine.h
 ../build/PlayGames.o: ../include/ChessCore/Thread.h
 ../build/PlayGames.o: ../include/ChessCore/Process.h
 ../build/PlayGames.o: ../include/ChessCore/Move.h
+../build/PlayGames.o: ../include/ChessCore/TimeControl.h
 ../build/PlayGames.o: ../include/ChessCore/EngineMessage.h
 ../build/PlayGames.o: ../include/ChessCore/Position.h
-../build/PlayGames.o: ../include/ChessCore/Blob.h
 ../build/PlayGames.o: ../include/ChessCore/Lowlevel.h
 ../build/PlayGames.o: ../include/ChessCore/Util.h ../include/ChessCore/Data.h
 ../build/PlayGames.o: ../include/ChessCore/UCIEngineOption.h
@@ -171,14 +182,16 @@ format:
 ../build/ProcessEpd.o: ccore.h ../include/ChessCore/ChessCore.h
 ../build/ProcessEpd.o: ../include/ChessCore/Types.h
 ../build/ProcessEpd.o: ../include/ChessCore/IoEvent.h
-../build/ProcessEpd.o: ../include/ChessCore/Mutex.h Config.h
+../build/ProcessEpd.o: ../include/ChessCore/Mutex.h
+../build/ProcessEpd.o: ../include/CHessCore/TimeControl.h
+../build/ProcessEpd.o: ../include/ChessCore/Blob.h Config.h
 ../build/ProcessEpd.o: ../include/ChessCore/Engine.h
 ../build/ProcessEpd.o: ../include/ChessCore/Thread.h
 ../build/ProcessEpd.o: ../include/ChessCore/Process.h
 ../build/ProcessEpd.o: ../include/ChessCore/Move.h
+../build/ProcessEpd.o: ../include/ChessCore/TimeControl.h
 ../build/ProcessEpd.o: ../include/ChessCore/EngineMessage.h
 ../build/ProcessEpd.o: ../include/ChessCore/Position.h
-../build/ProcessEpd.o: ../include/ChessCore/Blob.h
 ../build/ProcessEpd.o: ../include/ChessCore/Lowlevel.h
 ../build/ProcessEpd.o: ../include/ChessCore/Util.h
 ../build/ProcessEpd.o: ../include/ChessCore/Data.h
