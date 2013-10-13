@@ -218,8 +218,7 @@ static bool analyzeGame(int gameNum, Game &game, Engine &engine) {
 
     if (g_optTimeControl.isValid()) {
         cout << "Engine using time control '" << g_optTimeControl.notation(TimeControlPeriod::FORMAT_PGN) << "'" << endl;
-        engine.setWhiteTimeTracker(&whiteTimeTracker);
-        engine.setBlackTimeTracker(&blackTimeTracker);
+        engine.setTimeTrackers(&whiteTimeTracker, &blackTimeTracker);
         engine.resetTimeTrackers();
     } else if (g_optDepth > 0) {
         cout << "Engine using think depth " << g_optDepth << endl;

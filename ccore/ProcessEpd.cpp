@@ -371,8 +371,7 @@ static bool getEval(Engine &engine, const Position &pos, int32_t &score) {
 
     if (g_optTimeControl.isValid()) {
         cout << "Engine using time control '" << g_optTimeControl.notation(TimeControlPeriod::FORMAT_PGN) << "'" << endl;
-        engine.setWhiteTimeTracker(&whiteTimeTracker);
-        engine.setBlackTimeTracker(&blackTimeTracker);
+        engine.setTimeTrackers(&whiteTimeTracker, &blackTimeTracker);
         engine.resetTimeTrackers();
     } else if (g_optDepth > 0) {
         cout << "Engine using think depth " << g_optDepth << endl;
@@ -462,8 +461,7 @@ static bool getBestMove(Engine &engine, const Position &pos, Move &move) {
 
     if (g_optTimeControl.isValid()) {
         cout << "Engine using time control '" << g_optTimeControl.notation(TimeControlPeriod::FORMAT_PGN) << "'" << endl;
-        engine.setWhiteTimeTracker(&whiteTimeTracker);
-        engine.setBlackTimeTracker(&blackTimeTracker);
+        engine.setTimeTrackers(&whiteTimeTracker, &blackTimeTracker);
         engine.resetTimeTrackers();
     } else if (g_optDepth > 0) {
         cout << "Engine using think depth " << g_optDepth << endl;

@@ -288,11 +288,9 @@ static bool playGame(Tournament &tourney, string &gameOverReason) {
 
     if (g_optTimeControl.isValid()) {
         cout << "Engines using time control '" << g_optTimeControl.notation() << "'" << endl;
-        tourney.white->setWhiteTimeTracker(&whiteTimeTracker);
-        tourney.white->setBlackTimeTracker(&blackTimeTracker);
+        tourney.white->setTimeTrackers(&whiteTimeTracker, &blackTimeTracker);
         tourney.white->resetTimeTrackers();
-        tourney.black->setWhiteTimeTracker(&whiteTimeTracker);
-        tourney.black->setBlackTimeTracker(&blackTimeTracker);
+        tourney.black->setTimeTrackers(&whiteTimeTracker, &blackTimeTracker);
         tourney.black->resetTimeTrackers();
     } else if (g_optDepth > 0) {
         cout << "Engines using think depth " << g_optDepth << endl;

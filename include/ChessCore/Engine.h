@@ -251,16 +251,13 @@ public:
         return m_whiteTimeTracker;
     }
 
-    void setWhiteTimeTracker(TimeTracker *timeTracker) {
-        m_whiteTimeTracker = timeTracker;
-    }
-
     TimeTracker *blackTimeTracker() {
         return m_blackTimeTracker;
     }
 
-    void setBlackTimeTracker(TimeTracker *timeTracker) {
-        m_blackTimeTracker = timeTracker;
+    void setTimeTrackers(TimeTracker *whiteTimeTracker, TimeTracker *blackTimeTracker) {
+        m_whiteTimeTracker = whiteTimeTracker;
+        m_blackTimeTracker = blackTimeTracker;
     }
 
     bool validTimeTrackers() const {
