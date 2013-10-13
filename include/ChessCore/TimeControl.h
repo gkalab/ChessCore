@@ -143,6 +143,10 @@ public:
     TimeControl &operator=(const TimeControl &other);
     bool operator==(const TimeControl &other) const;
 
+    void setPeriods(const std::vector<TimeControlPeriod> &periods) {
+        m_periods = periods;
+    }
+
     std::vector<TimeControlPeriod> &periods() {
         return m_periods;
     }
@@ -193,6 +197,16 @@ public:
      * @return true if the periods are valid, else false.
      */
     bool isValid() const;
+
+    /**
+     * Determine if the specified time control period can be removed from the time control,
+     * and it still remain valid.
+     *
+     * @param periodIndex The index of the time control period to check.
+     *
+     * @return true if the period can be removed, else false.
+     */
+    bool canPeriodBeRemoved(size_t periodIndex) const;
 
     /**
      * Create the notation of the periods.

@@ -38,11 +38,11 @@ performed:
 
  - `-n` (`--number1`): Number, sometimes the first number in a range.
  - `-N` (`--number2`): The second number in a range.
- - `-t` (`--timecontrol`): Time control.  This accepts *normal* and *PGN* format time controls which must end in a *game-in* or *moves-in* period.  Periods are connected together with the `;` character, which makes it difficult to use from the (UNIX) command line, as it needs to be escaped with `\`.  PGN-format is connected using the `:` character.
+ - `-t` (`--timecontrol`): Time control.  This accepts *normal* and *PGN* format time controls which must end in a *game-in* or *moves-in* period. Normal-format periods are connected together with the `,` character and PGN-format periods are connected together with the `:` character.
  
  Normal examples:
    - `40/120`: (rollover) 40 moves in 120 **minutes**.
-   - `20/30/10`: (rollver) 20 moves in 30 **minutes** with 10 **second** increment.
+   - `20/30/10`: (rollover) 20 moves in 30 **minutes** with 10 **second** increment.
    - `G/30`: (game-in) finish game in 30 **minutes**.
    - `M/10`: (moves-in) 10 **seconds** per move (no time carry-over from previous move).
  

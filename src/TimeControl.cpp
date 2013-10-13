@@ -462,6 +462,20 @@ bool TimeControl::isValid() const {
     return false;
 }
 
+bool TimeControl::canPeriodBeRemoved(size_t periodIndex) const {
+    if (periodIndex > m_periods.size()) {
+        LOGWRN << "Out-of-bounds periodIndex " << periodIndex << " (size=" << m_periods.size() << ")";
+        return false;
+    }
+    if (!isValid()) {
+        return false;
+    }
+
+    // If the time control is valid, then it's only possible to remove all but the last
+    // time control period
+    return periodIndex < m_periods.size() - 1;
+}
+
 string TimeControl::notation(TimeControlPeriod::Format format /*=TimeControlPeriod::FORMAT_NORMAL*/) const {
 
     if (format == TimeControlPeriod::FORMAT_UNKNOWN) {
@@ -478,7 +492,7 @@ string TimeControl::notation(TimeControlPeriod::Format format /*=TimeControlPeri
             if (format == TimeControlPeriod::FORMAT_PGN)
                 oss << ":";
             else
-                oss << ",";
+                oss << ", ";
         }
         oss << m_periods[index].notation(format);
     }
