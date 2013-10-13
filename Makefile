@@ -7,12 +7,12 @@ debug:
 release:
 	$(MAKE) BUILDTYPE=Release -C src all
 	$(MAKE) BUILDTYPE=Release -C ccore all
-	$(MAKE) BUILDTYPE=Debug -C test/unittests all
+	$(MAKE) BUILDTYPE=Release -C test/unittests all
 
 profile:
 	$(MAKE) BUILDTYPE=Profile -C src all
 	$(MAKE) BUILDTYPE=Profile -C ccore all
-	$(MAKE) BUILDTYPE=Debug -C test/unittests all
+	$(MAKE) BUILDTYPE=Profile -C test/unittests all
 
 depend format clean:
 	$(MAKE) -C src $@

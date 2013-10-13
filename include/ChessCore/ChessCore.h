@@ -196,8 +196,6 @@ typedef SSIZE_T ssize_t;
 #define CHESSCORE_EXPORT __declspec(dllimport)
 #endif
 
-//STL_EXTERN template class CHESSCORE_EXPORT std::vector<int>;
-
 #else // !WINDOWS
 
 #include <unistd.h>
@@ -219,12 +217,14 @@ namespace ChessCore {
 //
 // Exceptions
 //
-class CHESSCORE_EXPORT ChessCoreException:public std::exception {
+class CHESSCORE_EXPORT ChessCoreException : public std::exception {
 protected:
     std::string m_reason;
 
 public:
-    ChessCoreException() {
+    ChessCoreException() :
+        m_reason("Unspecified exception")
+    {
     }
 
     ChessCoreException(const char *reason, ...) :
