@@ -79,7 +79,7 @@ TEST(TimeControlTest, pgn_m10) {
 
 TEST(TimeControlTest, normal_40_120_g30) {
     TimeControl timeControl;
-    EXPECT_TRUE(timeControl.set("40/120,G/30", TimeControlPeriod::FORMAT_NORMAL));
+    EXPECT_TRUE(timeControl.set("40/120, G/30", TimeControlPeriod::FORMAT_NORMAL));
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(2, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[0].type());
@@ -90,7 +90,7 @@ TEST(TimeControlTest, normal_40_120_g30) {
     EXPECT_EQ(0, periods[1].moves());
     EXPECT_EQ(1800, periods[1].time());
     EXPECT_EQ(0, periods[1].increment());
-    EXPECT_EQ("40/120,G/30", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
+    EXPECT_EQ("40/120, G/30", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
 }
 
 TEST(TimeControlTest, pgn_40_120_g30) {
@@ -111,7 +111,7 @@ TEST(TimeControlTest, pgn_40_120_g30) {
 
 TEST(TimeControlTest, normal_40_120_30_m10) {
     TimeControl timeControl;
-    EXPECT_TRUE(timeControl.set("40/120/30,M/10", TimeControlPeriod::FORMAT_UNKNOWN));
+    EXPECT_TRUE(timeControl.set("40/120/30, M/10", TimeControlPeriod::FORMAT_UNKNOWN));
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(2, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[0].type());
@@ -122,7 +122,7 @@ TEST(TimeControlTest, normal_40_120_30_m10) {
     EXPECT_EQ(1, periods[1].moves());
     EXPECT_EQ(10, periods[1].time());
     EXPECT_EQ(0, periods[1].increment());
-    EXPECT_EQ("40/120/30,M/10", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
+    EXPECT_EQ("40/120/30, M/10", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
 }
 
 TEST(TimeControlTest, pgn_40_120_30_m10) {
@@ -143,7 +143,7 @@ TEST(TimeControlTest, pgn_40_120_30_m10) {
 
 TEST(TimeControlTest, normal_40_120_30_20_60_g30) {
     TimeControl timeControl;
-    EXPECT_TRUE(timeControl.set("40/120/30,20/60,G/30", TimeControlPeriod::FORMAT_UNKNOWN));
+    EXPECT_TRUE(timeControl.set("40/120/30, 20/60, G/30", TimeControlPeriod::FORMAT_UNKNOWN));
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(3, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[0].type());
@@ -158,7 +158,7 @@ TEST(TimeControlTest, normal_40_120_30_20_60_g30) {
     EXPECT_EQ(0, periods[2].moves());
     EXPECT_EQ(1800, periods[2].time());
     EXPECT_EQ(0, periods[2].increment());
-    EXPECT_EQ("40/120/30,20/60,G/30", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
+    EXPECT_EQ("40/120/30, 20/60, G/30", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
 }
 
 TEST(TimeControlTest, pgn_40_120_30_20_60_g30) {
