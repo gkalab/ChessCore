@@ -52,32 +52,48 @@ public:
         return m_type;
     }
 
-    void setType(Type type) {
-        m_type = type;
+    bool setType(Type type) {
+        if (m_type != type) {
+            m_type = type;
+            return true;
+        }
+        return false;
     }
 
     unsigned moves() const {
         return m_moves;
     }
 
-    void setMoves(unsigned moves) {
-        m_moves = moves;
+    bool setMoves(unsigned moves) {
+        if (m_moves != moves) {
+            m_moves = moves;
+            return true;
+        }
+        return false;
     }
 
     unsigned time() const {
         return m_time;
     }
 
-    void setTime(unsigned time) {
-        m_time = time;
+    bool setTime(unsigned time) {
+        if (m_time != time) {
+            m_time = time;
+            return true;
+        }
+        return false;
     }
 
     int increment() const {
         return m_increment;
     }
 
-    void setIncrement(int increment) {
-        m_increment = increment;
+    bool setIncrement(int increment) {
+        if (m_increment != increment) {
+            m_increment = increment;
+            return true;
+        }
+        return false;
     }
 
     /**

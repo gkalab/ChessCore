@@ -301,8 +301,7 @@ static bool getPerft(Engine &engine, const Position &pos, unsigned depth, int64_
 
             switch (message->type) {
             case EngineMessage::TYPE_INFO_SEARCH: {
-                EngineMessageInfoSearch *engineMessageInfoSearch = dynamic_cast<EngineMessageInfoSearch *>
-                                                                   (message.get());
+                EngineMessageInfoSearch *engineMessageInfoSearch = dynamic_cast<EngineMessageInfoSearch *>(message.get());
 
                 if (engineMessageInfoSearch->have & EngineMessageInfoSearch::HAVE_NODES) {
                     nodes = engineMessageInfoSearch->nodes;
@@ -317,8 +316,7 @@ static bool getPerft(Engine &engine, const Position &pos, unsigned depth, int64_
                 break;
             }
             case EngineMessage::TYPE_INFO_STRING: {
-                EngineMessageInfoString *engineMessageInfoString = dynamic_cast<EngineMessageInfoString *>
-                                                                   (message.get());
+                EngineMessageInfoString *engineMessageInfoString = dynamic_cast<EngineMessageInfoString *>(message.get());
                 LOGINF << engine.id() << ": " << engineMessageInfoString->info;
                 break;
             }

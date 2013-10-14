@@ -101,12 +101,12 @@ TimeControlPeriod::Format TimeControlPeriod::set(const string &notation, Format 
                 return FORMAT_NORMAL;
             }
         } else if (numParts == 2) {
-            if (parts[0] == "G" && Util::parse(parts[1], m_time)) {
+            if ((parts[0] == "G" || parts[0] == "g") && Util::parse(parts[1], m_time)) {
                 // Normal format G/minutes
                 m_type = TYPE_GAME_IN;
                 m_time *= 60;
                 return FORMAT_NORMAL;
-            } else if (parts[0] == "M" && Util::parse(parts[1], m_time)) {
+            } else if ((parts[0] == "M" || parts[0] == "m") && Util::parse(parts[1], m_time)) {
                 // Normal format M/seconds
                 m_type = TYPE_MOVES_IN;
                 m_moves = 1;
@@ -481,7 +481,7 @@ string TimeControl::notation(TimeControlPeriod::Format format /*=TimeControlPeri
     if (format == TimeControlPeriod::FORMAT_UNKNOWN) {
         bool usePgn = false;
         for (auto it = m_periods.begin(); it != m_periods.end() && !usePgn; ++it) {
-            usePgn = (it->time() < 60);
+            usePgn = (it->time() < 60 && it->type() != TimeControlPeriod::TYPE_MOVES_IN);
         }
         format = usePgn ? TimeControlPeriod::FORMAT_PGN : TimeControlPeriod::FORMAT_NORMAL;
     }
