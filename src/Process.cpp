@@ -401,23 +401,22 @@ bool Process::unload() {
 
             LOGDBG << "Getting exit code of process " << name();
 
-            if (waitpid(m_procId, &status, WNOHANG) < 0) {
+            pid_t rv = waitpid(m_procId, &status, WNOHANG|WUNTRACED);
+            if (rv < 0) {
                 LOGERR << "Failed to wait for process " << name() << ": " <<
                     strerror(errno) << " (" << errno << ")";
                 break;
+            } else if (rv == 0) {
+                LOGDBG << "waitpid() returned 0; so no status from process";
             } else if (WIFEXITED(status)) {
                 m_exitCode = WEXITSTATUS(status);
                 terminated = true;
                 LOGINF << "Process " << name() << " terminated with exit code " << m_exitCode;
             } else if (WIFSIGNALED(status)) {
+                m_exitCode = 1;
                 signal = WTERMSIG(status);
-                if (signal < NSIG) {
-                    terminated = true;
-                    LOGINF << "Process " << name() << " terminated by signal " << signal;
-                } else {
-                    LOGWRN << "Process " << name() << " produced unusual signal " << signal
-                        << "; assuming it's not terminated";
-                }
+                terminated = true;
+                LOGINF << "Process " << name() << " terminated by signal " << signal;
             } else {
                 LOGWRN << "Process " << name() << " changed state but did not terminate.  status=0x" <<
                     hex << status;
