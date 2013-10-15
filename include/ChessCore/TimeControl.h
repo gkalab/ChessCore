@@ -251,6 +251,7 @@ protected:
     const TimeControl &m_timeControl;
     unsigned m_timeControlPeriodIndex;
     unsigned m_numMoves;            // Total number of moves made
+    unsigned m_nextTimeControl;     // Absolute time until next time control.
     unsigned m_timeLeft;            // Until next time control period (milliseconds)
     int m_movesLeft;                // Until next time control period (Can be MOVES_LEFT_INFINITE)
     bool m_outOfTime;               // Time has elapsed
@@ -258,18 +259,47 @@ protected:
 public:
     TimeTracker(const TimeControl &timeControl);
 
+    /**
+     * Get the number of moves made in the game.
+     *
+     * @return The number of moves made in the game.
+     */
     unsigned numMoves() const {
         return m_numMoves;
     }
 
+    /**
+     * Get the time left until the next time control.  This value will not change
+     * until the next move is made.
+     *
+     * @return The time left until the next time control, in milliseconds.
+     */
     unsigned timeLeft() const {
         return m_timeLeft;
     }
 
+    /**
+     * Get the "running time left", which is the amount of time until the next time control,
+     * with respect to the current time.
+     *
+     * @return Running time left.
+     */
+    unsigned runningTimeLeft() const;
+
+    /**
+     * Get the number of moves left until the next time control.
+     *
+     * @return The number of moves left until the next time control.
+     */
     int movesLeft() const {
         return m_movesLeft;
     }
 
+    /**
+     * Get the out-of-time flag, indicating the player has lost of time.
+     *
+     * @return The out-of-time flag.
+     */
     bool isOutOfTime() const {
         return m_outOfTime;
     }

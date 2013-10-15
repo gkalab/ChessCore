@@ -518,6 +518,7 @@ TimeTracker::TimeTracker(const TimeControl &timeControl) :
     m_timeControl(timeControl),
     m_timeControlPeriodIndex(0),
     m_numMoves(0),
+    m_nextTimeControl(0),
     m_timeLeft(0),
     m_movesLeft(0),
     m_outOfTime(false)
@@ -525,6 +526,10 @@ TimeTracker::TimeTracker(const TimeControl &timeControl) :
     if (m_timeControl.isValid()) {
         reset();
     }
+}
+
+unsigned TimeTracker::runningTimeLeft() const {
+    return m_outOfTime ? 0 : (m_nextTimeControl - Util::getTickCount());
 }
 
 unsigned TimeTracker::increment() const {
@@ -607,15 +612,18 @@ bool TimeTracker::update(unsigned timeTaken) {
             }
             break;
         case TimeControlPeriod::TYPE_GAME_IN:
+            m_nextTimeControl = Util::getTickCount() + m_timeLeft;
             break;
         case TimeControlPeriod::TYPE_MOVES_IN:
             ASSERT(m_movesLeft == 1);
-            m_timeLeft = period->time() * 1000;
+            m_timeLeft = 0;
+            enterNewPeriod(period);
             break;
         default:
             ASSERT(false);
             break;
     }
+
 
     return true;
 }
@@ -624,6 +632,7 @@ string TimeTracker::dump() const {
     ostringstream oss;
     oss << "m_timeControlPeriodIndex=" << m_timeControlPeriodIndex << ", ";
     oss << "m_numMoves=" << m_numMoves << ", ";
+    oss << "m_nextTimeControl=" << m_nextTimeControl << ", ";
     oss << "m_timeLeft=" << m_timeLeft << ", ";
     oss << "m_movesLeft=" << m_movesLeft << ", ";
     oss << "m_outOfTime=" << boolalpha << m_outOfTime;
@@ -632,6 +641,7 @@ string TimeTracker::dump() const {
 
 void TimeTracker::enterNewPeriod(const TimeControlPeriod *period) {
     m_timeLeft += period->time() * 1000;
+    m_nextTimeControl = Util::getTickCount() + m_timeLeft;
     switch (period->type()) {
         case TimeControlPeriod::TYPE_ROLLOVER:
             m_movesLeft = period->moves();
