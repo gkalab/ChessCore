@@ -1711,7 +1711,7 @@ unsigned CfdbDatabase::selectPlayer(const Player &player) {
 bool CfdbDatabase::selectPlayer(unsigned id, Player &player) {
     clearErrorMsg();
 
-    player.initPlayer();
+    player.clear();
 
     bool retval = false;
     int rv;

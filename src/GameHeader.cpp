@@ -28,8 +28,8 @@ GameHeader::~GameHeader() {
 }
 
 void GameHeader::initHeader() {
-    m_white.initPlayer();
-    m_black.initPlayer();
+    m_white.clear();
+    m_black.clear();
     m_event.clear();
     m_site.clear();
     m_day = m_month = m_year = 0;

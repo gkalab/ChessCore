@@ -22,17 +22,17 @@ protected:
 public:
     Player();
 
-    Player(const Player &other) {
-        set(other);
-    }
+    Player(const std::string &lastName);
+
+    Player(const Player &other);
 
     virtual ~Player();
-
-    void initPlayer();
 
     // Set the player from another instance
     void set(const Player &other);
     void set(const Player *other);
+
+    void clear();
 
     inline const std::string &lastName() const {
         return m_lastName;

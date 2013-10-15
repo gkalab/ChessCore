@@ -13,18 +13,31 @@ using namespace std;
 namespace ChessCore {
 const char *Player::m_classname = "Player";
 
-Player::Player() {
-    initPlayer();
+Player::Player() :
+    m_lastName(),
+    m_firstNames(),
+    m_countryCode(),
+    m_elo(0)
+{
+}
+
+Player::Player(const std::string &lastName) :
+    m_lastName(lastName),
+    m_firstNames(),
+    m_countryCode(),
+    m_elo(0)
+{
+}
+
+Player::Player(const Player &other) :
+    m_lastName(other.m_lastName),
+    m_firstNames(other.m_firstNames),
+    m_countryCode(other.m_countryCode),
+    m_elo(other.m_elo)
+{
 }
 
 Player::~Player() {
-}
-
-void Player::initPlayer() {
-    m_lastName.clear();
-    m_firstNames.clear();
-    m_countryCode.clear();
-    m_elo = 0;
 }
 
 void Player::set(const Player &other) {
@@ -42,6 +55,13 @@ void Player::set(const Player *other) {
     m_firstNames = other->m_firstNames;
     m_countryCode = other->m_countryCode;
     m_elo = other->m_elo;
+}
+
+void Player::clear() {
+    m_lastName.clear();
+    m_firstNames.clear();
+    m_countryCode.clear();
+    m_elo = 0;
 }
 
 string Player::formattedName(bool noSpaces /*=false*/) const {
