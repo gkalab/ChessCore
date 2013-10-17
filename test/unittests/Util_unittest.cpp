@@ -177,7 +177,7 @@ TEST(UtilTest, tickCountAndSleep) {
     unsigned start = Util::getTickCount();
     Util::sleep(450);
     unsigned end = Util::getTickCount();
-    EXPECT_GE(end - start, 450u);
+    EXPECT_GE(420u, end - start);			// Have had 437ms under Windows once...
 }
 
 TEST(UtilTest, splitLine) {

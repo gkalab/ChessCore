@@ -74,7 +74,7 @@ public:
     }
 
     bool setMoves(unsigned moves) {
-        moves = std::max(moves, (unsigned)MAX_MOVES);
+        moves = max(moves, (unsigned)MAX_MOVES);
         if (m_moves != moves) {
             m_moves = moves;
             return true;
@@ -87,7 +87,7 @@ public:
     }
 
     bool setTime(unsigned time) {
-        time = std::max(time, (unsigned)MAX_TIME);
+        time = max(time, (unsigned)MAX_TIME);
         if (m_time != time) {
             m_time = time;
             return true;
@@ -100,7 +100,7 @@ public:
     }
 
     bool setIncrement(int increment) {
-        increment = std::max(increment, (int)MAX_INCREMENT);
+        increment = max(increment, (int)MAX_INCREMENT);
         if (m_increment != increment) {
             m_increment = increment;
             return true;

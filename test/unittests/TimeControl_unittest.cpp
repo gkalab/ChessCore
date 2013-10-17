@@ -11,8 +11,8 @@ TEST(TimeControlTest, normal_g5) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(1, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_GAME_IN, periods[0].type());
-    EXPECT_EQ(0, periods[0].moves());
-    EXPECT_EQ(300, periods[0].time());
+    EXPECT_EQ(0u, periods[0].moves());
+    EXPECT_EQ(300u, periods[0].time());
     EXPECT_EQ(0, periods[0].increment());
     EXPECT_EQ("G/5", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
 }
@@ -23,8 +23,8 @@ TEST(TimeControlTest, pgn_g5) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(1, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_GAME_IN, periods[0].type());
-    EXPECT_EQ(0, periods[0].moves());
-    EXPECT_EQ(300, periods[0].time());
+    EXPECT_EQ(0u, periods[0].moves());
+    EXPECT_EQ(300u, periods[0].time());
     EXPECT_EQ(0, periods[0].increment());
     EXPECT_EQ("300", timeControl.notation(TimeControlPeriod::FORMAT_PGN));
 }
@@ -35,8 +35,8 @@ TEST(TimeControlTest, normal_g5_10) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(1, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_GAME_IN, periods[0].type());
-    EXPECT_EQ(0, periods[0].moves());
-    EXPECT_EQ(300, periods[0].time());
+    EXPECT_EQ(0u, periods[0].moves());
+    EXPECT_EQ(300u, periods[0].time());
     EXPECT_EQ(10, periods[0].increment());
     EXPECT_EQ("G/5/10", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
 }
@@ -47,8 +47,8 @@ TEST(TimeControlTest, pgn_g5_10) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(1, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_GAME_IN, periods[0].type());
-    EXPECT_EQ(0, periods[0].moves());
-    EXPECT_EQ(300, periods[0].time());
+    EXPECT_EQ(0u, periods[0].moves());
+    EXPECT_EQ(300u, periods[0].time());
     EXPECT_EQ(10, periods[0].increment());
     EXPECT_EQ("300+10", timeControl.notation(TimeControlPeriod::FORMAT_PGN));
 }
@@ -59,8 +59,8 @@ TEST(TimeControlTest, normal_m10) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(1, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_MOVES_IN, periods[0].type());
-    EXPECT_EQ(1, periods[0].moves());
-    EXPECT_EQ(10, periods[0].time());
+    EXPECT_EQ(1u, periods[0].moves());
+    EXPECT_EQ(10u, periods[0].time());
     EXPECT_EQ(0 ,periods[0].increment());
     EXPECT_EQ("M/10", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
 }
@@ -71,8 +71,8 @@ TEST(TimeControlTest, pgn_m10) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(1, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_MOVES_IN, periods[0].type());
-    EXPECT_EQ(1, periods[0].moves());
-    EXPECT_EQ(10, periods[0].time());
+    EXPECT_EQ(1u, periods[0].moves());
+    EXPECT_EQ(10u, periods[0].time());
     EXPECT_EQ(0, periods[0].increment());
     EXPECT_EQ("*10", timeControl.notation(TimeControlPeriod::FORMAT_PGN));
 }
@@ -83,12 +83,12 @@ TEST(TimeControlTest, normal_40_120_g30) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(2, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[0].type());
-    EXPECT_EQ(40, periods[0].moves());
-    EXPECT_EQ(7200, periods[0].time());
+    EXPECT_EQ(40u, periods[0].moves());
+    EXPECT_EQ(7200u, periods[0].time());
     EXPECT_EQ(0, periods[0].increment());
     EXPECT_EQ(TimeControlPeriod::TYPE_GAME_IN, periods[1].type());
-    EXPECT_EQ(0, periods[1].moves());
-    EXPECT_EQ(1800, periods[1].time());
+    EXPECT_EQ(0u, periods[1].moves());
+    EXPECT_EQ(1800u, periods[1].time());
     EXPECT_EQ(0, periods[1].increment());
     EXPECT_EQ("40/120, G/30", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
 }
@@ -99,12 +99,12 @@ TEST(TimeControlTest, pgn_40_120_g30) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(2, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[0].type());
-    EXPECT_EQ(40, periods[0].moves());
-    EXPECT_EQ(7200, periods[0].time());
+    EXPECT_EQ(40u, periods[0].moves());
+    EXPECT_EQ(7200u, periods[0].time());
     EXPECT_EQ(0, periods[0].increment());
     EXPECT_EQ(TimeControlPeriod::TYPE_GAME_IN, periods[1].type());
-    EXPECT_EQ(0, periods[1].moves());
-    EXPECT_EQ(1800, periods[1].time());
+    EXPECT_EQ(0u, periods[1].moves());
+    EXPECT_EQ(1800u, periods[1].time());
     EXPECT_EQ(0, periods[1].increment());
     EXPECT_EQ("40/7200:1800", timeControl.notation(TimeControlPeriod::FORMAT_PGN));
 }
@@ -115,12 +115,12 @@ TEST(TimeControlTest, normal_40_120_30_m10) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(2, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[0].type());
-    EXPECT_EQ(40, periods[0].moves());
-    EXPECT_EQ(7200, periods[0].time());
+    EXPECT_EQ(40u, periods[0].moves());
+    EXPECT_EQ(7200u, periods[0].time());
     EXPECT_EQ(30, periods[0].increment());
     EXPECT_EQ(TimeControlPeriod::TYPE_MOVES_IN, periods[1].type());
-    EXPECT_EQ(1, periods[1].moves());
-    EXPECT_EQ(10, periods[1].time());
+    EXPECT_EQ(1u, periods[1].moves());
+    EXPECT_EQ(10u, periods[1].time());
     EXPECT_EQ(0, periods[1].increment());
     EXPECT_EQ("40/120/30, M/10", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
 }
@@ -131,12 +131,12 @@ TEST(TimeControlTest, pgn_40_120_30_m10) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(2, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[0].type());
-    EXPECT_EQ(40, periods[0].moves());
-    EXPECT_EQ(7200, periods[0].time());
+    EXPECT_EQ(40u, periods[0].moves());
+    EXPECT_EQ(7200u, periods[0].time());
     EXPECT_EQ(30, periods[0].increment());
     EXPECT_EQ(TimeControlPeriod::TYPE_MOVES_IN, periods[1].type());
-    EXPECT_EQ(1, periods[1].moves());
-    EXPECT_EQ(10, periods[1].time());
+    EXPECT_EQ(1u, periods[1].moves());
+    EXPECT_EQ(10u, periods[1].time());
     EXPECT_EQ(0, periods[1].increment());
     EXPECT_EQ("40/7200+30:*10", timeControl.notation(TimeControlPeriod::FORMAT_PGN));
 }
@@ -147,16 +147,16 @@ TEST(TimeControlTest, normal_40_120_30_20_60_g30) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(3, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[0].type());
-    EXPECT_EQ(40, periods[0].moves());
-    EXPECT_EQ(7200, periods[0].time());
+    EXPECT_EQ(40u, periods[0].moves());
+    EXPECT_EQ(7200u, periods[0].time());
     EXPECT_EQ(30, periods[0].increment());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[1].type());
-    EXPECT_EQ(20, periods[1].moves());
-    EXPECT_EQ(3600, periods[1].time());
+    EXPECT_EQ(20u, periods[1].moves());
+    EXPECT_EQ(3600u, periods[1].time());
     EXPECT_EQ(0, periods[1].increment());
     EXPECT_EQ(TimeControlPeriod::TYPE_GAME_IN, periods[2].type());
-    EXPECT_EQ(0, periods[2].moves());
-    EXPECT_EQ(1800, periods[2].time());
+    EXPECT_EQ(0u, periods[2].moves());
+    EXPECT_EQ(1800u, periods[2].time());
     EXPECT_EQ(0, periods[2].increment());
     EXPECT_EQ("40/120/30, 20/60, G/30", timeControl.notation(TimeControlPeriod::FORMAT_NORMAL));
 }
@@ -167,16 +167,16 @@ TEST(TimeControlTest, pgn_40_120_30_20_60_g30) {
     vector<TimeControlPeriod> &periods = timeControl.periods();
     EXPECT_EQ(3, periods.size());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[0].type());
-    EXPECT_EQ(40, periods[0].moves());
-    EXPECT_EQ(7200, periods[0].time());
+    EXPECT_EQ(40u, periods[0].moves());
+    EXPECT_EQ(7200u, periods[0].time());
     EXPECT_EQ(30, periods[0].increment());
     EXPECT_EQ(TimeControlPeriod::TYPE_ROLLOVER, periods[1].type());
-    EXPECT_EQ(20, periods[1].moves());
-    EXPECT_EQ(3600, periods[1].time());
+    EXPECT_EQ(20u, periods[1].moves());
+    EXPECT_EQ(3600u, periods[1].time());
     EXPECT_EQ(0, periods[1].increment());
     EXPECT_EQ(TimeControlPeriod::TYPE_GAME_IN, periods[2].type());
-    EXPECT_EQ(0, periods[2].moves());
-    EXPECT_EQ(1800, periods[2].time());
+    EXPECT_EQ(0u, periods[2].moves());
+    EXPECT_EQ(1800u, periods[2].time());
     EXPECT_EQ(0, periods[2].increment());
     EXPECT_EQ("40/7200+30:20/3600:1800", timeControl.notation(TimeControlPeriod::FORMAT_PGN));
 }
@@ -187,45 +187,45 @@ TEST(TimeControlTest, tracking_g1) {
     EXPECT_TRUE(timeControl.set("G/1", TimeControlPeriod::FORMAT_UNKNOWN));
 
     EXPECT_TRUE(timeTracker.reset());
-    EXPECT_EQ(0, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(60000, timeTracker.timeLeft());
-    EXPECT_LE(60000, timeTracker.runningTimeLeft());
+    EXPECT_EQ(0u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(60000u, timeTracker.timeLeft());
+    EXPECT_LE(60000u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(1200));
-    EXPECT_EQ(1, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(58800, timeTracker.timeLeft());
-    EXPECT_LE(58800, timeTracker.runningTimeLeft());
+    EXPECT_EQ(1u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(58800u, timeTracker.timeLeft());
+    EXPECT_LE(58800u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(37000));
-    EXPECT_EQ(2, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(21800, timeTracker.timeLeft());
-    EXPECT_LE(21800, timeTracker.runningTimeLeft());
+    EXPECT_EQ(2u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(21800u, timeTracker.timeLeft());
+    EXPECT_LE(21800u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(20002));
-    EXPECT_EQ(3, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(1798, timeTracker.timeLeft());
-    EXPECT_LE(1798, timeTracker.runningTimeLeft());
+    EXPECT_EQ(3u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(1798u, timeTracker.timeLeft());
+    EXPECT_LE(1798u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(1798));
     EXPECT_EQ(4, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(0, timeTracker.timeLeft());
-    EXPECT_EQ(0, timeTracker.runningTimeLeft());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(0u, timeTracker.timeLeft());
+    EXPECT_EQ(0u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(1));
-    EXPECT_EQ(5, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(0, timeTracker.timeLeft());
-    EXPECT_EQ(0, timeTracker.runningTimeLeft());
+    EXPECT_EQ(5u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(0u, timeTracker.timeLeft());
+    EXPECT_EQ(0u, timeTracker.runningTimeLeft());
     EXPECT_TRUE(timeTracker.isOutOfTime());
 }
 
@@ -235,73 +235,73 @@ TEST(TimeControlTest, tracking_4_1_G1) {
     EXPECT_TRUE(timeControl.set("4/1,G/1", TimeControlPeriod::FORMAT_UNKNOWN));
 
     EXPECT_TRUE(timeTracker.reset());
-    EXPECT_EQ(0, timeTracker.numMoves());
-    EXPECT_EQ(4, timeTracker.movesLeft());
-    EXPECT_EQ(60000, timeTracker.timeLeft());
-    EXPECT_LE(60000, timeTracker.runningTimeLeft());
+    EXPECT_EQ(0u, timeTracker.numMoves());
+    EXPECT_EQ(4u, timeTracker.movesLeft());
+    EXPECT_EQ(60000u, timeTracker.timeLeft());
+    EXPECT_LE(60000u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(1200));
-    EXPECT_EQ(1, timeTracker.numMoves());
-    EXPECT_EQ(3, timeTracker.movesLeft());
-    EXPECT_EQ(58800, timeTracker.timeLeft());
-    EXPECT_LE(58800, timeTracker.runningTimeLeft());
+    EXPECT_EQ(1u, timeTracker.numMoves());
+    EXPECT_EQ(3u, timeTracker.movesLeft());
+    EXPECT_EQ(58800u, timeTracker.timeLeft());
+    EXPECT_LE(58800u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(37000));
-    EXPECT_EQ(2, timeTracker.numMoves());
-    EXPECT_EQ(2, timeTracker.movesLeft());
-    EXPECT_EQ(21800, timeTracker.timeLeft());
-    EXPECT_LE(21800, timeTracker.runningTimeLeft());
+    EXPECT_EQ(2u, timeTracker.numMoves());
+    EXPECT_EQ(2u, timeTracker.movesLeft());
+    EXPECT_EQ(21800u, timeTracker.timeLeft());
+    EXPECT_LE(21800u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(20002));
-    EXPECT_EQ(3, timeTracker.numMoves());
-    EXPECT_EQ(1, timeTracker.movesLeft());
-    EXPECT_EQ(1798, timeTracker.timeLeft());
-    EXPECT_LE(1798, timeTracker.runningTimeLeft());
+    EXPECT_EQ(3u, timeTracker.numMoves());
+    EXPECT_EQ(1u, timeTracker.movesLeft());
+    EXPECT_EQ(1798u, timeTracker.timeLeft());
+    EXPECT_LE(1798u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(1000));
-    EXPECT_EQ(4, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(60798, timeTracker.timeLeft());
-    EXPECT_LE(60798, timeTracker.runningTimeLeft());
+    EXPECT_EQ(4u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(60798u, timeTracker.timeLeft());
+    EXPECT_LE(60798u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(1200));
-    EXPECT_EQ(5, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(59598, timeTracker.timeLeft());
-    EXPECT_LE(59598, timeTracker.runningTimeLeft());
+    EXPECT_EQ(5u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(59598u, timeTracker.timeLeft());
+    EXPECT_LE(59598u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(37000));
-    EXPECT_EQ(6, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(22598, timeTracker.timeLeft());
-    EXPECT_LE(22598, timeTracker.runningTimeLeft());
+    EXPECT_EQ(6u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(22598u, timeTracker.timeLeft());
+    EXPECT_LE(22598u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(20002));
-    EXPECT_EQ(7, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(2596, timeTracker.timeLeft());
-    EXPECT_LE(2596, timeTracker.runningTimeLeft());
+    EXPECT_EQ(7u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(2596u, timeTracker.timeLeft());
+    EXPECT_LE(2596u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(2596));
-    EXPECT_EQ(8, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(0, timeTracker.timeLeft());
-    EXPECT_EQ(0, timeTracker.runningTimeLeft());
+    EXPECT_EQ(8u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(0u, timeTracker.timeLeft());
+    EXPECT_EQ(0u, timeTracker.runningTimeLeft());
     EXPECT_FALSE(timeTracker.isOutOfTime());
 
     EXPECT_TRUE(timeTracker.update(1));
-    EXPECT_EQ(9, timeTracker.numMoves());
-    EXPECT_EQ(0, timeTracker.movesLeft());
-    EXPECT_EQ(0, timeTracker.timeLeft());
-    EXPECT_LE(0, timeTracker.runningTimeLeft());
+    EXPECT_EQ(9u, timeTracker.numMoves());
+    EXPECT_EQ(0u, timeTracker.movesLeft());
+    EXPECT_EQ(0u, timeTracker.timeLeft());
+    EXPECT_LE(0u, timeTracker.runningTimeLeft());
     EXPECT_TRUE(timeTracker.isOutOfTime());
 }
 
@@ -315,8 +315,8 @@ TEST(TimeControlTest, tracking_m10) {
         EXPECT_TRUE(timeTracker.update(9999));
         EXPECT_EQ(i, timeTracker.numMoves());
         EXPECT_EQ(1, timeTracker.movesLeft());
-        EXPECT_EQ(10000, timeTracker.timeLeft());
-        EXPECT_LE(10000, timeTracker.runningTimeLeft());
+        EXPECT_EQ(10000u, timeTracker.timeLeft());
+        EXPECT_LE(10000u, timeTracker.runningTimeLeft());
         EXPECT_FALSE(timeTracker.isOutOfTime());
     }
 }
