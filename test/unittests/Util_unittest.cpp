@@ -177,7 +177,9 @@ TEST(UtilTest, tickCountAndSleep) {
     unsigned start = Util::getTickCount();
     Util::sleep(450);
     unsigned end = Util::getTickCount();
-    EXPECT_GE(420u, end - start);			// Have had 437ms under Windows once...
+	// Have had 437ms under Windows once...
+    EXPECT_LE(420u, end - start);
+    EXPECT_GE(480u, end - start);
 }
 
 TEST(UtilTest, splitLine) {
