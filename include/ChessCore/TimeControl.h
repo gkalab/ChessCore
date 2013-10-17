@@ -9,7 +9,6 @@
 #include <ChessCore/ChessCore.h>
 #include <ChessCore/Blob.h>
 #include <vector>
-#include <algorithm>
 
 namespace ChessCore {
 
@@ -57,56 +56,17 @@ public:
         return !operator==(other);
     }
 
-    Type type() const {
-        return m_type;
-    }
+    Type type() const;
+	bool setType(Type type);
 
-    bool setType(Type type) {
-        if (m_type != type) {
-            m_type = type;
-            return true;
-        }
-        return false;
-    }
+    unsigned moves() const;
+	bool setMoves(unsigned moves);
 
-    unsigned moves() const {
-        return m_moves;
-    }
+    unsigned time() const;
+    bool setTime(unsigned time);
 
-    bool setMoves(unsigned moves) {
-        moves = max(moves, (unsigned)MAX_MOVES);
-        if (m_moves != moves) {
-            m_moves = moves;
-            return true;
-        }
-        return false;
-    }
-
-    unsigned time() const {
-        return m_time;
-    }
-
-    bool setTime(unsigned time) {
-        time = max(time, (unsigned)MAX_TIME);
-        if (m_time != time) {
-            m_time = time;
-            return true;
-        }
-        return false;
-    }
-
-    int increment() const {
-        return m_increment;
-    }
-
-    bool setIncrement(int increment) {
-        increment = max(increment, (int)MAX_INCREMENT);
-        if (m_increment != increment) {
-            m_increment = increment;
-            return true;
-        }
-        return false;
-    }
+    int increment() const;
+    bool setIncrement(int increment);
 
     /**
      * Clear all instance variables.
@@ -171,17 +131,9 @@ public:
     TimeControl &operator=(const TimeControl &other);
     bool operator==(const TimeControl &other) const;
 
-    void setPeriods(const std::vector<TimeControlPeriod> &periods) {
-        m_periods = periods;
-    }
-
-    std::vector<TimeControlPeriod> &periods() {
-        return m_periods;
-    }
-
-    const std::vector<TimeControlPeriod> &periods() const {
-        return m_periods;
-    }
+	std::vector<TimeControlPeriod> &periods();
+	const std::vector<TimeControlPeriod> &periods() const;
+    void setPeriods(const std::vector<TimeControlPeriod> &periods);
 
     /**
      * Clear all time control periods.
@@ -276,9 +228,7 @@ public:
      *
      * @return The number of moves made in the game.
      */
-    unsigned numMoves() const {
-        return m_numMoves;
-    }
+    unsigned numMoves() const;
 
     /**
      * Get the time left until the next time control.  This value will not change
@@ -286,9 +236,7 @@ public:
      *
      * @return The time left until the next time control, in milliseconds.
      */
-    unsigned timeLeft() const {
-        return m_timeLeft;
-    }
+    unsigned timeLeft() const;
 
     /**
      * Get the "running time left", which is the amount of time until the next time control,
@@ -303,18 +251,14 @@ public:
      *
      * @return The number of moves left until the next time control.
      */
-    int movesLeft() const {
-        return m_movesLeft;
-    }
+    int movesLeft() const;
 
     /**
      * Get the out-of-time flag, indicating the player has lost of time.
      *
      * @return The out-of-time flag.
      */
-    bool isOutOfTime() const {
-        return m_outOfTime;
-    }
+    bool isOutOfTime() const;
 
     /**
      * Get the time increment from the current time control period.

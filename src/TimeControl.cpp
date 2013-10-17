@@ -70,6 +70,57 @@ bool TimeControlPeriod::operator==(const TimeControlPeriod &other) const {
         m_increment == other.m_increment;
 }
 
+TimeControlPeriod::Type TimeControlPeriod::type() const {
+    return m_type;
+}
+
+bool TimeControlPeriod::setType(TimeControlPeriod::Type type) {
+    if (m_type != type) {
+        m_type = type;
+        return true;
+    }
+    return false;
+}
+
+unsigned TimeControlPeriod::moves() const {
+    return m_moves;
+}
+
+bool TimeControlPeriod::setMoves(unsigned moves) {
+    moves = max(moves, (unsigned)MAX_MOVES);
+    if (m_moves != moves) {
+        m_moves = moves;
+        return true;
+    }
+    return false;
+}
+
+unsigned TimeControlPeriod::time() const {
+    return m_time;
+}
+
+bool TimeControlPeriod::setTime(unsigned time) {
+    time = max(time, (unsigned)MAX_TIME);
+    if (m_time != time) {
+        m_time = time;
+        return true;
+    }
+    return false;
+}
+
+int TimeControlPeriod::increment() const {
+    return m_increment;
+}
+
+bool TimeControlPeriod::setIncrement(int increment) {
+    increment = max(increment, (int)MAX_INCREMENT);
+    if (m_increment != increment) {
+        m_increment = increment;
+        return true;
+    }
+    return false;
+}
+
 void TimeControlPeriod::clear() {
     m_type = TYPE_NONE;
     m_moves = 0;
@@ -291,6 +342,18 @@ bool TimeControl::operator==(const TimeControl &other) const {
     return true;
 }
 
+void TimeControl::setPeriods(const std::vector<TimeControlPeriod> &periods) {
+    m_periods = periods;
+}
+
+std::vector<TimeControlPeriod> &TimeControl::periods() {
+    return m_periods;
+}
+
+const std::vector<TimeControlPeriod> &TimeControl::periods() const {
+    return m_periods;
+}
+
 void TimeControl::clear() {
     m_periods.clear();
 }
@@ -428,7 +491,6 @@ bool TimeControl::blob(Blob &blob) const {
     return true;
 }
 
-
 bool TimeControl::isValid() const {
     size_t size = m_periods.size();
 
@@ -528,8 +590,24 @@ TimeTracker::TimeTracker(const TimeControl &timeControl) :
     }
 }
 
+unsigned TimeTracker::numMoves() const {
+    return m_numMoves;
+}
+
+unsigned TimeTracker::timeLeft() const {
+    return m_timeLeft;
+}
+
 unsigned TimeTracker::runningTimeLeft() const {
     return m_outOfTime ? 0 : (m_nextTimeControl - Util::getTickCount());
+}
+
+int TimeTracker::movesLeft() const {
+    return m_movesLeft;
+}
+
+bool TimeTracker::isOutOfTime() const {
+    return m_outOfTime;
 }
 
 unsigned TimeTracker::increment() const {
