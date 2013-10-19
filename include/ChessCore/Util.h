@@ -532,7 +532,25 @@ public:
      */
     static std::string getUniqueName(const std::string &filename);
 
+    /**
+     * Determine if the two filenames refer to the same file.
+     *
+     * @param filename1 The name of the first file.
+     * @param filename2 The name of the second file.
+     *
+     * @return true if the two filenames refer to the same file, else false.
+     */
+    static bool sameFile(const std::string &filename1, const std::string &filename2);
+
 #ifdef WINDOWS
+
+private:
+    // Helper
+    static bool win32GetFileInfo(const std::string &filename, BY_HANDLE_FILE_INFORMATION *fileInfo);
+
+
+public:
+
 	/**
 	 * Get a description of the Win32 error code.
 	 *

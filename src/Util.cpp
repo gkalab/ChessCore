@@ -940,33 +940,20 @@ string Util::getUniqueName(const string &filename) {
 #ifdef WINDOWS
     bool retval = false;
     BY_HANDLE_FILE_INFORMATION fileinfo;
-    HANDLE h = ::CreateFile(filename.c_str(), 0, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-    if (h != INVALID_HANDLE_VALUE) {
-        if (GetFileInformationByHandle(h, &fileinfo)) {
-            retval = true;
-        } else {
-            LOGERR << "Failed to get information for file '" << filename << "': " << win32ErrorText(GetLastError());
-        }
-        ::CloseHandle(h);
-    } else {
-        LOGERR << "Failed to open file '" << filename << "': " << win32ErrorText(GetLastError());
-        retval = false;
-    }
+    if (!win32GetFileInfo(filename, &fileInfo))
+        return "";
 
-    if (retval) {
-        return
-            HexFormat<DWORD>::fullFormat(fileinfo.dwVolumeSerialNumber) +
-            HexFormat<DWORD>::fullFormat(fileinfo.nFileIndexHigh) +
-            HexFormat<DWORD>::fullFormat(fileinfo.nFileIndexLow);
+    return
+        HexFormat<DWORD>::fullFormat(fileInfo.dwVolumeSerialNumber) +
+        HexFormat<DWORD>::fullFormat(fileInfo.nFileIndexHigh) +
+        HexFormat<DWORD>::fullFormat(fileInfo.nFileIndexLow);
     }
-    return "";
 
 #else // !WINDOWS
 
     struct stat statbuf;
     if (::stat(filename.c_str(), &statbuf) < 0) {
-        LOGERR << "Failed to stat file '" << filename << "': " <<
-            strerror(errno) << " (" << errno << ")";
+        LOGERR << "Failed to stat file '" << filename << "': " << strerror(errno) << " (" << errno << ")";
         return "";
     }
 
@@ -977,7 +964,60 @@ string Util::getUniqueName(const string &filename) {
 #endif // WINDOWS
 }
 
+bool Util::sameFile(const string &filename1, const string &filename2) {
+
+    // Quick win
+    if (filename1 == filename2)
+        return true;
+
 #ifdef WINDOWS
+    BY_HANDLE_FILE_INFORMATION fileInfo1, fileInfo2;
+    if (win32GetFileInfo(filename1, &fileInfo1) &&
+        win32GetFileInfo(filename2, &fileInfo2)) {
+        return
+            fileInfo1.dwVolumeSerialNumber == fileInfo2.dwVolumeSerialNumber &&
+            fileInfo1.nFileIndexHigh == fileInfo2.nFileIndexHigh &&
+            fileInfo1.nFileIndexLow == fileInfo2.nFileIndexLow;
+    }
+    return false;
+#else // !WINDOWS
+    struct stat statbuf1, statbuf2;
+    if (::stat(filename1.c_str(), &statbuf1) == 0) {
+        if (::stat(filename2.c_str(), &statbuf2) == 0) {
+            return
+                statbuf1.st_dev == statbuf2.st_dev &&
+                statbuf1.st_ino == statbuf2.st_ino;
+        } else {
+            LOGERR << "Failed to stat file '" << filename2 << "': " << strerror(errno) << " (" << errno << ")";
+        }
+    } else {
+        LOGERR << "Failed to stat file '" << filename1 << "': " << strerror(errno) << " (" << errno << ")";
+    }
+
+    return false;
+
+#endif // WINDOWS
+}
+
+#ifdef WINDOWS
+
+bool Util::win32GetFileInfo(const string &filename, BY_HANDLE_FILE_INFORMATION *fileInfo) {
+    bool retval = false;
+    HANDLE h = ::CreateFile(filename.c_str(), 0, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    if (h != INVALID_HANDLE_VALUE) {
+        if (GetFileInformationByHandle(h, fileInfo)) {
+            retval = true;
+        } else {
+            LOGERR << "Failed to get information for file '" << filename << "': " << win32ErrorText(GetLastError());
+        }
+        ::CloseHandle(h);
+    } else {
+        LOGERR << "Failed to open file '" << filename << "': " << win32ErrorText(GetLastError());
+        retval = false;
+    }
+    return retval;
+}
+
 string Util::win32ErrorText(DWORD errorCode) {
     string message;
     LPSTR errorText = 0;
