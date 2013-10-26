@@ -15,6 +15,7 @@
 #include <ChessCore/AppleUtil.h>
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#include <execinfo.h>
 #endif // MACOSX
 
 #if defined(WINDOWS) && defined(_DEBUG)
@@ -24,8 +25,6 @@
 using namespace std;
 
 namespace ChessCore {
-
-//static const char *m_classname = "";
 
 static bool beingDebugged();
 
@@ -200,5 +199,72 @@ static bool beingDebugged() {
 #endif // MACOSX
 }
 
+//
+// ChessCoreException
+//
+
+#ifdef MACOSX
+
+const char *ChessCoreException::m_classname = "ChessCoreException";
+
+void ChessCoreException::logStackTrace() {
+    const size_t maxFrames = 128;
+    void *frames[maxFrames];
+    unsigned numFrames = backtrace(frames, maxFrames);
+    char **frameStrings = backtrace_symbols(frames, numFrames);
+
+    logerr("ChessCoreException: %s", m_reason.c_str());
+
+    if (frameStrings) {
+        for (unsigned i = 0; i < numFrames && frameStrings[i] ; i++)
+            Log::logbare((char *)frameStrings[i]);
+
+        free(frameStrings);
+    } else {
+        logerr("No frames to dump");
+    }
+}
+
+#endif // MACOSX
+
+ChessCoreException::ChessCoreException() :
+    m_reason("Unspecified exception")
+{
+#ifdef MACOSX
+    logStackTrace();
+#endif
+}
+
+ChessCoreException::ChessCoreException(const char *reason, ...) :
+    m_reason(reason)
+{
+    char buffer[4096];
+    va_list va;
+
+    va_start(va, reason);
+    vsprintf(buffer, reason, va);
+    va_end(va);
+    m_reason = buffer;
+
+#ifdef MACOSX
+    logStackTrace();
+#endif
+}
+
+ChessCoreException::ChessCoreException(const std::string &reason) :
+    m_reason(reason)
+{
+#ifdef MACOSX
+    logStackTrace();
+#endif
+}
+
+ChessCoreException::~ChessCoreException() throw() {
+    m_reason.clear();
+}
+
+const char *ChessCoreException::what() const throw() {
+    return m_reason.c_str();
+}
 
 }   // namespace ChessCore

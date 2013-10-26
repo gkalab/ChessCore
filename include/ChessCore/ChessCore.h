@@ -214,43 +214,6 @@ typedef SSIZE_T ssize_t;
 #include <exception>
 
 namespace ChessCore {
-//
-// Exceptions
-//
-class CHESSCORE_EXPORT ChessCoreException : public std::exception {
-protected:
-    std::string m_reason;
-
-public:
-    ChessCoreException() :
-        m_reason("Unspecified exception")
-    {
-    }
-
-    ChessCoreException(const char *reason, ...) :
-		m_reason(reason) {
-
-        char buffer[4096];
-        va_list va;
-
-        va_start(va, reason);
-        vsprintf(buffer, reason, va);
-        va_end(va);
-        m_reason = buffer;
-    }
-
-    ChessCoreException(const std::string &reason) :
-        m_reason(reason) {
-    }
-
-    virtual ~ChessCoreException() throw() {
-        m_reason.clear();
-    }
-
-    const char *what() const throw() {
-        return m_reason.c_str();
-    }
-};
 
 extern CHESSCORE_EXPORT const std::string g_platform;
 extern CHESSCORE_EXPORT const std::string g_buildType;
@@ -275,6 +238,28 @@ extern CHESSCORE_EXPORT bool init();
 // Clean-up data structures.
 //
 extern CHESSCORE_EXPORT void fini();
+
+//
+// ChessCoreException
+//
+class CHESSCORE_EXPORT ChessCoreException : public std::exception {
+protected:
+    std::string m_reason;
+
+private:
+#ifdef MACOSX
+    static const char *m_classname;
+    void logStackTrace();
+#endif
+
+public:
+    ChessCoreException();
+    ChessCoreException(const char *reason, ...);
+    ChessCoreException(const std::string &reason);
+    virtual ~ChessCoreException() throw();
+
+    const char *what() const throw();
+};
 
 #ifndef __OBJC__        // Objective-C uses a different implementation of ASSERT()
 #if defined(_DEBUG)
