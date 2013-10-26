@@ -1054,4 +1054,19 @@ bool Util::win32DuplicateHandle(HANDLE in, HANDLE &out) {
 
 #endif // WINDOWS
 
+void Util::testingThrowChessCoreException() {
+    throw ChessCoreException("This is only a test");
+}
+
+void Util::testingThrowCppException() {
+    throw runtime_error("This is only a test");
+}
+
+void Util::testingDerefNullPointer() {
+    int a = 12;
+    int *p = &a;
+    p = 0;
+    *p = 34;
+}
+
 }   // namespace ChessCore

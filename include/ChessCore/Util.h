@@ -548,7 +548,6 @@ private:
     // Helper
     static bool win32GetFileInfo(const std::string &filename, BY_HANDLE_FILE_INFORMATION *fileInfo);
 
-
 public:
 
 	/**
@@ -587,6 +586,21 @@ public:
     static inline uint64_t magicQueenAttacks(uint8_t offset, uint64_t occupy) {
         return magicBishopAttacks(offset, occupy) | magicRookAttacks(offset, occupy);
     }
+
+    /**
+     * Exception handling testing.  Throw a ChessCoreException
+     */
+    static void testingThrowChessCoreException();
+
+    /**
+     * Exception handling testing.  Throw a generic C++ exception.
+     */
+    static void testingThrowCppException();
+
+    /**
+     * Exception handling testing. Dereference a null pointer.
+     */
+    static void testingDerefNullPointer();
 };
 
 #ifdef LITTLE_ENDIAN
