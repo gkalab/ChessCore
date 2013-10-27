@@ -245,8 +245,8 @@ void Log::logStacktrace(const char *message /*=0*/) {
         logbare(message);
 
     if (frameStrings) {
-        for (unsigned i = 1; i < numFrames && frameStrings[i] ; i++) {
-            logbare((char *)frameStrings[i]);
+        for (unsigned i = 1; i < numFrames && frameStrings[i]; i++) {
+            logbare(frameStrings[i]);
         }
         free(frameStrings);
     }
