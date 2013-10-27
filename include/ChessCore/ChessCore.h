@@ -246,12 +246,6 @@ class CHESSCORE_EXPORT ChessCoreException : public std::exception {
 protected:
     std::string m_reason;
 
-private:
-#ifdef MACOSX
-    static const char *m_classname;
-    void logStackTrace();
-#endif
-
 public:
     ChessCoreException();
     ChessCoreException(const char *reason, ...);

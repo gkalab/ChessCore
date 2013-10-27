@@ -234,20 +234,24 @@ bool Log::snapshot(Blob &contents) {
     return (numRead == size);
 }
 
-#ifndef WINDOWS
-void Log::dumpStack(void **frames, unsigned numFrames) {
+void Log::logStacktrace(const char *message /*=0*/) {
+#ifdef MACOSX
+    const size_t maxFrames = 128;
+    void *frames[maxFrames];
+    unsigned numFrames = backtrace(frames, maxFrames);
     char **frameStrings = backtrace_symbols(frames, numFrames);
 
-    if (frameStrings ) {
-        for (unsigned i = 0; i < numFrames && frameStrings[i] ; i++)
-            logbare((const char *)frameStrings[i]);
+    if (message)
+        logbare(message);
 
+    if (frameStrings) {
+        for (unsigned i = 1; i < numFrames && frameStrings[i] ; i++) {
+            logbare((char *)frameStrings[i]);
+        }
         free(frameStrings);
-    } else {
-        Log::logbare("No frames to dump");
     }
+#endif // MACOSX
 }
-#endif // !WINDOWS
 
 // ==========================================================================
 // class StreamLog

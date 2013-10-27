@@ -344,10 +344,7 @@ static void signalHandler(int sig) {
     if (sig == SIGSEGV || sig == SIGBUS || sig == SIGILL || sig == SIGFPE) {
         // This is a bad...
         LOGERR << "Terminating on signal " << sig;
-        const size_t maxFrames = 128;
-        void *frames[maxFrames];
-        unsigned numFrames = backtrace(frames, maxFrames);
-        Log::dumpStack(frames, numFrames);
+        Log::logStacktrace(0);
         _exit(101);
     }
 

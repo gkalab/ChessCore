@@ -203,36 +203,10 @@ static bool beingDebugged() {
 // ChessCoreException
 //
 
-#ifdef MACOSX
-
-const char *ChessCoreException::m_classname = "ChessCoreException";
-
-void ChessCoreException::logStackTrace() {
-    const size_t maxFrames = 128;
-    void *frames[maxFrames];
-    unsigned numFrames = backtrace(frames, maxFrames);
-    char **frameStrings = backtrace_symbols(frames, numFrames);
-
-    logerr("ChessCoreException: %s", m_reason.c_str());
-
-    if (frameStrings) {
-        for (unsigned i = 0; i < numFrames && frameStrings[i] ; i++)
-            Log::logbare((char *)frameStrings[i]);
-
-        free(frameStrings);
-    } else {
-        logerr("No frames to dump");
-    }
-}
-
-#endif // MACOSX
-
 ChessCoreException::ChessCoreException() :
-    m_reason("Unspecified exception")
+    m_reason("")
 {
-#ifdef MACOSX
-    logStackTrace();
-#endif
+    Log::logStacktrace(m_reason.c_str());
 }
 
 ChessCoreException::ChessCoreException(const char *reason, ...) :
@@ -246,17 +220,13 @@ ChessCoreException::ChessCoreException(const char *reason, ...) :
     va_end(va);
     m_reason = buffer;
 
-#ifdef MACOSX
-    logStackTrace();
-#endif
+    Log::logStacktrace(m_reason.c_str());
 }
 
 ChessCoreException::ChessCoreException(const std::string &reason) :
     m_reason(reason)
 {
-#ifdef MACOSX
-    logStackTrace();
-#endif
+    Log::logStacktrace(m_reason.c_str());
 }
 
 ChessCoreException::~ChessCoreException() throw() {
