@@ -48,17 +48,9 @@ protected:
     uint32_t m_to     : 6;
 
 public:
-    Move() {
-        init();
-    }
+    Move() = default;
 
-    inline Move(const Move &other) :
-		m_flags(other.m_flags),
-		m_prom(other.m_prom),
-		m_piece(other.m_piece),
-		m_from(other.m_from), m_to(other.m_to)
-	{
-    }
+    Move(const Move &other) = default;
 
     inline Move(const Move *other) :
 		m_flags(other->m_flags),
