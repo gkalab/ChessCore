@@ -20,33 +20,76 @@ namespace ChessCore {
 
 const char *AnnotMove::m_classname = "AnnotMove";
 
-AnnotMove::AnnotMove():Move(), m_prev(0), m_next(0), m_mainline(0), m_variation(0), m_priorPosition(0), m_posHash(0ULL),
-    m_preAnnot(), m_postAnnot() {
+AnnotMove::AnnotMove() :
+    Move(),
+    m_prev(0),
+    m_next(0),
+    m_mainline(0),
+    m_variation(0),
+    m_priorPosition(0),
+    m_posHash(0ULL),
+    m_preAnnot(),
+    m_postAnnot()
+{
     clearNags();
 }
 
-AnnotMove::AnnotMove(const Move &other):Move(other), m_prev(0), m_next(0), m_mainline(0), m_variation(0),
-    m_priorPosition(0), m_posHash(0ULL), m_preAnnot(), m_postAnnot() {
+AnnotMove::AnnotMove(const Move &other) :
+    Move(other),
+    m_prev(0),
+    m_next(0),
+    m_mainline(0),
+    m_variation(0),
+    m_priorPosition(0),
+    m_posHash(0ULL),
+    m_preAnnot(),
+    m_postAnnot()
+{
     clearNags();
 }
 
-AnnotMove::AnnotMove(const Move &other, uint64_t posHash):Move(other), m_prev(0), m_next(0), m_mainline(0), m_variation(
-        0), m_priorPosition(0), m_posHash(posHash), m_preAnnot(), m_postAnnot() {
+AnnotMove::AnnotMove(const Move &other, uint64_t posHash) :
+    Move(other),
+    m_prev(0),
+    m_next(0),
+    m_mainline(0),
+    m_variation(0),
+    m_priorPosition(0),
+    m_posHash(posHash),
+    m_preAnnot(),
+    m_postAnnot()
+{
     clearNags();
 }
 
-AnnotMove::AnnotMove(const AnnotMove &other):Move(other.move()), m_prev(0), m_next(0), m_mainline(0), m_variation(0),
-    m_priorPosition(0), m_posHash(other.m_posHash), m_preAnnot(other.m_preAnnot), m_postAnnot(other.m_postAnnot) {
-    memcpy(m_nags, other.m_nags, STORED_NAGS);
-
+AnnotMove::AnnotMove(const AnnotMove &other) :
+    Move(other.move()),
+    m_prev(0),
+    m_next(0),
+    m_mainline(0),
+    m_variation(0),
+    m_priorPosition(0),
+    m_posHash(other.m_posHash),
+    m_preAnnot(other.m_preAnnot),
+    m_postAnnot(other.m_postAnnot)
+{
+    memcpy(m_nags, other.m_nags, sizeof(m_nags));
     if (other.m_priorPosition)
         setPriorPosition(*other.m_priorPosition);
 }
 
-AnnotMove::AnnotMove(const AnnotMove *other):Move(other->move()), m_prev(0), m_next(0), m_mainline(0), m_variation(0),
-    m_priorPosition(0), m_posHash(other->m_posHash), m_preAnnot(other->m_preAnnot), m_postAnnot(other->m_postAnnot) {
-    memcpy(m_nags, other->m_nags, STORED_NAGS);
-
+AnnotMove::AnnotMove(const AnnotMove *other) :
+    Move(other->move()),
+    m_prev(0),
+    m_next(0),
+    m_mainline(0),
+    m_variation(0),
+    m_priorPosition(0),
+    m_posHash(other->m_posHash),
+    m_preAnnot(other->m_preAnnot),
+    m_postAnnot(other->m_postAnnot)
+{
+    memcpy(m_nags, other->m_nags, sizeof(m_nags));
     if (other->m_priorPosition)
         setPriorPosition(*other->m_priorPosition);
 }
@@ -338,7 +381,7 @@ void AnnotMove::removeAnnotations(SavedAnnotations *savedAnnotations /*=0*/) {
         savedAnnotations->move = this;
         savedAnnotations->preAnnot = m_preAnnot;
         savedAnnotations->postAnnot = m_postAnnot;
-        memcpy(savedAnnotations->nags, m_nags, STORED_NAGS);
+        memcpy(savedAnnotations->nags, m_nags, sizeof(m_nags));
     }
 
     m_preAnnot.clear();
@@ -366,7 +409,7 @@ void AnnotMove::removeLineAnnotations(vector<SavedAnnotations> *removed /*=0*/) 
 }
 
 void AnnotMove::clearNags() {
-    memset(m_nags, NAG_NONE, STORED_NAGS);
+    memset(m_nags, NAG_NONE, sizeof(m_nags));
 }
 
 unsigned AnnotMove::nags(Nag nags[STORED_NAGS]) const {
@@ -396,12 +439,12 @@ unsigned AnnotMove::setNags(const Nag *nags) {
 
 bool AnnotMove::addNag(Nag nag) {
     if (nag != NAG_NONE && !hasNag(nag)) {
-        for (unsigned i = 0; i < STORED_NAGS; i++)
+        for (unsigned i = 0; i < STORED_NAGS; i++) {
             if (m_nags[i] == NAG_NONE) {
                 m_nags[i] = nag;
                 return true;
             }
-
+        }
     }
 
     return false;
@@ -411,17 +454,14 @@ bool AnnotMove::hasNag(Nag nag) const {
     for (unsigned i = 0; i < STORED_NAGS; i++)
         if (m_nags[i] == (uint8_t)nag)
             return true;
-
     return false;
 }
 
 unsigned AnnotMove::nagCount() const {
     unsigned count = 0;
-
     for (unsigned i = 0; i < STORED_NAGS; i++)
         if (m_nags[i] != NAG_NONE)
             count++;
-
     return count;
 }
 
@@ -429,85 +469,69 @@ void AnnotMove::saveAnnotations(SavedAnnotations &savedAnnotations) const {
     savedAnnotations.move = const_cast<AnnotMove *> (this);
     savedAnnotations.preAnnot = m_preAnnot;
     savedAnnotations.postAnnot = m_postAnnot;
-    memcpy(savedAnnotations.nags, m_nags, STORED_NAGS);
+    memcpy(savedAnnotations.nags, m_nags, sizeof(m_nags));
 }
 
 void AnnotMove::restoreAnnotations(const SavedAnnotations &savedAnnotations) {
     //ASSERT(savedAnnotations.move == this);
     m_preAnnot = savedAnnotations.preAnnot;
     m_postAnnot = savedAnnotations.postAnnot;
-    memcpy(m_nags, savedAnnotations.nags, STORED_NAGS);
+    memcpy(m_nags, savedAnnotations.nags, sizeof(m_nags));
 }
 
 AnnotMove *AnnotMove::firstMove() {
     AnnotMove *m = this;
-
     while (m->m_prev)
         m = m->m_prev;
-
     return m;
 }
 
 const AnnotMove *AnnotMove::firstMove() const {
     const AnnotMove *m = this;
-
     while (m->m_prev)
         m = m->m_prev;
-
     return m;
 }
 
 AnnotMove *AnnotMove::lastMove() {
     AnnotMove *m = this;
-
     while (m->m_next)
         m = m->m_next;
-
     return m;
 }
 
 const AnnotMove *AnnotMove::lastMove() const {
     const AnnotMove *m = this;
-
     while (m->m_next)
         m = m->m_next;
-
     return m;
 }
 
 AnnotMove *AnnotMove::previousVariation() {
     AnnotMove *m = firstMove();
-
     if (m->m_mainline)
         return m->m_mainline;
-
     return 0;
 }
 
 const AnnotMove *AnnotMove::previousVariation() const {
     const AnnotMove *m = firstMove();
-
     if (m->m_mainline)
         return m->m_mainline;
-
     return 0;
 }
 
 AnnotMove *AnnotMove::nextVariation() {
     AnnotMove *m = firstMove();
-
     if (m->m_variation)
         return m->m_variation;
-
     return 0;
 }
 
 const AnnotMove *AnnotMove::nextVariation() const {
     const AnnotMove *m = firstMove();
-
     if (m->m_variation)
         return m->m_variation;
-
     return 0;
 }
 
@@ -531,11 +555,9 @@ unsigned AnnotMove::variationLevel() const {
 
 bool AnnotMove::lineHasVariations() const {
     const AnnotMove *m = this;
-
     while (m) {
         if (m->m_variation)
             return true;
-
         m = m->m_next;
     }
 
@@ -544,7 +566,6 @@ bool AnnotMove::lineHasVariations() const {
 
 bool AnnotMove::isDescendant(const AnnotMove *amove) const {
     const AnnotMove *m = amove;
-
     while (m) {
         if (m == this)
             return true;
@@ -560,11 +581,9 @@ bool AnnotMove::isDescendant(const AnnotMove *amove) const {
 
 bool AnnotMove::isDirectVariation(const AnnotMove *amove) const {
     const AnnotMove *m = amove;
-
     while (m) {
         if (m == this)
             return true;
-
         m = m->m_mainline;
     }
 
@@ -573,7 +592,6 @@ bool AnnotMove::isDirectVariation(const AnnotMove *amove) const {
 
 unsigned AnnotMove::count(const AnnotMove *amove) {
     unsigned count = 0;
-
     while (amove) {
         count++;
         amove = amove->m_next;
@@ -669,7 +687,7 @@ bool AnnotMove::writeToDotFile(const AnnotMove *line, ostream &os) {
     }
 
     // And then adding the variations afterwards
-    for (m = line; m; m = m->m_next)
+    for (m = line; m; m = m->m_next) {
         if (m->m_variation) {
             if (!writeToDotFile(m->m_variation, os))
                 return false;
@@ -678,6 +696,7 @@ bool AnnotMove::writeToDotFile(const AnnotMove *line, ostream &os) {
 
             os << "  N" << m << " -> N" << m->m_variation << " [style=" << style << ", color=blue];" << endl;
         }
+    }
 
     return true;
 }
@@ -692,23 +711,13 @@ string AnnotMove::dumpLine() const {
         ss << amove->dump(false);
 
         if (amove->variation()) {
-            if (amove->variation()) {
-#ifdef EMBEDDED_VARIATIONS
-                if (m_embeddedVariations) {
+            if (amove->mainline() == 0) {
+                // Top of variation tree
+                for (const AnnotMove *m = amove->variation(); m; m = m->variation()) {
                     ss << " (";
-                    ss << amove->variation()->dumpLine();
+                    ss << m->dumpLine();
                     ss << ")";
-                } else
-#endif // EMBEDDED_VARIATIONS
-
-                if (amove->mainline() == 0)
-                    // Top of variation tree
-                    for (const AnnotMove *m = amove->variation(); m; m = m->variation()) {
-                        ss << " (";
-                        ss << m->dumpLine();
-                        ss << ")";
-                    }
-
+                }
             }
         }
     }

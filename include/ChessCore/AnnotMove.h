@@ -94,7 +94,7 @@ protected:
     uint64_t m_posHash;             // Zobrist hash of position *after* move was made
     std::string m_preAnnot;         // Annotation before move
     std::string m_postAnnot;        // Annotation after move
-    Nag m_nags[STORED_NAGS];        // Number Annotation Glyphs
+    Nag m_nags[STORED_NAGS];        // Numberic Annotation Glyphs
 
 public:
     AnnotMove();
