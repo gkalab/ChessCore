@@ -15,6 +15,22 @@
 #include <sstream>
 #include <memory>
 
+#ifdef _DEBUG
+#define CHECK_PIECE(col, pce, sq, sqBit) \
+    ASSERT(m_pieces[col][pce] & sqBit); \
+    ASSERT(m_pieces[col][ALLPIECES] & sqBit); \
+    ASSERT(m_board[sq] == toPieceColour(pce, col))
+
+#define CHECK_EMPTY(col, pce, sq, sqBit) \
+    ASSERT((m_pieces[col][pce] & sqBit) == 0ULL); \
+    ASSERT((m_pieces[col][ALLPIECES] & sqBit) == 0ULL); \
+    ASSERT(m_board[sq] == EMPTY)
+
+#else // !_DEBUG
+#define CHECK_PIECE(col, pce, sq, sqBit) /* empty */
+#define CHECK_EMPTY(col, pce, sq, sqBit) /* empty */
+#endif // _DEBUG
+
 using namespace std;
 
 namespace ChessCore {
@@ -57,22 +73,6 @@ void Position::initStarting() {
 
     m_startingInit = true;
 }
-
-#ifdef _DEBUG
-#define CHECK_PIECE(col, pce, sq, sqBit) \
-    ASSERT(m_pieces[col][pce] & sqBit); \
-    ASSERT(m_pieces[col][ALLPIECES] & sqBit); \
-    ASSERT(m_board[sq] == toPieceColour(pce, col))
-
-#define CHECK_EMPTY(col, pce, sq, sqBit) \
-    ASSERT((m_pieces[col][pce] & sqBit) == 0ULL); \
-    ASSERT((m_pieces[col][ALLPIECES] & sqBit) == 0ULL); \
-    ASSERT(m_board[sq] == EMPTY)
-
-#else // !_DEBUG
-#define CHECK_PIECE(col, pce, sq, sqBit) /* empty */
-#define CHECK_EMPTY(col, pce, sq, sqBit) /* empty */
-#endif // _DEBUG
 
 //
 // Initialisation
@@ -155,10 +155,6 @@ void Position::setStarting() {
         initStarting();
 
     set(m_starting);
-    m_ply = 0;
-    m_ep = 0;
-    m_hmclock = 0;
-    m_lastMove.setNull();
 }
 
 bool Position::isStarting() const {

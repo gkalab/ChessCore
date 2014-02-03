@@ -12,7 +12,7 @@ using namespace ChessCore;
 //
 // From: http://chessprogramming.wikispaces.com/Perft+Results
 //
-static string epd1 =
+static const string epd1 =
     "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - d1 20; d2 400; d3 8902; d4 197281; d5 4865609\n"
     "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - d1 48; d2 2039; d3 97862; d4 4085603; d5 193690690\n"
     "8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - d1 14; d2 191; d3 2812; d4 43238; d5 674624\n"
