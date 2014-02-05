@@ -248,5 +248,22 @@ private:
 #define LOGWRN ChessCore::StreamLog().get(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_WARNING)
 #define LOGERR ChessCore::StreamLog().get(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_ERROR)
 
-#endif // __OBJC__
+#ifdef TESTING
+#define tlogdbg(fmt, ...) ChessCore::Log::log(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_DEBUG, \
+ChessCore::Log::LANG_CPP, fmt, ## __VA_ARGS__)
+#define tloginf(fmt, ...) ChessCore::Log::log(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_INFO, \
+ChessCore::Log::LANG_CPP, fmt, ## __VA_ARGS__)
+#define tlogwrn(fmt, ...) ChessCore::Log::log(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_WARNING, \
+ChessCore::Log::LANG_CPP, fmt, ## __VA_ARGS__)
+#define tlogerr(fmt, ...) ChessCore::Log::log(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_ERROR, \
+ChessCore::Log::LANG_CPP, fmt, ## __VA_ARGS__)
+
+#else // !TESTING
+#define tlogdbg(fmt, ...) /* nothing */
+#define tloginf(fmt, ...) /* nothing */
+#define tlogwrn(fmt, ...) /* nothing */
+#define tlogerr(fmt, ...) /* nothing */
+#endif // TESTING
+
+#endif // !__OBJC__
 } // namespace ChessCore

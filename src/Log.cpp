@@ -117,10 +117,12 @@ void Log::close() {
 
 void Log::setAllowDebug(bool allow) {
     m_debugAllowed = allow;
+#ifdef USE_ASL_LOGGING
     if (m_aslClient) {
         asl_set_filter(m_aslClient,
             allow ? ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG) : ASL_FILTER_MASK_UPTO(ASL_LEVEL_INFO));
     }
+#endif // USE_ASL_LOGGING
 }
 
 void Log::log(const char *classname, const char *methodname, Level level, Language language, const char *message, ...) {
