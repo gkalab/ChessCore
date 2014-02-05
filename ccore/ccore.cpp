@@ -174,15 +174,18 @@ int main(int argc, const char **argv) {
         Game::setRelaxedMode(g_optRelaxed);
 
         // Always use a log file
+#ifdef USE_ASL_LOGGING
+        Log::open("ccore", "com.trojanfoe.ccore");
+        Log::setAllowDebug(g_optDebugLog);
+#else // !USE_ASL_LOGGING
         if (g_optLogFile.empty())
             g_optLogFile = g_tempDir + PATHSEP + "ccore.log";
-
         Log::open(g_optLogFile, false);
         Log::setAllowDebug(g_optDebugLog);
-
         if (!g_optQuiet && Log::isOpen()) {
             cout << "Using log file '" << Log::filename() << "'" << endl;
         }
+#endif // USE_ASL_LOGGING
 
         LOGDBG << g_platform << " " << g_buildType << " " << g_cpu <<
             ". Compiled " << g_buildTime << " using " << g_compiler;

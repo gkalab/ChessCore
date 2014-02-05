@@ -128,15 +128,23 @@ clang)    # Assumes Apple LLVM 5.0 (-Ofast and -flto)
         CXX=clang++
     fi
     AR=ar
-    CFLAGS="$CFLAGS -mmacosx-version-min=10.7 -Wall -Wno-unused-variable -fvisibility=hidden"
+    CFLAGS="$CFLAGS -Wall -Wno-unused-variable -fvisibility=hidden"
     CXXFLAGS="$CXXFLAGS $cxxstd $cxxstdlib -mmacosx-version-min=10.7 -Wall -Wno-unused-variable -fvisibility=hidden"
-    LDFLAGS="$LDFLAGS -mmacosx-version-min=10.7 $rpath $cxxstdlib"
+    LDFLAGS="$LDFLAGS $rpath $cxxstdlib"
+
     if [ ! -z "$size" ]; then
         CFLAGS="$CFLAGS -m$size"
         CXXFLAGS="$CXXFLAGS -m$size"
         ASFLAGS="$ASFLAGS -m$size"
         LDFLAGS="$LDFLAGS -m$size"
     fi
+
+    if [ $platform = Darwin ]; then
+        CFLAGS="$CFLAGS -mmacosx-version-min=10.7"
+        CXXFLAGS="$CXXFLAGS -mmacosx-version-min=10.7"
+        LDFLAGS="$LDFLAGS -mmacosx-version-min=10.7"
+    fi
+
     RELEASE_CFLAGS="-Ofast -flto"
     RELEASE_CXXFLAGS="$RELEASE_CFLAGS"
     RELEASE_ASFLAGS=""

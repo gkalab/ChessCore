@@ -10,6 +10,10 @@
 #include <ChessCore/Mutex.h>
 #include <sstream>
 
+#ifdef USE_ASL_LOGGING
+#include <asl.h>
+#endif // USE_ASL_LOGGING
+
 namespace ChessCore {
 
 class Blob;
@@ -35,15 +39,32 @@ public:
     };
 
 protected:
-    static std::string m_filename;
     static Mutex m_mutex;
-    static FILE *m_fp;
     static bool m_debugAllowed;
+
+#ifdef USE_ASL_LOGGING
+    static aslclient m_aslClient;
+#else // !USE_ASL_LOGGING
+    static std::string m_filename;
+    static FILE *m_fp;
     static bool m_messingWithLog;
     static unsigned m_numOldFiles;
     static const char *m_levelsText[LEVEL_ERROR + 1];
+#endif // USE_ASL_LOGGING
 
 public:
+#ifdef USE_ASL_LOGGING
+    /**
+     * Open a connection to the ASL logging facility.
+     *
+     * @param ident The identity used during logging.
+     * @param facility The facility used during logging.
+     *
+     * @return true if the connection was opened successfully, else false.
+     */
+    static bool open(const std::string &ident, const std::string &facility);
+
+#else // !USE_ASL_LOGGING
     /**
      * Open the specified log file.
      *
@@ -55,6 +76,7 @@ public:
      * @return true if the log file opened successfully, else false.
      */
     static bool open(const std::string &filename, bool append);
+#endif // USE_ASL_LOGGING
 
     /**
      * Determine if the log file is open.
@@ -62,15 +84,21 @@ public:
      * @return true if the log file is open, else false.
      */
     static inline bool isOpen() {
+#ifdef USE_ASL_LOGGING
+        return m_aslClient != NULL;
+#else // !USE_ASL_LOGGING
         return m_fp != NULL;
+#endif // USE_ASL_LOGGING
     }
 
+#ifndef USE_ASL_LOGGING
     static const std::string &filename() {
         return m_filename;
     }
+#endif // !USE_ASL_LOGGING
 
     /**
-     * Close the log file.
+     * Close the ASL connection/log file.
      */
     static void close();
 
@@ -91,6 +119,7 @@ public:
         m_debugAllowed = allow;
     }
 
+#ifndef USE_ASL_LOGGING
     /**
      * @return The number of 'old files' that are saved when a new log file is opened.
      */
@@ -107,6 +136,7 @@ public:
     static inline void setNumOldFiles(unsigned numOldFiles) {
         m_numOldFiles = numOldFiles;
     }
+#endif // !USE_ASL_LOGGING
 
     /**
      * Log a message to the logfile.  If the logfile is closed or if the message
@@ -144,6 +174,7 @@ public:
      */
     static void logbare(const char *message);
 
+#ifndef USE_ASL_LOGGING
     /**
      * Get a "snapshot" of the current log file contents.
      *
@@ -152,6 +183,7 @@ public:
      * @return true if the log file contents was retrieved successfully, else false.
      */
     static bool snapshot(Blob &contents);
+#endif // USE_ASL_LOGGING
 
     /**
      * Log a stack trace.
@@ -218,21 +250,5 @@ private:
 #define LOGWRN ChessCore::StreamLog().get(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_WARNING)
 #define LOGERR ChessCore::StreamLog().get(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_ERROR)
 
-#ifdef TESTING
-#define tlogdbg(fmt, ...) ChessCore::Log::log(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_DEBUG, \
-                                              ChessCore::Log::LANG_CPP, fmt, ## __VA_ARGS__)
-#define tloginf(fmt, ...) ChessCore::Log::log(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_INFO, \
-                                              ChessCore::Log::LANG_CPP, fmt, ## __VA_ARGS__)
-#define tlogwrn(fmt, ...) ChessCore::Log::log(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_WARNING, \
-                                              ChessCore::Log::LANG_CPP, fmt, ## __VA_ARGS__)
-#define tlogerr(fmt, ...) ChessCore::Log::log(m_classname, __FUNCTION__, ChessCore::Log::LEVEL_ERROR, \
-                                              ChessCore::Log::LANG_CPP, fmt, ## __VA_ARGS__)
-
-#else // !TESTING
-#define tlogdbg(fmt, ...) /* nothing */
-#define tloginf(fmt, ...) /* nothing */
-#define tlogwrn(fmt, ...) /* nothing */
-#define tlogerr(fmt, ...) /* nothing */
-#endif // TESTING
 #endif // __OBJC__
 } // namespace ChessCore

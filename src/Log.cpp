@@ -25,10 +25,14 @@ namespace ChessCore {
 // ==========================================================================
 
 const char *Log::m_classname = "Log";
-string Log::m_filename = "stderr";
 Mutex Log::m_mutex;
-FILE *Log::m_fp = stderr;
 bool Log::m_debugAllowed = DEBUG_TRUE;
+
+#ifdef USE_ASL_LOGGING
+aslclient Log::m_aslClient = NULL;
+#else // !USE_ASL_LOGGING
+string Log::m_filename = "stderr";
+FILE *Log::m_fp = stderr;
 bool Log::m_messingWithLog = false;
 unsigned Log::m_numOldFiles = 3;
 const char *Log::m_levelsText[MAX_LEVEL] = {
@@ -38,6 +42,24 @@ const char *Log::m_levelsText[MAX_LEVEL] = {
     "WRN ",
     "ERR "
 };
+#endif // USE_ASL_LOGGING
+
+#ifdef USE_ASL_LOGGING
+
+bool Log::open(const std::string &ident, const std::string &facility) {
+    close();
+    m_aslClient = asl_open(ident.c_str(), facility.c_str(), g_beingDebugged ? ASL_OPT_STDERR : 0);
+    return m_aslClient != NULL;
+}
+
+void Log::close() {
+    if (m_aslClient != NULL) {
+        asl_close(m_aslClient);
+        m_aslClient = NULL;
+    }
+}
+
+#else // !USE_ASL_LOGGING
 
 bool Log::open(const string &filename, bool append) {
     close();
@@ -76,7 +98,7 @@ bool Log::open(const string &filename, bool append) {
 }
 
 void Log::close() {
-    if (m_fp  && m_fp != stderr) {
+    if (m_fp && m_fp != stderr) {
         loginf("<<<< closed");
         fclose(m_fp);
     }
@@ -84,6 +106,8 @@ void Log::close() {
     m_filename.clear();
     m_fp = NULL;
 }
+
+#endif // USE_ASL_LOGGING
 
 void Log::log(const char *classname, const char *methodname, Level level, Language language, const char *message, ...) {
     if (!isOpen() || (level == LEVEL_DEBUG && !m_debugAllowed))
@@ -98,22 +122,84 @@ void Log::log(const char *classname, const char *methodname, Level level, Langua
     return log0(classname, methodname, level, language, buffer);
 }
 
-inline char *append(char *buffer, const char *str) {
+#ifndef USE_ASL_LOGGING
+static char *append(char *buffer, const char *str) {
     size_t len = strlen(str);
-
     strncpy(buffer, str, len);
     return buffer + len;
 }
+#endif
+
+static std::string makeClassMethod(const char *classname, const char *methodname, Log::Language language) {
+    std::ostringstream oss;
+
+#ifndef WINDOWS    // Under Visual C++ __FUNCTION__ expands to namespace::class::function
+    if (classname && *classname)
+        oss << classname;
+#endif // !WINDOWS
+
+    if (methodname && *methodname) {
+#ifndef WINDOWS
+        if (language == Log::LANG_CPP)
+            oss << "::";
+        else if (language == Log::LANG_OBJC) {
+            if (classname && *classname)
+                oss << "  ";
+        } else {
+            oss << ".";
+        }
+#endif // !WINDOWS
+        oss << methodname;
+    }
+
+    if (language == Log::LANG_OBJC)
+        oss << " ";
+    else
+        oss << ": ";
+
+    return oss.str();
+}
 
 void Log::log0(const char *classname, const char *methodname, Level level, Language language, const char *message) {
+
+#ifdef USE_ASL_LOGGING
+
+    if (!isOpen() || (level == LEVEL_DEBUG && !m_debugAllowed))
+        return;
+
+    int aslLevel = 0;
+    switch (level) {
+        case LEVEL_ERROR:   aslLevel = ASL_LEVEL_ERR; break;
+        case LEVEL_WARNING: aslLevel = ASL_LEVEL_WARNING; break;
+        case LEVEL_INFO:    aslLevel = ASL_LEVEL_INFO; break;
+        case LEVEL_DEBUG:   aslLevel = ASL_LEVEL_DEBUG; break;
+        case LEVEL_VERBOSE: aslLevel = ASL_LEVEL_NOTICE; break;
+        default:            return;
+    }
+
+    aslmsg msg = asl_new(ASL_TYPE_MSG);
+
+    std::string classMethod = makeClassMethod(classname, methodname, language);
+    if (!classMethod.empty())
+        asl_set(msg, "ClassMethod", classMethod.c_str());
+
+    m_mutex.lock();
+    asl_log(m_aslClient, msg, aslLevel, message);
+    m_mutex.unlock();
+
+    asl_free(msg);
+   
+#else // !USE_ASL_LOGGING
+
     if (m_messingWithLog)
         return;     // Doing something with the log file data (probably Log::snapshot()).
-    MutexLock lock(m_mutex);
 
     if (!isOpen() || (level == LEVEL_DEBUG && !m_debugAllowed))
         return;
 
     char prefix[256], *p = prefix, *afterDateTime = 0;
+
+    MutexLock lock(m_mutex);
 
     if (m_fp != stderr) {
         string timestamp = Util::formatTime(true);
@@ -133,29 +219,9 @@ void Log::log0(const char *classname, const char *methodname, Level level, Langu
 
     p = append(p, m_levelsText[level]);
 
-#ifndef WINDOWS    // Under Visual C++ __FUNCTION__ expands to namespace::class::function
-    if (classname && *classname)
-        p = append(p, classname);
-#endif // !WINDOWS
-
-    if (methodname && *methodname) {
-#ifndef WINDOWS
-        if (language == LANG_CPP)
-            p = append(p, "::");
-        else if (language == LANG_OBJC) {
-            if (classname && *classname)
-                p = append(p, "  ");
-        } else {
-            p = append(p, ".");
-        }
-#endif // !WINDOWS
-        p = append(p, methodname);
-    }
-
-    if (language == LANG_OBJC)
-        p = append(p, " ");
-    else
-        p = append(p, ": ");
+    std::string classMethod = makeClassMethod(classname, methodname, language);
+    if (!classMethod.empty())
+        p = append(p, classMethod.c_str());
 
     *p = '\0';
     fwrite(prefix, 1, p - prefix, m_fp);
@@ -180,9 +246,28 @@ void Log::log0(const char *classname, const char *methodname, Level level, Langu
 
     if (g_beingDebugged && m_fp != stderr)
         fflush(stderr);
+
+#endif // USE_ASL_LOGGING
 }
 
 void Log::logbare(const char *message) {
+
+#ifdef USE_ASL_LOGGING
+
+    if (!isOpen())
+        return;
+
+    aslmsg msg = asl_new(ASL_TYPE_MSG);
+
+    asl_set(msg, ASL_KEY_MSG, message);
+
+    m_mutex.lock();
+    asl_send(m_aslClient, msg);
+    m_mutex.unlock();
+
+    asl_free(msg);
+
+#else // !USE_ASL_LOGGING
     if (m_messingWithLog)
         return;     // Doing something with the log file data (probably Log::snapshot()).
     MutexLock lock(m_mutex);
@@ -210,8 +295,10 @@ void Log::logbare(const char *message) {
         if (g_beingDebugged && m_fp != stderr)
             fflush(stderr);
     }
+#endif // USE_ASL_LOGGING
 }
 
+#ifndef USE_ASL_LOGGING
 bool Log::snapshot(Blob &contents) {
 
     if (!isOpen())
@@ -233,6 +320,7 @@ bool Log::snapshot(Blob &contents) {
 
     return (numRead == size);
 }
+#endif // !USE_ASL_LOGGING
 
 void Log::logStacktrace(const char *message /*=0*/) {
 #ifdef MACOSX

@@ -15,11 +15,16 @@ GTEST_API_ int main(int argc, char **argv) {
         cout << "Initialising ChessCore" << endl;
         if (ChessCore::init()) {
 
+#ifdef USE_ASL_LOGGING
+            Log::open("unittests", "com.trojanfoe.chesscore.unittests");
+#else // !USE_ASL_LOGGING
             string logfile = g_tempDir + PATHSEP + "unittests.log";
             if (Log::open(logfile, false))
                 cout << "Logging to '" << logfile << "'" << endl;
             else
                 cerr << "Failed to open logfile '" << logfile << "'" << endl;
+#endif // USE_ASL_LOGGING
+
             Log::setAllowDebug(true);
             LOGDBG << "Using CPU POPCNT instruction: " << boolalpha << usingCpuPopcnt();
 
