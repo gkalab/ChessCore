@@ -129,7 +129,7 @@ clang)    # Assumes Apple LLVM 5.0 (-Ofast and -flto)
     fi
     AR=ar
     CFLAGS="$CFLAGS -Wall -Wno-unused-variable -fvisibility=hidden"
-    CXXFLAGS="$CXXFLAGS $cxxstd $cxxstdlib -mmacosx-version-min=10.7 -Wall -Wno-unused-variable -fvisibility=hidden"
+    CXXFLAGS="$CXXFLAGS $cxxstd $cxxstdlib -Wall -Wno-unused-variable -fvisibility=hidden"
     LDFLAGS="$LDFLAGS $rpath $cxxstdlib"
 
     if [ ! -z "$size" ]; then

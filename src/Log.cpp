@@ -168,11 +168,6 @@ static std::string makeClassMethod(const char *classname, const char *methodname
         oss << methodname;
     }
 
-    if (language == Log::LANG_OBJC)
-        oss << " ";
-    else
-        oss << ": ";
-
     return oss.str();
 }
 
@@ -196,11 +191,14 @@ void Log::log0(const char *classname, const char *methodname, Level level, Langu
     aslmsg msg = asl_new(ASL_TYPE_MSG);
 
     std::string classMethod = makeClassMethod(classname, methodname, language);
-    if (!classMethod.empty())
-        asl_set(msg, "ClassMethod", classMethod.c_str());
 
     m_mutex.lock();
-    asl_log(m_aslClient, msg, aslLevel, "%s", message);
+
+    if (classMethod.empty())
+        asl_log(m_aslClient, msg, aslLevel, "%s", message);
+    else
+        asl_log(m_aslClient, msg, aslLevel, "%s: %s", classMethod.c_str(), message);
+
     m_mutex.unlock();
 
     asl_free(msg);
@@ -236,8 +234,10 @@ void Log::log0(const char *classname, const char *methodname, Level level, Langu
     p = append(p, m_levelsText[level]);
 
     std::string classMethod = makeClassMethod(classname, methodname, language);
-    if (!classMethod.empty())
+    if (!classMethod.empty()) {
         p = append(p, classMethod.c_str());
+        p = append(p, " ");
+    }
 
     *p = '\0';
     fwrite(prefix, 1, p - prefix, m_fp);

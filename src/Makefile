@@ -32,7 +32,7 @@ SRCS := AnnotMove.cpp AsmX86.cpp Bitstream.cpp Blob.cpp CbhDatabase.cpp \
 ifeq ($(PLATFORM),Darwin)
 	SRCS += AppleUtil.mm
 	MMFLAGS += -I../include
-	LDFLAGS += -framework Foundation
+	LIBS += -framework Foundation
 endif
 
 OBJS=$(addprefix $(BUILDDIR)/,$(addsuffix .o, $(basename ${SRCS})))
