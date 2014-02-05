@@ -173,13 +173,14 @@ int main(int argc, const char **argv) {
 
         Game::setRelaxedMode(g_optRelaxed);
 
-        // Always use a log file
 #ifdef USE_ASL_LOGGING
-        Log::open("ccore", "com.trojanfoe.ccore");
+        Log::open("com.trojanfoe.ccore");
         Log::setAllowDebug(g_optDebugLog);
 #else // !USE_ASL_LOGGING
-        if (g_optLogFile.empty())
+        if (g_optLogFile.empty()) {
+            // Always use a log file
             g_optLogFile = g_tempDir + PATHSEP + "ccore.log";
+        }
         Log::open(g_optLogFile, false);
         Log::setAllowDebug(g_optDebugLog);
         if (!g_optQuiet && Log::isOpen()) {
@@ -274,7 +275,7 @@ static void usage(ostream &stream) {
     stream << "options:\n";
     stream << "-c, --cfgfile=FILE         Engine configuration file [ccore.cfg].\n";
     stream << "-d, --depth=NUM            Depth variable.\n";
-    stream << "-D, --debuglog             Turn on debug logging.\n";
+    stream << "-D, --debuglog=BOOL        If on, allow debug-level logging messages.\n";
     stream << "    --dotdir=DIR           Dump final game tree to .dot files in directory.\n";
     stream << "-e, --epdfile=FILE         EPD file.\n";
     stream << "-E, --ecofile=FILE         ECO Classification file.\n";
@@ -283,12 +284,12 @@ static void usage(ostream &stream) {
     stream << "-i, --indb=FILE            Input database.\n";
     stream << "-k, --key=KEY              64-bit key variable.\n";
     stream << "-l, --logfile=FILE         Log file.\n";
-    stream << "-L, --logcomms             Log engine communication (turns on debug logging).\n";
+    stream << "-L, --logcomms=BOOL        If on, log engine comms.\n";
     stream << "-n, --number1=NUM          Integer variable #1.\n";
     stream << "-N, --number2=NUM          Integer variable #2.\n";
     stream << "-o, --outdb=FILE           Output database\n";
-    stream << "-q, --quiet                Don't print program info during start-up.\n";
-    stream << "-r, --relaxed              Allow errors.\n";
+    stream << "-q, --quiet=BOOL           If on, don't print program info during start-up.\n";
+    stream << "-r, --relaxed=BOOL         If on, allow errors.\n";
     stream << "-t, --timecontrol=TIME     Time control, for example \"40/120;G/20\" or \"300+10:1800\".\n";
     stream << "-v, --version              Write program version in machine-readable format.\n";
     stream << "\n";

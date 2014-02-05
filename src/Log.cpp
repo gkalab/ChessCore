@@ -46,12 +46,12 @@ const char *Log::m_levelsText[MAX_LEVEL] = {
 
 #ifdef USE_ASL_LOGGING
 
-bool Log::open(const std::string &ident, const std::string &facility) {
+bool Log::open(const std::string &facility) {
     close();
     uint32_t opts = ASL_OPT_NO_REMOTE;
     if (g_beingDebugged)
         opts |= ASL_OPT_STDERR;
-    m_aslClient = asl_open(ident.c_str(), facility.c_str(), opts);
+    m_aslClient = asl_open(NULL, facility.c_str(), opts);
     if (m_aslClient) {
         asl_set_filter(m_aslClient, ASL_FILTER_MASK_UPTO(ASL_LEVEL_INFO));
     }
@@ -200,7 +200,7 @@ void Log::log0(const char *classname, const char *methodname, Level level, Langu
         asl_set(msg, "ClassMethod", classMethod.c_str());
 
     m_mutex.lock();
-    asl_log(m_aslClient, msg, aslLevel, message);
+    asl_log(m_aslClient, msg, aslLevel, "%s", message);
     m_mutex.unlock();
 
     asl_free(msg);
@@ -284,6 +284,7 @@ void Log::logbare(const char *message) {
     asl_free(msg);
 
 #else // !USE_ASL_LOGGING
+
     if (m_messingWithLog)
         return;     // Doing something with the log file data (probably Log::snapshot()).
     MutexLock lock(m_mutex);
