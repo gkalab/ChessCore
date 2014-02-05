@@ -16,7 +16,7 @@ GTEST_API_ int main(int argc, char **argv) {
         if (ChessCore::init()) {
 
 #ifdef USE_ASL_LOGGING
-            Log::open("com.trojanfoe.chesscore.unittests");
+            Log::open();
 #else // !USE_ASL_LOGGING
             string logfile = g_tempDir + PATHSEP + "unittests.log";
             if (Log::open(logfile, false))

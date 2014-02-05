@@ -46,14 +46,15 @@ const char *Log::m_levelsText[MAX_LEVEL] = {
 
 #ifdef USE_ASL_LOGGING
 
-bool Log::open(const std::string &facility) {
+bool Log::open() {
     close();
     uint32_t opts = ASL_OPT_NO_REMOTE;
     if (g_beingDebugged)
         opts |= ASL_OPT_STDERR;
-    m_aslClient = asl_open(NULL, facility.c_str(), opts);
+    m_aslClient = asl_open(NULL, "com.apple.console", opts);
     if (m_aslClient) {
-        asl_set_filter(m_aslClient, ASL_FILTER_MASK_UPTO(ASL_LEVEL_INFO));
+        asl_set_filter(m_aslClient,
+            m_debugAllowed ? ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG) : ASL_FILTER_MASK_UPTO(ASL_LEVEL_INFO));
     }
     return m_aslClient != NULL;
 }
@@ -120,7 +121,7 @@ void Log::setAllowDebug(bool allow) {
 #ifdef USE_ASL_LOGGING
     if (m_aslClient) {
         asl_set_filter(m_aslClient,
-            allow ? ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG) : ASL_FILTER_MASK_UPTO(ASL_LEVEL_INFO));
+            m_debugAllowed ? ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG) : ASL_FILTER_MASK_UPTO(ASL_LEVEL_INFO));
     }
 #endif // USE_ASL_LOGGING
 }

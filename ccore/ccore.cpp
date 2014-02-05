@@ -174,7 +174,7 @@ int main(int argc, const char **argv) {
         Game::setRelaxedMode(g_optRelaxed);
 
 #ifdef USE_ASL_LOGGING
-        Log::open("com.trojanfoe.ccore");
+        Log::open();
         Log::setAllowDebug(g_optDebugLog);
 #else // !USE_ASL_LOGGING
         if (g_optLogFile.empty()) {

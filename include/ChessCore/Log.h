@@ -57,11 +57,9 @@ public:
     /**
      * Open a connection to the ASL logging facility.
      *
-     * @param facility The facility used during logging.
-     *
      * @return true if the connection was opened successfully, else false.
      */
-    static bool open(const std::string &facility);
+    static bool open();
 
 #else // !USE_ASL_LOGGING
     /**
