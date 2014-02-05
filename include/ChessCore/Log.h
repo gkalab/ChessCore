@@ -115,9 +115,7 @@ public:
      * @param allow true to allow LOG_DEBUG messages to be logged, else false
      * to disallow LOG_DEBUG messages.
      */
-    static inline void setAllowDebug(bool allow) {
-        m_debugAllowed = allow;
-    }
+    static void setAllowDebug(bool allow);
 
 #ifndef USE_ASL_LOGGING
     /**

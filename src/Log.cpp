@@ -48,7 +48,13 @@ const char *Log::m_levelsText[MAX_LEVEL] = {
 
 bool Log::open(const std::string &ident, const std::string &facility) {
     close();
-    m_aslClient = asl_open(ident.c_str(), facility.c_str(), g_beingDebugged ? ASL_OPT_STDERR : 0);
+    uint32_t opts = ASL_OPT_NO_REMOTE;
+    if (g_beingDebugged)
+        opts |= ASL_OPT_STDERR;
+    m_aslClient = asl_open(ident.c_str(), facility.c_str(), opts);
+    if (m_aslClient) {
+        asl_set_filter(m_aslClient, ASL_FILTER_MASK_UPTO(ASL_LEVEL_INFO));
+    }
     return m_aslClient != NULL;
 }
 
@@ -108,6 +114,14 @@ void Log::close() {
 }
 
 #endif // USE_ASL_LOGGING
+
+void Log::setAllowDebug(bool allow) {
+    m_debugAllowed = allow;
+    if (m_aslClient) {
+        asl_set_filter(m_aslClient,
+            allow ? ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG) : ASL_FILTER_MASK_UPTO(ASL_LEVEL_INFO));
+    }
+}
 
 void Log::log(const char *classname, const char *methodname, Level level, Language language, const char *message, ...) {
     if (!isOpen() || (level == LEVEL_DEBUG && !m_debugAllowed))
