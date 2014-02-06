@@ -48,19 +48,30 @@ const char *Log::m_levelsText[MAX_LEVEL] = {
 
 bool Log::open() {
     close();
-    uint32_t opts = ASL_OPT_NO_REMOTE;
-    if (g_beingDebugged)
-        opts |= ASL_OPT_STDERR;
+
+    uint32_t opts;
+    int filter;
+    if (g_beingDebugged) {
+        opts = ASL_OPT_NO_REMOTE|ASL_OPT_STDERR;
+        filter = ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG);
+    } else {
+        opts = ASL_OPT_NO_REMOTE;
+        filter = ASL_FILTER_MASK_UPTO(ASL_LEVEL_INFO);
+    }
+
     m_aslClient = asl_open(NULL, "com.apple.console", opts);
     if (m_aslClient) {
-        asl_set_filter(m_aslClient,
-            m_debugAllowed ? ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG) : ASL_FILTER_MASK_UPTO(ASL_LEVEL_INFO));
+        asl_set_filter(m_aslClient, filter);
+        loginf(">>>> opened");
+        return true;
     }
-    return m_aslClient != NULL;
+
+    return false;
 }
 
 void Log::close() {
     if (m_aslClient != NULL) {
+        loginf("<<<< closed");
         asl_close(m_aslClient);
         m_aslClient = NULL;
     }
@@ -75,8 +86,7 @@ bool Log::open(const string &filename, bool append) {
     if (m_filename == "stderr") {
         m_fp = stderr;
     } else {
-        if (m_numOldFiles > 0 &&
-            (!append || !Util::fileExists(filename))) {
+        if (m_numOldFiles > 0 && (!append || !Util::fileExists(filename))) {
             // We will be creating a new log file
             string directory = Util::dirName(filename);
             string basename = Util::baseName(filename);
