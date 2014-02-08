@@ -383,6 +383,10 @@ public:
         return m_access;
     }
 
+    Mutex &mutex() {
+        return m_mutex;
+    }
+
     /**
      * Attempt to get exclusive access to the database.
      */

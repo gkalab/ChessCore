@@ -52,17 +52,28 @@ public:
 //
 class MutexTryLock {
 protected:
-    Mutex &m_mutex;
+    Mutex *m_mutex;
     bool m_locked;
 public:
     MutexTryLock(Mutex &mutex) :
-    m_mutex(mutex) {
-        m_locked = m_mutex.tryLock();
+        m_mutex(&mutex) {
+        if (m_mutex)
+            m_locked = m_mutex->tryLock();
+    }
+
+    MutexTryLock(Mutex *mutex) :
+        m_mutex(mutex) {
+        if (m_mutex)
+            m_locked = m_mutex->tryLock();
     }
 
     inline ~MutexTryLock() {
-        if (m_locked)
-            m_mutex.unlock();
+        if (m_mutex && m_locked)
+            m_mutex->unlock();
+    }
+
+    bool isLocked() const {
+        return m_locked;
     }
 };
 
