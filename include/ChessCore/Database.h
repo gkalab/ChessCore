@@ -8,6 +8,7 @@
 
 #include <ChessCore/ChessCore.h>
 #include <ChessCore/Game.h>
+#include <ChessCore/Mutex.h>
 #include <memory>
 #include <vector>
 #include <set>
@@ -133,6 +134,7 @@ private:
 protected:
     bool m_isOpen;
     Access m_access;
+    Mutex m_mutex;
     std::string m_errorMsg;
 
 public:
@@ -379,6 +381,29 @@ public:
      */
     Access access() const {
         return m_access;
+    }
+
+    /**
+     * Attempt to get exclusive access to the database.
+     */
+    void lock() {
+        m_mutex.lock();
+    }
+
+    /**
+     * Attempt to get exclusive access to the database.
+     *
+     * @return true if exclusive access was gained, else false.
+     */
+    bool tryLock() {
+        return m_mutex.tryLock();
+    }
+
+    /**
+     * Relinquish exclusive access to the database.
+     */
+    void unlock() {
+        m_mutex.unlock();
     }
 
     /**
