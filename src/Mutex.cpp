@@ -50,14 +50,20 @@ Mutex::~Mutex() {
 }
 
 void Mutex::lock() {
-    //cout << "Mutex::lock " << &m_mutex << endl;
-
 #ifdef WINDOWS
     EnterCriticalSection(&m_critical_section);
 #else
     pthread_mutex_lock(&m_mutex);
 #endif
 }
+
+bool Mutex::tryLock() {
+#ifdef WINDOWS
+        return TryEnterCriticalSection(&m_critical_section);
+#else
+        return pthread_mutex_trylock(&m_mutex) == 0;
+#endif
+    }
 
 void Mutex::unlock() {
     //cout << "Mutex::unlock " << &m_mutex << endl;

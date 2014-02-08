@@ -26,6 +26,7 @@ public:
     Mutex();
     virtual ~Mutex();
     void lock();
+    bool tryLock();
     void unlock();
 };
 
@@ -43,6 +44,25 @@ public:
 
     inline ~MutexLock() {
         m_mutex.unlock();
+    }
+};
+
+//
+// RAII-style try-mutex locker
+//
+class MutexTryLock {
+protected:
+    Mutex &m_mutex;
+    bool m_locked;
+public:
+    MutexTryLock(Mutex &mutex) :
+    m_mutex(mutex) {
+        m_locked = m_mutex.tryLock();
+    }
+
+    inline ~MutexTryLock() {
+        if (m_locked)
+            m_mutex.unlock();
     }
 };
 
