@@ -47,6 +47,10 @@ public:
         return "CFDB";
     }
 
+    bool supportsEditing() const {
+        return true;
+    }
+    
     bool supportsOpeningTree() const {
         return true;
     }

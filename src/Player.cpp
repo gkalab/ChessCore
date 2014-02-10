@@ -21,12 +21,13 @@ Player::Player() :
 {
 }
 
-Player::Player(const std::string &lastName) :
-    m_lastName(lastName),
+Player::Player(const std::string &formattedName) :
+    m_lastName(),
     m_firstNames(),
     m_countryCode(),
     m_elo(0)
 {
+    setFormattedName(formattedName);
 }
 
 Player::Player(const Player &other) :
@@ -82,6 +83,19 @@ string Player::formattedName(bool noSpaces /*=false*/) const {
         oss << m_firstNames;
 
     return oss.str();
+}
+    
+void Player::setFormattedName(const std::string &formattedName) {
+    size_t comma = formattedName.find_first_of(',');
+    if (comma != formattedName.npos) {
+        // "LastName, First Names"
+        setLastName(Util::trim(formattedName.substr(0, comma)));
+        setFirstNames(Util::trim(formattedName.substr(comma + 1)));
+    } else {
+        // LastName
+        setLastName(Util::trim(formattedName));
+        clearFirstNames();
+    }
 }
 
 ostream &operator << (ostream &os, const Player &player) {

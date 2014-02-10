@@ -171,6 +171,13 @@ public:
     }
 
     /**
+     * @return true if the database supports "editing" (i.e. values can be changed for any game at any time)
+     */
+    virtual bool supportsEditing() const {
+        return false;
+    }
+    
+    /**
      * @return true if the database supports an opening tree, else false.
      */
     virtual bool supportsOpeningTree() const {

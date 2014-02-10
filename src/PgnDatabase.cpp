@@ -768,7 +768,8 @@ bool PgnDatabase::readFromString(const string &input, Game &game) {
     return retval;
 }
 
-unsigned PgnDatabase::readMultiFromString(const std::string &input, std::vector<Game *> &games,
+unsigned PgnDatabase::readMultiFromString(const string &input,
+                                          vector<shared_ptr<Game> > &games,
                                           DATABASE_CALLBACK_FUNC callback, void *contextInfo) {
     istringstream iss(input);
     PgnScannerContext context(iss);
@@ -780,9 +781,10 @@ unsigned PgnDatabase::readMultiFromString(const std::string &input, std::vector<
     unsigned numGames = 0;
 
     bool done = false;
+    shared_ptr<Game> game;
 
     do {
-        Game *game = new Game;
+        game.reset(new Game);
 
         if (read(context, *game, errorMsg)) {
             games.push_back(game);
@@ -798,7 +800,6 @@ unsigned PgnDatabase::readMultiFromString(const std::string &input, std::vector<
                 }
             }
         } else {
-            delete game;
             done = true;
             LOGERR << "Failed to read game from string: " << errorMsg;
         }
@@ -1119,11 +1120,11 @@ bool PgnDatabase::readRoster(PgnScannerContext &context, int token, GameHeader &
             break;
 
         case A_PGN_WHITE:
-            setPlayerName(gameHeader.white(), data);
+            gameHeader.white().setFormattedName(data);
             break;
 
         case A_PGN_BLACK:
-            setPlayerName(gameHeader.black(), data);
+            gameHeader.black().setFormattedName(data);
             break;
 
         case A_PGN_RESULT:
@@ -1493,20 +1494,6 @@ string PgnDatabase::formatTagString(const string &str) {
     }
 
     return Util::trim(ss.str());
-}
-
-void PgnDatabase::setPlayerName(Player &player, const string &data) {
-    size_t comma = data.find_first_of(',');
-
-    if (comma != data.npos) {
-        // "LastName, First Names"
-        player.setLastName(Util::trim(data.substr(0, comma)));
-        player.setFirstNames(Util::trim(data.substr(comma + 1)));
-    } else {
-        // LastName
-        player.setLastName(Util::trim(data));
-        player.clearFirstNames();
-    }
 }
 
 void PgnDatabase::setOpening(Player &player, const string &data) {

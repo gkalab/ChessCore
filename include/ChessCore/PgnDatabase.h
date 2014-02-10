@@ -60,6 +60,10 @@ public:
         return "PGN";
     }
 
+    bool supportsEditing() const {
+        return false;
+    }
+    
     bool supportsOpeningTree() const {
         return false;
     }
@@ -84,7 +88,7 @@ public:
     // Special methods to allow games to be read from/written to strings
     // (as PGN is the standard game interchange format).
     static bool readFromString(const std::string &input, Game &game);
-    static unsigned readMultiFromString(const std::string &input, std::vector<Game *> &games,
+    static unsigned readMultiFromString(const std::string &input, std::vector<std::shared_ptr<Game> > &games,
                                         DATABASE_CALLBACK_FUNC callback, void *contextInfo);
     static bool writeToString(const Game &game, std::string &output);
 
@@ -116,7 +120,6 @@ protected:
     static void writeText(std::ostream &output, const std::string &text, unsigned &width, bool insertSpace = true);
     static std::string getTagString(PgnScannerContext &context, std::string &errorMsg);
     static std::string formatTagString(const std::string &str);
-    static void setPlayerName(Player &player, const std::string &data);
     static void setOpening(Player &player, const std::string &data);
     bool seekGameNum(unsigned gameNum, uint32_t &linenum);
 

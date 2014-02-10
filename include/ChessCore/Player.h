@@ -22,7 +22,7 @@ protected:
 public:
     Player();
 
-    Player(const std::string &lastName);
+    Player(const std::string &formattedName);
 
     Player(const Player &other);
 
@@ -83,6 +83,11 @@ public:
      */
     std::string formattedName(bool noSpaces = false) const;
 
+    /**
+     * Set from a formatted name.
+     */
+    void setFormattedName(const std::string &formattedName);
+    
     friend CHESSCORE_EXPORT std::ostream &operator<<(std::ostream &os, const Player &player);
 };
 
