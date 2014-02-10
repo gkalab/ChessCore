@@ -493,12 +493,12 @@ public:
      * Dump the position to astd::string     */
     std::string dump(bool lowlevel = false) const;
 
-#ifdef _DEBUG
+#ifdef DEBUG
     /**
      * Sanity check the position to ensure it's valid.
      */
     bool sanityCheck() const;
-#endif // _DEBUG
+#endif // DEBUG
 
     /**
      * Generate moves/captures in the position.

@@ -100,7 +100,7 @@ string Move::san(const Position &pos, const char *pieceMap /*=0*/) const {
         return "";
     }
 
-#ifdef _DEBUG
+#ifdef DEBUG
     // Only check these move flags as others can be set only after the move
     // has been played within a Position or Game
 #define CHECK_FLAGS(f) (f & (FL_CASTLE_KS | FL_CASTLE_QS | FL_EP_MOVE | FL_EP_CAP | FL_PROMOTION | FL_CAPTURE))
@@ -112,7 +112,7 @@ string Move::san(const Position &pos, const char *pieceMap /*=0*/) const {
     }
 
 #undef CHECK_FLAGS
-#endif // _DEBUG
+#endif // DEBUG
 
     if (piece() == PAWN) {
         if (isCapture())
@@ -447,7 +447,7 @@ bool Move::complete(const Position &pos, bool suppressError /*=false*/) {
     if (!suppressError) {
         LOGERR << "Failed to complete move " << dump() << ". Position:" << endl << pos;
 
-#if defined(_DEBUG)
+#ifdef DEBUG
         pos.sanityCheck();
 
         // Dump the moves that were generated then
@@ -455,7 +455,7 @@ bool Move::complete(const Position &pos, bool suppressError /*=false*/) {
 
         for (i = 0; i < numMoves; i++)
             LOGDBG << "moves[" << i << "]=" << moves[i];
-#endif // _DEBUG
+#endif // DEBUG
     }
 
     return false;

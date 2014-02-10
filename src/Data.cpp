@@ -14,9 +14,9 @@
 using namespace std;
 
 namespace ChessCore {
-#ifdef _DEBUG
+#ifdef DEBUG
 static const char *m_classname = 0;
-#endif // _DEBUG
+#endif // DEBUG
 
 #define DUMP_PAWN_INIT   0
 #define DUMP_KNIGHT_INIT 0
@@ -185,7 +185,7 @@ bool dataInit() {
 
     int f, r, o, f2, r2, o2;
     uint64_t bb;
-#if defined(_DEBUG) && DUMP_ANY > 0
+#if defined(DEBUG) && DUMP_ANY > 0
     char dbgbuf[256];
 #endif
 
@@ -209,7 +209,7 @@ bool dataInit() {
         setIfOnBoard(f + 1, r + 1, bb);
         pawnAttacks[WHITE][i] = bb;
 
-#if defined(_DEBUG) && DUMP_PAWN_INIT > 0
+#if defined(DEBUG) && DUMP_PAWN_INIT > 0
         dumpBitboard(bb, dbgbuf);
         logdbg("pawnAttacks[WHITE][%u]=\n%s", i, dbgbuf);
 #endif
@@ -219,7 +219,7 @@ bool dataInit() {
         setIfOnBoard(f + 1, r - 1, bb);
         pawnAttacks[BLACK][i] = bb;
 
-#if defined(_DEBUG) && DUMP_PAWN_INIT > 0
+#if defined(DEBUG) && DUMP_PAWN_INIT > 0
         dumpBitboard(bb, dbgbuf);
         logdbg("pawnAttacks[BLACK][%u]=\n%s", i, dbgbuf);
 #endif
@@ -257,7 +257,7 @@ bool dataInit() {
         setIfOnBoard(f - 2, r - 1, bb);
         knightAttacks[i] = bb;
 
-#if defined(_DEBUG) && DUMP_KNIGHT_INIT > 0
+#if defined(DEBUG) && DUMP_KNIGHT_INIT > 0
         dumpBitboard(bb, dbgbuf);
         logdbg("knightAttacks[%u]=\n%s", i, dbgbuf);
 #endif
@@ -280,7 +280,7 @@ bool dataInit() {
         setIfOnBoard(f - 1, r - 1, bb);
         kingAttacks[i] = bb;
 
-#if defined(_DEBUG) && DUMP_KING_INIT > 0
+#if defined(DEBUG) && DUMP_KING_INIT > 0
         dumpBitboard(bb, dbgbuf);
         logdbg("kingAttacks[%u]=\n%s", i, dbgbuf);
 #endif
@@ -294,7 +294,7 @@ bool dataInit() {
         fileMasks[i] = bb;
         bb <<= 1;
 
-#if defined(_DEBUG) && DUMP_FILE_INIT
+#if defined(DEBUG) && DUMP_FILE_INIT
         dumpBitboard(fileMasks[i], dbgbuf);
         logdbg("fileMasks[%u]=\n%s", i, dbgbuf);
 #endif
@@ -312,7 +312,7 @@ bool dataInit() {
         rankMasks[i] = bb;
         bb <<= 8;
 
-#if defined(_DEBUG) && DUMP_RANK_INIT
+#if defined(DEBUG) && DUMP_RANK_INIT
         dumpBitboard(rankMasks[i], dbgbuf);
         logdbg("rankMasks[%u]=\n%s", i, dbgbuf);
 #endif
@@ -517,7 +517,7 @@ bool dataInit() {
     return true;
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG
 //
 // Dump bits of data to log
 //
@@ -532,5 +532,5 @@ void testData() {
                 char(offsetFile(j) + 'a') <<  char(offsetRank(j) + '1') << "]=" << s;
         }
 }
-#endif // _DEBUG
+#endif // DEBUG
 }   // namespace ChessCore

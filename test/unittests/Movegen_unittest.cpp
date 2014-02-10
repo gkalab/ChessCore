@@ -19,7 +19,7 @@ static const string epd1 =
     "r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - d1 6; d2 264; d3 9467; d4 422333; d5 15833292\n"
     "rnbqkb1r/pp1p1ppp/2p5/4P3/2B5/8/PPP1NnPP/RNBQK2R w KQkq - d1 42; d2 1352; d3 53392\n";
 
-#ifdef NDEBUG
+#ifndef DEBUG
 //
 // From Richard Vida's post at http://www.talkchess.com/forum/viewtopic.php?t=40917
 //
@@ -324,7 +324,7 @@ static const string epd2 =
     "3Q4/p3b1k1/2p2rPp/2q5/4B3/P2P4/7P/6RK w - - bm Qh8+ ; D1 35 ; D2 1081 ; D3 34464 ; D4 1112608 ; D5 34803257 \n"
     "1n2rr2/1pk3pp/pNn2p2/2N1p3/8/6P1/PP2PPKP/2RR4 w - - bm Nca4 ; D1 46 ; D2 897 ; D3 39506 ; D4 795219 ; D5 33637635 \n"
     "b2b1r1k/3R1ppp/4qP2/4p1PQ/4P3/5B2/4N1K1/8 w - - bm g6 ; D1 36 ; D2 1029 ; D3 33763 ; D4 959789 ; D5 31328183\n";
-#endif // NDEBUG
+#endif // !DEBUG
 
 // Recursive perft function
 static uint64_t perft(const Position &pos, unsigned depth) {
@@ -428,9 +428,9 @@ TEST(MoveGenTest, epd1) {
 }
 
 // Slow test, so release mode only
-#ifdef NDEBUG
+#ifndef DEBUG
 TEST(MoveGenTest, epd2) {
     testEpdPerft(epd2);
 }
-#endif // NDEBUG
+#endif // !DEBUG
 

@@ -15,7 +15,7 @@
 #include <sstream>
 #include <memory>
 
-#ifdef _DEBUG
+#ifdef DEBUG
 #define CHECK_PIECE(col, pce, sq, sqBit) \
     ASSERT(m_pieces[col][pce] & sqBit); \
     ASSERT(m_pieces[col][ALLPIECES] & sqBit); \
@@ -26,10 +26,10 @@
     ASSERT((m_pieces[col][ALLPIECES] & sqBit) == 0ULL); \
     ASSERT(m_board[sq] == EMPTY)
 
-#else // !_DEBUG
+#else // !DEBUG
 #define CHECK_PIECE(col, pce, sq, sqBit) /* empty */
 #define CHECK_EMPTY(col, pce, sq, sqBit) /* empty */
-#endif // _DEBUG
+#endif // DEBUG
 
 using namespace std;
 
@@ -452,12 +452,12 @@ bool Position::makeMove(Move move, UnmakeMoveInfo &umi) {
         m_lastMove.setFlags(Move::FL_DOUBLE_CHECK);
     }
 
-#ifdef _DEBUG
+#ifdef DEBUG
     ASSERT(attacks(lsb(m_pieces[moveSide][KING]), 0, true) == 0);
 
     if (!sanityCheck())
         return false;
-#endif // _DEBUG
+#endif // DEBUG
 
     return true;
 }
@@ -490,12 +490,12 @@ bool Position::makeNullMove(UnmakeMoveInfo &umi) {
     else if (count == 2)
         m_flags |= FL_INCHECK | FL_INDBLCHECK;
 
-#ifdef _DEBUG
+#ifdef DEBUG
     ASSERT(attacks(lsb(m_pieces[moveSide][KING]), 0, true));
 
     if (!sanityCheck())
         return false;
-#endif // _DEBUG
+#endif // DEBUG
 
     return true;
 }
@@ -1113,10 +1113,10 @@ Position::Legal Position::setFromFen(const char *piecePlacement, const char *act
     else if (count == 2)
         m_flags |= FL_INCHECK | FL_INDBLCHECK;
 
-#ifdef _DEBUG
+#ifdef DEBUG
     else
         ASSERT(count == 0);
-#endif
+#endif // DEBUG
 
     m_hashKey = generateHashKey();
 
@@ -1303,10 +1303,10 @@ Position::Legal Position::setFromBlob(const Blob &blob) {
     else if (count == 2)
         m_flags |= FL_INCHECK | FL_INDBLCHECK;
 
-#ifdef _DEBUG
+#ifdef DEBUG
     else
         ASSERT(count == 0);
-#endif
+#endif // DEBUG
 
     m_hashKey = generateHashKey();
 
@@ -1675,7 +1675,7 @@ string Position::dump(bool lowlevel /*=false*/) const {
     return oss.str();
 }
 
-#ifdef _DEBUG
+#ifdef DEBUG
 bool Position::sanityCheck() const {
     bool retval = true;
 
@@ -1738,7 +1738,7 @@ bool Position::sanityCheck() const {
 
     return retval;
 }
-#endif // _DEBUG
+#endif // DEBUG
 
 unsigned Position::genNonEvasions(Move *moves) const {
     uint64_t bb, att, fromBit, toBit, pinnedBits, epCapPinned, occupy;

@@ -50,7 +50,7 @@ extern const char *unicodePieces[12];
 //
 extern CHESSCORE_EXPORT bool dataInit();
 
-#ifdef _DEBUG
+#ifdef DEBUG
 //
 // Dump bits of data to log
 //

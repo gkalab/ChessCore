@@ -256,7 +256,7 @@ public:
 };
 
 #ifndef __OBJC__        // Objective-C uses a different implementation of ASSERT()
-#if defined(_DEBUG)
+#ifdef DEBUG
 #define ASSERT(condition) \
     do { \
         if (!(condition)) { \
@@ -265,9 +265,9 @@ public:
         } \
     } while (0)
 
-#else // !_DEBUG
+#else // !DEBUG
 #define ASSERT(condition) /* nothing */
-#endif // _DEBUG
+#endif // DEBUG
 #endif // __OBJC__
 } // namespace ChessCore
 

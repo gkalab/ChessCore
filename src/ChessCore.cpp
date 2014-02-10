@@ -18,9 +18,9 @@
 #include <execinfo.h>
 #endif // MACOSX
 
-#if defined(WINDOWS) && defined(_DEBUG)
+#if defined(WINDOWS) && defined(DEBUG)
 #include <crtdbg.h>
-#endif // WINDOWS && _DEBUG
+#endif // WINDOWS && DEBUG
 
 using namespace std;
 
@@ -44,9 +44,9 @@ const string g_platform =
 #endif
 
 const string g_buildType =
-#if defined(_PROFILE)
+#if defined(PROFILE)
     "Profile";
-#elif defined(_DEBUG)
+#elif defined(DEBUG)
     "Debug";
 #else
     "Release";
@@ -105,9 +105,9 @@ bool init() {
     if (g_initted)
         return true;
 
-#if defined(WINDOWS) && defined(_DEBUG)
+#if defined(WINDOWS) && defined(DEBUG)
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF|_CRTDBG_DELAY_FREE_MEM_DF);
-#endif // WINDOWS && _DEBUG
+#endif // WINDOWS && DEBUG
 
     char temp[1024];
     const char *tempdir = 0;
@@ -150,14 +150,14 @@ bool init() {
 
 void fini() {
     if (g_initted) {
-#if defined(WINDOWS) && defined(_DEBUG)
+#if defined(WINDOWS) && defined(DEBUG)
         _CrtCheckMemory();
 
         // This always shows some leaks.  Not sure why yet...
         //if (_CrtDumpMemoryLeaks() > 0) {
         //    LOGERR << "Memory leaks detected!";
         //}
-#endif // WINDOWS && _DEBUG
+#endif // WINDOWS && DEBUG
         Log::close();
         g_initted = false;
     }

@@ -11,13 +11,13 @@
 namespace ChessCore {
 typedef int error_t;
 
-#ifdef _DEBUG
+#ifdef DEBUG
 #define DEBUG_TRUE  true
 #define DEBUG_FALSE false
-#else // !_DEBUG
+#else // !DEBUG
 #define DEBUG_TRUE  false
 #define DEBUG_FALSE true
-#endif // _DEBUG
+#endif // DEBUG
 
 //
 // Bit board representation:

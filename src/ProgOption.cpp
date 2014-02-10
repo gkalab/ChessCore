@@ -84,10 +84,10 @@ bool ProgOption::parse(const ProgOption options[], int argc, const char **argv, 
 
     errorMsg.clear();
 
-#ifdef _DEBUG
+#ifdef DEBUG
     for (i = 0; i < argc; i++)
         LOGVERBOSE << "argv[" << i << "] = '" << argv[i] << "'";
-#endif // _DEBUG
+#endif // DEBUG
 
     // Store the program name
     p = strrchr(argv[0], PATHSEP);

@@ -644,11 +644,11 @@ Colour Game::currentMoveColour() const {
 }
 
 bool Game::setCurrentMove(const AnnotMove *currentMove) {
-#ifdef _DEBUG
+#ifdef DEBUG
 
     if (m_mainline && currentMove)
         ASSERT(currentMove->isDescendant(m_mainline));
-#endif // _DEBUG
+#endif // DEBUG
 
     if (currentMove == 0) {
         setPositionToStart();
