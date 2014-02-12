@@ -109,7 +109,7 @@ extern "C"{
  * the Database base class during initialisation.
  *
  * @param dburl The database URL.  File-based databases should be prefixed with the
- * URL scheme file:/, however this shouldn't be mandatory.
+ * URL scheme file://, however this shouldn't be mandatory.
  * @param readOnly If true then open the database in read-only mode.
  *
  * @return The Database subclass for the specified database URL, or 0 if a subclass implementation
@@ -122,9 +122,9 @@ class CHESSCORE_EXPORT Database {
 public:
     // Database access modes
     enum Access {
-        ACCESS_NONE,    // Cannot read or write
-        ACCESS_READONLY, // Can only be read
-        ACCESS_READWRITE // Can be read and written
+        ACCESS_NONE,        // Cannot read or write
+        ACCESS_READONLY,    // Can only be read
+        ACCESS_READWRITE    // Can be read and written
     };
 
 private:
@@ -306,7 +306,7 @@ public:
 
     /**
      * Test if the database already has a valid index file.  This has the
-     * side effect of opening the index file if it's successfully.
+     * side effect of opening the index file if it's successful.
      *
      * Only available if needsIndexing() returns true.
      *
@@ -444,7 +444,7 @@ public:
      * Determine if the specified database file can be opened.
      *
      * @param dburl The database URL.  File-based databases should be prefixed with the
-     * URL scheme file:/, however this shouldn't be mandatory.
+     * URL scheme file://, however this shouldn't be mandatory.
      *
      * @return true if the database file can be opened, else false.
      */
@@ -455,7 +455,7 @@ public:
      * specified database.
      *
      * @param dburl The database URL.  File-based databases should be prefixed with the 
-     * URL scheme file:/, however this shouldn't be mandatory.
+     * URL scheme file://, however this shouldn't be mandatory.
      * @param readOnly If true then open the database in read-only mode.
      *
      * @return The Database subclass for the specified database URL, or 0 if a subclass implementation
@@ -484,7 +484,7 @@ private:
     DatabaseErrorString &operator=(const DatabaseErrorString &);
 };
 
-// Can only be used from Database subclasses
+// Can only be used from a Database subclass
 #define DBERROR DatabaseErrorString(*this).get()
 
 }   // namespace ChessCore
