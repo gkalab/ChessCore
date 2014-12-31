@@ -8,7 +8,7 @@
 
 #include <ChessCore/ChessCore.h>
 #include <ChessCore/IoEvent.h>
-#include <CHessCore/TimeControl.h>
+#include <ChessCore/TimeControl.h>
 #include "Config.h"
 
 //
