@@ -28,6 +28,12 @@
 #endif // WINDOWS
 
 #include <iostream>
+// including for shared_ptr
+#include <memory>
+// including for getpriority
+#include <sys/time.h>
+#include <sys/resource.h>
+
 
 using namespace std;
 
