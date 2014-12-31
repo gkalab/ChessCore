@@ -58,7 +58,7 @@ format:
 ../build/AnalyzeGames.o: ../include/ChessCore/Types.h
 ../build/AnalyzeGames.o: ../include/ChessCore/IoEvent.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Mutex.h
-../build/AnalyzeGames.o: ../include/CHessCore/TimeControl.h
+../build/AnalyzeGames.o: ../include/ChessCore/TimeControl.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Blob.h Config.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Engine.h
 ../build/AnalyzeGames.o: ../include/ChessCore/Thread.h
@@ -86,7 +86,7 @@ format:
 ../build/Config.o: ../include/ChessCore/Types.h
 ../build/Config.o: ../include/ChessCore/IoEvent.h
 ../build/Config.o: ../include/ChessCore/Mutex.h
-../build/Config.o: ../include/CHessCore/TimeControl.h
+../build/Config.o: ../include/ChessCore/TimeControl.h
 ../build/Config.o: ../include/ChessCore/Blob.h Config.h
 ../build/Config.o: ../include/ChessCore/Engine.h
 ../build/Config.o: ../include/ChessCore/Thread.h
@@ -103,7 +103,7 @@ format:
 ../build/ccore.o: ccore.h ../include/ChessCore/ChessCore.h
 ../build/ccore.o: ../include/ChessCore/Types.h ../include/ChessCore/IoEvent.h
 ../build/ccore.o: ../include/ChessCore/Mutex.h
-../build/ccore.o: ../include/CHessCore/TimeControl.h
+../build/ccore.o: ../include/ChessCore/TimeControl.h
 ../build/ccore.o: ../include/ChessCore/Blob.h Config.h
 ../build/ccore.o: ../include/ChessCore/Engine.h ../include/ChessCore/Thread.h
 ../build/ccore.o: ../include/ChessCore/Process.h ../include/ChessCore/Move.h
@@ -126,7 +126,7 @@ format:
 ../build/Functions.o: ../include/ChessCore/Types.h
 ../build/Functions.o: ../include/ChessCore/IoEvent.h
 ../build/Functions.o: ../include/ChessCore/Mutex.h
-../build/Functions.o: ../include/CHessCore/TimeControl.h
+../build/Functions.o: ../include/ChessCore/TimeControl.h
 ../build/Functions.o: ../include/ChessCore/Blob.h Config.h
 ../build/Functions.o: ../include/ChessCore/Engine.h
 ../build/Functions.o: ../include/ChessCore/Thread.h
@@ -155,7 +155,7 @@ format:
 ../build/PlayGames.o: ../include/ChessCore/Types.h
 ../build/PlayGames.o: ../include/ChessCore/IoEvent.h
 ../build/PlayGames.o: ../include/ChessCore/Mutex.h
-../build/PlayGames.o: ../include/CHessCore/TimeControl.h
+../build/PlayGames.o: ../include/ChessCore/TimeControl.h
 ../build/PlayGames.o: ../include/ChessCore/Blob.h Config.h
 ../build/PlayGames.o: ../include/ChessCore/Engine.h
 ../build/PlayGames.o: ../include/ChessCore/Thread.h
@@ -183,7 +183,7 @@ format:
 ../build/ProcessEpd.o: ../include/ChessCore/Types.h
 ../build/ProcessEpd.o: ../include/ChessCore/IoEvent.h
 ../build/ProcessEpd.o: ../include/ChessCore/Mutex.h
-../build/ProcessEpd.o: ../include/CHessCore/TimeControl.h
+../build/ProcessEpd.o: ../include/ChessCore/TimeControl.h
 ../build/ProcessEpd.o: ../include/ChessCore/Blob.h Config.h
 ../build/ProcessEpd.o: ../include/ChessCore/Engine.h
 ../build/ProcessEpd.o: ../include/ChessCore/Thread.h
