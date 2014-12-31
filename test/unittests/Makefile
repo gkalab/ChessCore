@@ -14,10 +14,7 @@ OBJS=$(addprefix $(BUILDDIR)/,$(addsuffix .o, $(basename $(notdir ${SRCS}))))
 
 CXXFLAGS += -I$(GTESTDIR)/include -I$(GTESTDIR) -I../../include -DGTEST_USE_OWN_TR1_TUPLE=1
 LIBS += -lChessCore
-
-ifneq ($(COMPILER),clang)
-	LDFLAGS += -pthread
-endif
+LDFLAGS += -pthread
 
 ifeq ($(LIBTYPE),Static)
     LDFLAGS += -L$(BUILDDIR)
