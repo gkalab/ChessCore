@@ -41,7 +41,7 @@ $(TARGET): $(OBJS)
 	$(CXX) -o $@ $(LDFLAGS) $(OBJS) $(LIBS)
 ifeq ($(USE_SHELL_WRAPPER),1)
 	mv -f $(TARGET) $(TARGET).bin
-	cp -f ../tools/shellwrapper $(TARGET)
+	cp -f ../../tools/shellwrapper $(TARGET)
 endif
 
 clean:
