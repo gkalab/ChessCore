@@ -12,10 +12,7 @@ OBJS=$(addprefix $(BUILDDIR)/,$(addsuffix .o, $(basename ${SRCS})))
 
 CXXFLAGS += -I../include
 LIBS += -lChessCore
-
-ifneq ($(COMPILER),clang)
-	LDFLAGS += -pthread
-endif
+LDFLAGS += -pthread
 
 ifeq ($(LIBTYPE),Static)
     LDFLAGS += -L$(BUILDDIR)
