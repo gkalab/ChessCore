@@ -584,7 +584,7 @@ uint64_t Util::modifyTime(const string &filename) {
 			// Convert to seconds
             modTime = fileTimeToSeconds(lastWriteTime);
 		} else {
-			throw ChessCoreException("GetFileTime('%s') failed: %s", filename.c_str(), win32ErrorText(GetLastError()));
+			throw ChessCoreException("GetFileTime('%s') failed: %s", filename.c_str(), win32ErrorText(GetLastError()).c_str());
 		}
 
 		::CloseHandle(handle);
@@ -939,7 +939,7 @@ bool Util::truncateFile(FILE *fp, uint64_t length) {
 string Util::getUniqueName(const string &filename) {
 #ifdef WINDOWS
     bool retval = false;
-    BY_HANDLE_FILE_INFORMATION fileinfo;
+    BY_HANDLE_FILE_INFORMATION fileInfo;
     if (!win32GetFileInfo(filename, &fileInfo))
         return "";
 
@@ -947,7 +947,6 @@ string Util::getUniqueName(const string &filename) {
         HexFormat<DWORD>::fullFormat(fileInfo.dwVolumeSerialNumber) +
         HexFormat<DWORD>::fullFormat(fileInfo.nFileIndexHigh) +
         HexFormat<DWORD>::fullFormat(fileInfo.nFileIndexLow);
-    }
 
 #else // !WINDOWS
 

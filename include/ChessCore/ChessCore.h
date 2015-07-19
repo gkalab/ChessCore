@@ -151,6 +151,11 @@
 
 #endif
 
+#ifdef __MINGW32__
+#undef CPU_X86
+#undef CPU_X64
+#endif
+
 // Select whether to use assembler, built-in or custom low-level functions
 #if CPU_X64
 
@@ -177,6 +182,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <windows.h>
 
+#ifdef __MINGW32__
+#define CHESSCORE_EXPORT __attribute__ ((visibility("default")))
+#else //!__MINGW32__
 #define strcasecmp(s1, s2) _stricmp(s1, s2)
 #define strdup(s) _strdup(s)
 #define strtoll(s, b, r) _strtoi64(s, b, r)
@@ -195,6 +203,7 @@ typedef SSIZE_T ssize_t;
 #else
 #define CHESSCORE_EXPORT __declspec(dllimport)
 #endif
+#endif // __MINGW32__
 
 #else // !WINDOWS
 

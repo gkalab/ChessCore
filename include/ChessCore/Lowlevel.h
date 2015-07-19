@@ -19,6 +19,11 @@ extern CHESSCORE_EXPORT uint32_t (ASMCALL *popcnt)(uint64_t bb);
 // C++ popcnt() implementation
 extern CHESSCORE_EXPORT uint32_t ASMCALL cppPopcnt(uint64_t bb);
 
+#ifdef __MINGW32__
+#undef CPU_X86
+#undef CPU_X64
+#endif
+
 #if CPU_X86
 
 extern CHESSCORE_EXPORT bool ASMCALL x86HasPopcnt();
