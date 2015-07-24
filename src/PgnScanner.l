@@ -98,6 +98,7 @@ x       [xX]
 ("0-1"|"0:1")                           return A_BLACK_WINS;
 ("1/2-1/2"|"1/2:1/2"|"1/2"|"draw")      return A_DRAW;
 "*"                                     return A_UNFINISHED;
+("--"|"Z0")                             return A_NULL_MOVE;
 
 "{"[^}]*"}"                             {
     yyextra->incLineNumber(countNewlines(yyscanner));

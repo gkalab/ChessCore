@@ -71,8 +71,9 @@ protected:
 #define A_PAWN_CAPTURE      356
 #define A_PIECE_MOVE        357
 #define A_PIECE_CAPTURE     358
-#define A_SHORT_CASTLE      359
-#define A_LONG_CASTLE       360
+#define A_NULL_MOVE         359
+#define A_SHORT_CASTLE      360
+#define A_LONG_CASTLE       361
 
 #define IS_PGN_MOVE(x)      ((x) >= A_PAWN_MOVE && (x) <= A_LONG_CASTLE)
 #define PGN_MOVE_TO_ZERO(x) ((x) - A_PAWN_MOVE)

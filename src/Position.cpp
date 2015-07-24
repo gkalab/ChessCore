@@ -173,8 +173,7 @@ bool Position::makeMove(Move move, UnmakeMoveInfo &umi) {
     bool resetHmclock;
 
     if (move.isNull()) {
-        LOGWRN << "Null move supplied";
-        return false;
+        return makeNullMove(umi);
     }
 
     umi.hashKey = m_hashKey;
@@ -491,7 +490,7 @@ bool Position::makeNullMove(UnmakeMoveInfo &umi) {
         m_flags |= FL_INCHECK | FL_INDBLCHECK;
 
 #ifdef DEBUG
-    ASSERT(attacks(lsb(m_pieces[moveSide][KING]), 0, true));
+    ASSERT(attacks(lsb(m_pieces[moveSide][KING]), 0, true) == 0);
 
     if (!sanityCheck())
         return false;

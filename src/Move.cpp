@@ -52,7 +52,7 @@ string Move::san(const Position &pos, const char *pieceMap /*=0*/) const {
         pieceMap = pieceChars;
 
     if (isNull()) {
-        oss << "null";
+        oss << "--";
         return oss.str();
     } else if (isCastleKS()) {
         oss << "O-O";
@@ -298,6 +298,9 @@ bool Move::parse(const Position &pos, const string &str) {
             setPiece(KING);
             setFlags(FL_CASTLE_QS);
             return complete(pos);
+        } else if (len==2 && (strcasecmp(text, "Z0") == 0 || strcmp(text, "--") == 0)) {
+            setNull();
+            return true;
         }
 
         fileFrom = (BoardFile)(UNSET);
